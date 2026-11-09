@@ -3,8 +3,9 @@
 Time-aware terminal schedule for **KubeCon + CloudNativeCon North America 2026**
 (Salt Lake City, November 9–12).
 
-It shows the current day's schedule, dims sessions that have already ended,
-highlights what is live, and scrolls to the current time on launch.
+It shows the current day as a room-by-room grid in the same column order as
+the website's schedule grid, dims sessions that have already ended, highlights
+what is live, and scrolls to the current time on launch.
 
 ## Setup
 
@@ -28,7 +29,9 @@ nix develop --command cargo run
 renders from Sessionize (API code `svi82w6c`). It is committed to the repo, so
 the TUI works offline and the Rust binary never makes a network request.
 
-`scrape.py` generated it (Python standard library only):
+The scrape preserves each day's room-column order and every session's
+column index from that grid. `scrape.py` generated it (Python standard
+library only):
 
 ```sh
 ./scrape.py              # refreshes data/sessions.json
@@ -42,10 +45,11 @@ after the event will intentionally produce nothing.
 
 | Key | Action |
 | --- | --- |
-| `j` / `k`, arrows | move through the schedule |
-| `g` / `G` | first / last session |
-| `Ctrl-d` / `Ctrl-u`, PgDn/PgUp | half page |
-| `Enter`, `l` | open session details |
+| `j` / `k`, up/down | next / previous session in the current room |
+| `h` / `l`, left/right | previous / next room column |
+| `g` / `G` | first / last session in the current room |
+| `Ctrl-d` / `Ctrl-u`, PgDn/PgUp | move half a time-page |
+| `Enter` | open session details |
 | `Esc`, `h` | back to the schedule |
 | `j` / `k` in details | scroll the details |
 | `t` | jump to the live/next session and re-center |
@@ -59,9 +63,9 @@ src/
   session_data.rs            data model, day filtering, time/status helpers
   schedule_display/
     mod.rs                   terminal setup and event loop
-    app.rs                   selection, scrolling, time-aware state
+    app.rs                   grid rows/columns, selection, time-aware state
     input.rs                 vim key mapping
-    view.rs                  rendering
+    view.rs                  grid, column headers, details
 data/sessions.json           committed one-time scrape
 scrape.py                    one-time Sessionize scraper
 flake.nix / .envrc           Nix dev shell and direnv integration

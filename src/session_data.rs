@@ -27,6 +27,8 @@ pub struct Event {
 pub struct Day {
     pub date: String,
     pub label: String,
+    /// Grid column order for this day, exactly as the website renders it.
+    pub rooms: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -52,7 +54,8 @@ pub struct Session {
     pub end: String,
     pub day: String,
     pub room: String,
-    pub room_sort: i64,
+    /// Zero-based grid column (index into `Day::rooms`).
+    pub col: usize,
     #[serde(default)]
     pub categories: Vec<Category>,
     #[serde(default)]
@@ -109,7 +112,7 @@ impl SessionData {
             let right = &self.sessions[b];
             left.start
                 .cmp(&right.start)
-                .then(left.room_sort.cmp(&right.room_sort))
+                .then(left.col.cmp(&right.col))
                 .then_with(|| left.title.cmp(&right.title))
         });
         indices
@@ -195,36 +198,35 @@ impl Session {
             .map(|category| category.item.as_str())
             .collect()
     }
+}
 
-    /// "Salt Palace | Level 2 | 250 A-C" -> "SP · Level 2 · 250 A-C".
-    pub fn short_room(&self) -> String {
-        let parts: Vec<&str> = self
-            .room
-            .split('|')
-            .map(str::trim)
-            .filter(|part| !part.is_empty())
-            .collect();
-        if parts.is_empty() {
-            return self.room.trim().to_string();
-        }
-
-        parts
-            .iter()
-            .enumerate()
-            .map(|(index, part)| {
-                if index == 0 {
-                    match *part {
-                        "Salt Palace" | "Salt Palace Convention Center" => "SP".to_string(),
-                        "Hyatt Regency" => "HR".to_string(),
-                        other => other.to_string(),
-                    }
-                } else {
-                    (*part).to_string()
-                }
-            })
-            .collect::<Vec<_>>()
-            .join(" · ")
+/// "Salt Palace | Level 2 | 250 A-C" -> "SP · Level 2 · 250 A-C".
+pub fn compact_room(room: &str) -> String {
+    let parts: Vec<&str> = room
+        .split('|')
+        .map(str::trim)
+        .filter(|part| !part.is_empty())
+        .collect();
+    if parts.is_empty() {
+        return room.trim().to_string();
     }
+
+    parts
+        .iter()
+        .enumerate()
+        .map(|(index, part)| {
+            if index == 0 {
+                match *part {
+                    "Salt Palace" | "Salt Palace Convention Center" => "SP".to_string(),
+                    "Hyatt Regency" => "HR".to_string(),
+                    other => other.to_string(),
+                }
+            } else {
+                (*part).to_string()
+            }
+        })
+        .collect::<Vec<_>>()
+        .join(" · ")
 }
 
 fn parse_local(value: &str, tz: Tz) -> Option<DateTime<Tz>> {

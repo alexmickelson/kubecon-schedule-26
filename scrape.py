@@ -78,10 +78,6 @@ def build_payload(all_data: dict, grid_data: list, tz_name: str) -> dict:
         for item in category.get("items", []):
             category_items[item["id"]] = (category["title"], item["name"])
 
-    room_sort = {
-        room["id"]: room.get("sort", 9999) for room in all_data.get("rooms", [])
-    }
-
     speakers: dict[str, dict] = {}
     for speaker in all_data.get("speakers", []):
         speakers[speaker["id"]] = {
@@ -108,6 +104,15 @@ def build_payload(all_data: dict, grid_data: list, tz_name: str) -> dict:
         if date < today:
             continue
 
+        # GridSmart's day rooms are the website grid's column order.
+        day_rooms = [
+            {"id": room["id"], "name": room["name"].strip()}
+            for room in grid_day.get("rooms", [])
+        ]
+        column_by_room_id = {
+            room["id"]: index for index, room in enumerate(day_rooms)
+        }
+
         for slot in grid_day.get("timeSlots", []):
             for room_slot in slot.get("rooms", []):
                 raw = room_slot.get("session") or {}
@@ -123,7 +128,14 @@ def build_payload(all_data: dict, grid_data: list, tz_name: str) -> dict:
                     or full.get("room")
                     or all_data_room_name(all_data, room_id)
                     or "Room TBD"
-                )
+                ).strip()
+
+                col = column_by_room_id.get(room_id)
+                if col is None:
+                    # Defensive: keep an unexpected room as a trailing column.
+                    col = len(day_rooms)
+                    day_rooms.append({"id": room_id, "name": room_name})
+                    column_by_room_id[room_id] = col
 
                 categories = []
                 for item_id in full.get("categoryItems", raw.get("categoryItems", [])):
@@ -150,16 +162,23 @@ def build_payload(all_data: dict, grid_data: list, tz_name: str) -> dict:
                         "start": start,
                         "end": end,
                         "day": date.isoformat(),
-                        "room": room_name.strip(),
-                        "room_sort": room_sort.get(room_id, 9999),
+                        "room": room_name,
+                        "col": col,
                         "categories": categories,
                         "speakers": [sid for sid in speaker_ids if sid in speakers],
                     }
                 )
 
-        days.append({"date": date.isoformat(), "label": day_label(date)})
+        days.append(
+            {
+                "date": date.isoformat(),
+                "label": day_label(date),
+                # Column order exactly as the website grid renders it.
+                "rooms": [room["name"] for room in day_rooms],
+            }
+        )
 
-    sessions.sort(key=lambda s: (s["day"], s["start"], s["room_sort"], s["title"].lower()))
+    sessions.sort(key=lambda s: (s["day"], s["start"], s["col"], s["title"].lower()))
     used_speakers = {speaker_id for session in sessions for speaker_id in session["speakers"]}
 
     return {

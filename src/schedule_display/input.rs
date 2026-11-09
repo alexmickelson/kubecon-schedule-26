@@ -15,23 +15,25 @@ pub fn handle_key(app: &mut App, key: KeyEvent) {
     if app.detail_open {
         handle_detail_key(app, key);
     } else {
-        handle_list_key(app, key);
+        handle_grid_key(app, key);
     }
 }
 
-fn handle_list_key(app: &mut App, key: KeyEvent) {
+fn handle_grid_key(app: &mut App, key: KeyEvent) {
     let ctrl = key.modifiers.contains(KeyModifiers::CONTROL);
     match key.code {
         KeyCode::Char('q') => app.should_quit = true,
-        KeyCode::Char('j') | KeyCode::Down => app.move_selection(1),
-        KeyCode::Char('k') | KeyCode::Up => app.move_selection(-1),
+        KeyCode::Char('j') | KeyCode::Down => app.move_session(1),
+        KeyCode::Char('k') | KeyCode::Up => app.move_session(-1),
+        KeyCode::Char('h') | KeyCode::Left => app.move_column(-1),
+        KeyCode::Char('l') | KeyCode::Right => app.move_column(1),
         KeyCode::Char('d') if ctrl => app.page(1),
         KeyCode::Char('u') if ctrl => app.page(-1),
         KeyCode::PageDown => app.page(1),
         KeyCode::PageUp => app.page(-1),
         KeyCode::Char('g') => app.select_first(),
         KeyCode::Char('G') => app.select_last(),
-        KeyCode::Enter | KeyCode::Char('l') | KeyCode::Right => app.open_detail(),
+        KeyCode::Enter => app.open_detail(),
         KeyCode::Char('t') => app.focus_now(),
         _ => {}
     }

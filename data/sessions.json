@@ -4,24 +4,139 @@
     "city": "Salt Lake City, Utah",
     "timezone": "America/Denver",
     "source": "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule/",
-    "scraped_at": "2026-11-09T16:05:30-07:00"
+    "scraped_at": "2026-11-09T16:22:43-07:00"
   },
   "days": [
     {
       "date": "2026-11-09",
-      "label": "Monday, November 9"
+      "label": "Monday, November 9",
+      "rooms": [
+        "Salt Palace | Level 1 | Grand Ballroom ACE",
+        "Salt Palace | Level 1 | Grand Ballroom BDF",
+        "Salt Palace | Level 1 | Grand Ballroom H",
+        "Salt Palace | Level 1 | 151",
+        "Salt Palace | Level 2 | 255 BC",
+        "Salt Palace | Level 2 | 255 EF",
+        "Hyatt Regency | Level 4 | Regency Ballroom B-D",
+        "Salt Palace | Level 2 | 250 A-C",
+        "Salt Palace | Level 2 | 254",
+        "Salt Palace | Level 2 | 255 A",
+        "Salt Palace | 200 South Entrance (South)",
+        "Salt Palace | Level 2 | East Registration",
+        "Hyatt Regency | Level 5 | Capitol Reef",
+        "Off-Site Location",
+        "Salt Palace | Level 1 | Grand Ballroom J"
+      ]
     },
     {
       "date": "2026-11-10",
-      "label": "Tuesday, November 10"
+      "label": "Tuesday, November 10",
+      "rooms": [
+        "Salt Palace | Level 1 | Hall DE",
+        "Hyatt Regency | Level 4 | Regency Ballroom B",
+        "Salt Palace | Level 1 | Grand Ballroom ACE",
+        "Salt Palace | Level 1 | Grand Ballroom BDF",
+        "Salt Palace | Level 1 | Grand Ballroom H",
+        "Salt Palace | Level 1 | Grand Ballroom GI",
+        "Salt Palace | Level 1 | 151",
+        "Salt Palace | Level 2 | 255 BC",
+        "Salt Palace | Level 2 | 255 EF",
+        "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
+        "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
+        "Hyatt Regency | Level 4 | Regency Ballroom CD",
+        "Hyatt Regency | Level 4 | Regency Ballroom A",
+        "Salt Palace | Level 2 | 250 A-C",
+        "Salt Palace | Level 2 | 250 D-F",
+        "Salt Palace | Level 2 | 251 A-C",
+        "Salt Palace | Level 2 | 251 D-F",
+        "Salt Palace | Level 2 | 254",
+        "Salt Palace | Level 2 | 255 A",
+        "Salt Palace | Level 2 | 255 D",
+        "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
+        "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
+        "Salt Palace | 200 South Entrance (South)",
+        "Salt Palace | Level 2 | East Registration",
+        "Hyatt Regency | Level 5 | Capitol Reef",
+        "Salt Palace | Level 1 | Grand Ballroom J",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
+        "Salt Palace | Level 1 | North Grand Ballroom Foyer",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone"
+      ]
     },
     {
       "date": "2026-11-11",
-      "label": "Wednesday, November 11"
+      "label": "Wednesday, November 11",
+      "rooms": [
+        "Salt Palace | Level 1 | Hall DE",
+        "Hyatt Regency | Level 4 | Regency Ballroom B",
+        "Salt Palace | Level 1 | Grand Ballroom ACE",
+        "Salt Palace | Level 1 | Grand Ballroom BDF",
+        "Salt Palace | Level 1 | Grand Ballroom H",
+        "Salt Palace | Level 1 | Grand Ballroom GI",
+        "Salt Palace | Level 1 | 151",
+        "Salt Palace | Level 2 | 255 BC",
+        "Salt Palace | Level 2 | 255 EF",
+        "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
+        "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
+        "Hyatt Regency | Level 4 | Regency Ballroom CD",
+        "Hyatt Regency | Level 4 | Regency Ballroom A",
+        "Salt Palace | Level 2 | 250 A-C",
+        "Salt Palace | Level 2 | 250 D-F",
+        "Salt Palace | Level 2 | 251 A-C",
+        "Salt Palace | Level 2 | 251 D-F",
+        "Salt Palace | Level 2 | 254",
+        "Salt Palace | Level 2 | 255 A",
+        "Salt Palace | Level 2 | 255 D",
+        "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
+        "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
+        "Salt Palace | 200 South Entrance (South)",
+        "Salt Palace | Level 2 | East Registration",
+        "Off-Site Location",
+        "Salt Palace | Level 1 | Grand Ballroom J",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
+        "Salt Palace | Level 2 | Upper Mezzanine",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
+        "Hyatt Regency Lobby",
+        "Hyatt Regency | Level 3 | Park City",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone"
+      ]
     },
     {
       "date": "2026-11-12",
-      "label": "Thursday, November 12"
+      "label": "Thursday, November 12",
+      "rooms": [
+        "Salt Palace | Level 1 | Hall DE",
+        "Salt Palace | Level 1 | Grand Ballroom ACE",
+        "Salt Palace | Level 1 | Grand Ballroom BDF",
+        "Salt Palace | Level 1 | Grand Ballroom H",
+        "Salt Palace | Level 1 | Grand Ballroom GI",
+        "Salt Palace | Level 1 | 151",
+        "Salt Palace | Level 2 | 255 BC",
+        "Salt Palace | Level 2 | 255 EF",
+        "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
+        "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
+        "Hyatt Regency | Level 4 | Regency Ballroom CD",
+        "Hyatt Regency | Level 4 | Regency Ballroom A",
+        "Salt Palace | Level 2 | 250 A-C",
+        "Salt Palace | Level 2 | 250 D-F",
+        "Salt Palace | Level 2 | 251 A-C",
+        "Salt Palace | Level 2 | 251 D-F",
+        "Salt Palace | Level 2 | 254",
+        "Salt Palace | Level 2 | 255 A",
+        "Salt Palace | Level 2 | 255 D",
+        "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
+        "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
+        "Salt Palace | 200 South Entrance (South)",
+        "Salt Palace | Level 2 | East Registration",
+        "Salt Palace | Level 1 | Grand Ballroom J",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
+        "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone"
+      ]
     }
   ],
   "speakers": {
@@ -8640,16 +8755,16 @@
           "url": "https://www.grainger.com"
         },
         {
-          "title": "Portfolio",
-          "url": "https://pmady.github.io/"
-        },
-        {
           "title": "BlueSky",
           "url": "https://bsky.app/profile/pavanmadduri.bsky.social"
         },
         {
           "title": "Credly",
           "url": "https://www.credly.com/users/pavanmadduri"
+        },
+        {
+          "title": "Portfolio",
+          "url": "https://pmady.github.io/"
         },
         {
           "title": "Github",
@@ -12178,7 +12293,7 @@
       "end": "2026-11-09T17:00:00",
       "day": "2026-11-09",
       "room": "Salt Palace | 200 South Entrance (South)",
-      "room_sort": 24,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -12195,7 +12310,7 @@
       "end": "2026-11-09T19:00:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 2 | East Registration",
-      "room_sort": 25,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -12212,7 +12327,7 @@
       "end": "2026-11-09T18:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12233,7 +12348,7 @@
       "end": "2026-11-09T15:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12254,7 +12369,7 @@
       "end": "2026-11-09T12:30:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12275,7 +12390,7 @@
       "end": "2026-11-09T17:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12296,7 +12411,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -12313,7 +12428,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -12330,7 +12445,7 @@
       "end": "2026-11-09T12:25:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -12347,7 +12462,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -12364,7 +12479,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -12381,7 +12496,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -12398,7 +12513,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -12415,7 +12530,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -12432,7 +12547,7 @@
       "end": "2026-11-09T12:25:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -12449,7 +12564,7 @@
       "end": "2026-11-09T09:35:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12468,7 +12583,7 @@
       "end": "2026-11-09T15:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12489,7 +12604,7 @@
       "end": "2026-11-09T09:52:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12509,7 +12624,7 @@
       "end": "2026-11-09T09:59:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12532,7 +12647,7 @@
       "end": "2026-11-09T10:06:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12555,7 +12670,7 @@
       "end": "2026-11-09T10:13:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12578,7 +12693,7 @@
       "end": "2026-11-09T10:20:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12601,7 +12716,7 @@
       "end": "2026-11-09T10:27:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12624,7 +12739,7 @@
       "end": "2026-11-09T10:34:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12647,7 +12762,7 @@
       "end": "2026-11-09T19:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12668,7 +12783,7 @@
       "end": "2026-11-09T10:41:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12691,7 +12806,7 @@
       "end": "2026-11-09T10:48:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12714,7 +12829,7 @@
       "end": "2026-11-09T11:03:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12731,7 +12846,7 @@
       "end": "2026-11-09T11:08:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12754,7 +12869,7 @@
       "end": "2026-11-09T11:15:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12777,7 +12892,7 @@
       "end": "2026-11-09T11:22:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12800,7 +12915,7 @@
       "end": "2026-11-09T11:29:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12823,7 +12938,7 @@
       "end": "2026-11-09T11:36:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12846,7 +12961,7 @@
       "end": "2026-11-09T11:43:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12865,7 +12980,7 @@
       "end": "2026-11-09T11:50:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12888,7 +13003,7 @@
       "end": "2026-11-09T11:57:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12911,7 +13026,7 @@
       "end": "2026-11-09T12:04:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12934,7 +13049,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12955,7 +13070,7 @@
       "end": "2026-11-09T16:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -12976,7 +13091,7 @@
       "end": "2026-11-09T12:11:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -12999,7 +13114,7 @@
       "end": "2026-11-09T12:18:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13022,7 +13137,7 @@
       "end": "2026-11-09T12:25:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13045,7 +13160,7 @@
       "end": "2026-11-09T12:32:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13068,7 +13183,7 @@
       "end": "2026-11-09T16:30:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -13089,7 +13204,7 @@
       "end": "2026-11-09T17:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -13110,7 +13225,7 @@
       "end": "2026-11-09T12:39:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13133,7 +13248,7 @@
       "end": "2026-11-09T12:46:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13156,7 +13271,7 @@
       "end": "2026-11-09T13:30:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13173,7 +13288,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -13190,7 +13305,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -13207,7 +13322,7 @@
       "end": "2026-11-09T13:42:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13227,7 +13342,7 @@
       "end": "2026-11-09T13:59:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13250,7 +13365,7 @@
       "end": "2026-11-09T17:00:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -13271,7 +13386,7 @@
       "end": "2026-11-09T14:06:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13294,7 +13409,7 @@
       "end": "2026-11-09T14:13:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13317,7 +13432,7 @@
       "end": "2026-11-09T14:20:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13340,7 +13455,7 @@
       "end": "2026-11-09T14:27:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13363,7 +13478,7 @@
       "end": "2026-11-09T14:34:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13386,7 +13501,7 @@
       "end": "2026-11-09T14:41:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13409,7 +13524,7 @@
       "end": "2026-11-09T14:48:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13432,7 +13547,7 @@
       "end": "2026-11-09T15:03:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13449,7 +13564,7 @@
       "end": "2026-11-09T16:00:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 5 | Capitol Reef",
-      "room_sort": 26,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -13470,7 +13585,7 @@
       "end": "2026-11-09T15:08:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13493,7 +13608,7 @@
       "end": "2026-11-09T15:15:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13516,7 +13631,7 @@
       "end": "2026-11-09T15:22:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13539,7 +13654,7 @@
       "end": "2026-11-09T15:29:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13562,7 +13677,7 @@
       "end": "2026-11-09T15:36:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13585,7 +13700,7 @@
       "end": "2026-11-09T15:43:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13608,7 +13723,7 @@
       "end": "2026-11-09T15:50:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13631,7 +13746,7 @@
       "end": "2026-11-09T15:57:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13654,7 +13769,7 @@
       "end": "2026-11-09T16:04:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13677,7 +13792,7 @@
       "end": "2026-11-09T17:30:00",
       "day": "2026-11-09",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -13698,7 +13813,7 @@
       "end": "2026-11-09T16:11:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13721,7 +13836,7 @@
       "end": "2026-11-09T16:18:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13744,7 +13859,7 @@
       "end": "2026-11-09T16:25:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13767,7 +13882,7 @@
       "end": "2026-11-09T16:32:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13790,7 +13905,7 @@
       "end": "2026-11-09T16:35:00",
       "day": "2026-11-09",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B-D",
-      "room_sort": 11,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -13809,7 +13924,7 @@
       "end": "2026-11-09T19:30:00",
       "day": "2026-11-09",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -13826,7 +13941,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | 200 South Entrance (South)",
-      "room_sort": 24,
+      "col": 22,
       "categories": [
         {
           "category": "All Sessions",
@@ -13843,7 +13958,7 @@
       "end": "2026-11-10T20:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | East Registration",
-      "room_sort": 25,
+      "col": 23,
       "categories": [
         {
           "category": "All Sessions",
@@ -13860,7 +13975,7 @@
       "end": "2026-11-10T09:31:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -13884,7 +13999,7 @@
       "end": "2026-11-10T09:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -13907,7 +14022,7 @@
       "end": "2026-11-10T09:47:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -13930,7 +14045,7 @@
       "end": "2026-11-10T09:56:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -13950,7 +14065,7 @@
       "end": "2026-11-10T10:03:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -13973,7 +14088,7 @@
       "end": "2026-11-10T10:13:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -13993,7 +14108,7 @@
       "end": "2026-11-10T10:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -14017,7 +14132,7 @@
       "end": "2026-11-10T10:27:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -14036,7 +14151,7 @@
       "end": "2026-11-10T10:39:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -14055,7 +14170,7 @@
       "end": "2026-11-10T10:46:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -14074,7 +14189,7 @@
       "end": "2026-11-10T10:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -14091,7 +14206,7 @@
       "end": "2026-11-10T19:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -14108,7 +14223,7 @@
       "end": "2026-11-10T11:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -14129,7 +14244,7 @@
       "end": "2026-11-10T17:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -14146,7 +14261,7 @@
       "end": "2026-11-10T11:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -14163,7 +14278,7 @@
       "end": "2026-11-10T14:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -14180,7 +14295,7 @@
       "end": "2026-11-10T11:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -14203,7 +14318,7 @@
       "end": "2026-11-10T11:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -14220,7 +14335,7 @@
       "end": "2026-11-10T11:02:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -14244,7 +14359,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -14269,7 +14384,7 @@
       "end": "2026-11-10T11:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
-      "room_sort": 35,
+      "col": 29,
       "categories": [
         {
           "category": "All Sessions",
@@ -14294,7 +14409,7 @@
       "end": "2026-11-10T11:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 30,
       "categories": [
         {
           "category": "All Sessions",
@@ -14317,7 +14432,7 @@
       "end": "2026-11-10T11:14:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -14341,7 +14456,7 @@
       "end": "2026-11-10T11:35:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -14364,7 +14479,7 @@
       "end": "2026-11-10T11:29:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -14387,7 +14502,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -14415,7 +14530,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -14442,7 +14557,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -14470,7 +14585,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -14497,7 +14612,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -14528,7 +14643,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -14551,7 +14666,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -14575,7 +14690,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -14599,7 +14714,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -14623,7 +14738,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -14646,7 +14761,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -14673,7 +14788,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -14694,7 +14809,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -14720,7 +14835,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -14746,7 +14861,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -14770,7 +14885,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -14796,7 +14911,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -14820,7 +14935,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -14848,7 +14963,7 @@
       "end": "2026-11-10T13:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -14868,7 +14983,7 @@
       "end": "2026-11-10T11:44:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -14891,7 +15006,7 @@
       "end": "2026-11-10T12:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -14914,7 +15029,7 @@
       "end": "2026-11-10T11:59:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -14937,7 +15052,7 @@
       "end": "2026-11-10T12:14:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -14960,7 +15075,7 @@
       "end": "2026-11-10T12:25:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -14983,7 +15098,7 @@
       "end": "2026-11-10T12:29:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15006,7 +15121,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -15033,7 +15148,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -15060,7 +15175,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -15088,7 +15203,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -15115,7 +15230,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -15143,7 +15258,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -15167,7 +15282,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -15190,7 +15305,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -15213,7 +15328,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -15236,7 +15351,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -15259,7 +15374,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -15283,7 +15398,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -15307,7 +15422,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -15331,7 +15446,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -15354,7 +15469,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -15378,7 +15493,7 @@
       "end": "2026-11-10T13:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -15401,7 +15516,7 @@
       "end": "2026-11-10T12:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -15424,7 +15539,7 @@
       "end": "2026-11-10T12:44:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15447,7 +15562,7 @@
       "end": "2026-11-10T12:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15471,7 +15586,7 @@
       "end": "2026-11-10T14:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -15488,7 +15603,7 @@
       "end": "2026-11-10T13:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -15511,7 +15626,7 @@
       "end": "2026-11-10T13:05:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15535,7 +15650,7 @@
       "end": "2026-11-10T13:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15559,7 +15674,7 @@
       "end": "2026-11-10T13:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -15580,7 +15695,7 @@
       "end": "2026-11-10T14:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
-      "room_sort": 35,
+      "col": 29,
       "categories": [
         {
           "category": "All Sessions",
@@ -15605,7 +15720,7 @@
       "end": "2026-11-10T13:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 30,
       "categories": [
         {
           "category": "All Sessions",
@@ -15628,7 +15743,7 @@
       "end": "2026-11-10T13:27:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15652,7 +15767,7 @@
       "end": "2026-11-10T13:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -15669,7 +15784,7 @@
       "end": "2026-11-10T13:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -15692,7 +15807,7 @@
       "end": "2026-11-10T13:39:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15715,7 +15830,7 @@
       "end": "2026-11-10T14:05:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -15732,7 +15847,7 @@
       "end": "2026-11-10T13:51:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15756,7 +15871,7 @@
       "end": "2026-11-10T14:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -15777,7 +15892,7 @@
       "end": "2026-11-10T14:05:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -15800,7 +15915,7 @@
       "end": "2026-11-10T14:03:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15824,7 +15939,7 @@
       "end": "2026-11-10T16:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | North Grand Ballroom Foyer",
-      "room_sort": 34,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -15841,7 +15956,7 @@
       "end": "2026-11-10T14:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 30,
       "categories": [
         {
           "category": "All Sessions",
@@ -15864,7 +15979,7 @@
       "end": "2026-11-10T14:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15888,7 +16003,7 @@
       "end": "2026-11-10T14:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -15911,7 +16026,7 @@
       "end": "2026-11-10T14:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -15932,7 +16047,7 @@
       "end": "2026-11-10T14:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -15949,7 +16064,7 @@
       "end": "2026-11-10T14:33:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -15970,7 +16085,7 @@
       "end": "2026-11-10T15:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -15994,7 +16109,7 @@
       "end": "2026-11-10T14:55:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -16017,7 +16132,7 @@
       "end": "2026-11-10T14:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -16041,7 +16156,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -16064,7 +16179,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -16092,7 +16207,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -16119,7 +16234,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -16146,7 +16261,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -16173,7 +16288,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -16200,7 +16315,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -16224,7 +16339,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -16248,7 +16363,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -16271,7 +16386,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -16295,7 +16410,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -16319,7 +16434,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -16350,7 +16465,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -16374,7 +16489,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -16398,7 +16513,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -16421,7 +16536,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -16444,7 +16559,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -16467,7 +16582,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -16491,7 +16606,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -16517,7 +16632,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 5 | Capitol Reef",
-      "room_sort": 26,
+      "col": 24,
       "categories": [
         {
           "category": "All Sessions",
@@ -16537,7 +16652,7 @@
       "end": "2026-11-10T16:25:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -16554,7 +16669,7 @@
       "end": "2026-11-10T15:05:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -16578,7 +16693,7 @@
       "end": "2026-11-10T19:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -16595,7 +16710,7 @@
       "end": "2026-11-10T15:20:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -16619,7 +16734,7 @@
       "end": "2026-11-10T15:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -16642,7 +16757,7 @@
       "end": "2026-11-10T15:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -16666,7 +16781,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -16689,7 +16804,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -16717,7 +16832,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -16745,7 +16860,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -16772,7 +16887,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -16800,7 +16915,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -16828,7 +16943,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -16852,7 +16967,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -16875,7 +16990,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -16899,7 +17014,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -16923,7 +17038,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -16947,7 +17062,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -16973,7 +17088,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -16997,7 +17112,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -17020,7 +17135,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -17044,7 +17159,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -17070,7 +17185,7 @@
       "end": "2026-11-10T16:05:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -17094,7 +17209,7 @@
       "end": "2026-11-10T16:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -17117,7 +17232,7 @@
       "end": "2026-11-10T17:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -17141,7 +17256,7 @@
       "end": "2026-11-10T16:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -17164,7 +17279,7 @@
       "end": "2026-11-10T16:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -17181,7 +17296,7 @@
       "end": "2026-11-10T16:35:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -17204,7 +17319,7 @@
       "end": "2026-11-10T16:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -17221,7 +17336,7 @@
       "end": "2026-11-10T16:55:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -17245,7 +17360,7 @@
       "end": "2026-11-10T16:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 30,
       "categories": [
         {
           "category": "All Sessions",
@@ -17268,7 +17383,7 @@
       "end": "2026-11-10T17:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -17285,7 +17400,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -17309,7 +17424,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -17337,7 +17452,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -17365,7 +17480,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -17393,7 +17508,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -17424,7 +17539,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -17451,7 +17566,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -17474,7 +17589,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -17498,7 +17613,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -17524,7 +17639,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -17548,7 +17663,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -17571,7 +17686,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -17598,7 +17713,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -17621,7 +17736,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -17644,7 +17759,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -17668,7 +17783,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -17691,7 +17806,7 @@
       "end": "2026-11-10T17:10:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -17718,7 +17833,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -17745,7 +17860,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -17770,7 +17885,7 @@
       "end": "2026-11-10T17:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -17793,7 +17908,7 @@
       "end": "2026-11-10T17:25:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -17816,7 +17931,7 @@
       "end": "2026-11-10T17:35:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -17833,7 +17948,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -17857,7 +17972,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -17882,7 +17997,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -17909,7 +18024,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -17937,7 +18052,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -17964,7 +18079,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -17991,7 +18106,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -18014,7 +18129,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -18037,7 +18152,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -18061,7 +18176,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -18084,7 +18199,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -18108,7 +18223,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -18132,7 +18247,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -18159,7 +18274,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -18186,7 +18301,7 @@
       "end": "2026-11-10T18:00:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -18213,7 +18328,7 @@
       "end": "2026-11-10T17:50:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -18236,7 +18351,7 @@
       "end": "2026-11-10T18:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -18259,7 +18374,7 @@
       "end": "2026-11-10T18:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -18280,7 +18395,7 @@
       "end": "2026-11-10T19:30:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -18297,7 +18412,7 @@
       "end": "2026-11-10T19:15:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -18314,7 +18429,7 @@
       "end": "2026-11-10T18:40:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -18337,7 +18452,7 @@
       "end": "2026-11-10T18:45:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 30,
       "categories": [
         {
           "category": "All Sessions",
@@ -18358,7 +18473,7 @@
       "end": "2026-11-10T19:05:00",
       "day": "2026-11-10",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -18381,7 +18496,7 @@
       "end": "2026-11-11T08:00:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency Lobby",
-      "room_sort": 32,
+      "col": 29,
       "categories": [
         {
           "category": "All Sessions",
@@ -18398,7 +18513,7 @@
       "end": "2026-11-11T08:00:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 3 | Park City",
-      "room_sort": 33,
+      "col": 30,
       "categories": [
         {
           "category": "All Sessions",
@@ -18415,7 +18530,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | 200 South Entrance (South)",
-      "room_sort": 24,
+      "col": 22,
       "categories": [
         {
           "category": "All Sessions",
@@ -18432,7 +18547,7 @@
       "end": "2026-11-11T18:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | East Registration",
-      "room_sort": 25,
+      "col": 23,
       "categories": [
         {
           "category": "All Sessions",
@@ -18449,7 +18564,7 @@
       "end": "2026-11-11T09:05:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18468,7 +18583,7 @@
       "end": "2026-11-11T09:12:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18488,7 +18603,7 @@
       "end": "2026-11-11T09:24:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18508,7 +18623,7 @@
       "end": "2026-11-11T09:31:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18527,7 +18642,7 @@
       "end": "2026-11-11T09:43:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18549,7 +18664,7 @@
       "end": "2026-11-11T09:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18572,7 +18687,7 @@
       "end": "2026-11-11T10:02:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18592,7 +18707,7 @@
       "end": "2026-11-11T10:09:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18615,7 +18730,7 @@
       "end": "2026-11-11T10:16:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18635,7 +18750,7 @@
       "end": "2026-11-11T10:23:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18659,7 +18774,7 @@
       "end": "2026-11-11T10:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18682,7 +18797,7 @@
       "end": "2026-11-11T11:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -18703,7 +18818,7 @@
       "end": "2026-11-11T17:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -18720,7 +18835,7 @@
       "end": "2026-11-11T11:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -18737,7 +18852,7 @@
       "end": "2026-11-11T13:25:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -18754,7 +18869,7 @@
       "end": "2026-11-11T10:35:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18773,7 +18888,7 @@
       "end": "2026-11-11T10:55:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -18796,7 +18911,7 @@
       "end": "2026-11-11T11:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -18813,7 +18928,7 @@
       "end": "2026-11-11T10:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -18837,7 +18952,7 @@
       "end": "2026-11-11T11:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 32,
       "categories": [
         {
           "category": "All Sessions",
@@ -18860,7 +18975,7 @@
       "end": "2026-11-11T10:48:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -18877,7 +18992,7 @@
       "end": "2026-11-11T11:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -18902,7 +19017,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -18930,7 +19045,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -18958,7 +19073,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -18987,7 +19102,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -19015,7 +19130,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -19043,7 +19158,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -19066,7 +19181,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -19090,7 +19205,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -19113,7 +19228,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -19137,7 +19252,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -19161,7 +19276,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -19191,7 +19306,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -19214,7 +19329,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -19238,7 +19353,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -19263,7 +19378,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -19287,7 +19402,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -19313,7 +19428,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -19339,7 +19454,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -19362,7 +19477,7 @@
       "end": "2026-11-11T11:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -19385,7 +19500,7 @@
       "end": "2026-11-11T11:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -19404,7 +19519,7 @@
       "end": "2026-11-11T11:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -19427,7 +19542,7 @@
       "end": "2026-11-11T11:35:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -19450,7 +19565,7 @@
       "end": "2026-11-11T11:45:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -19474,7 +19589,7 @@
       "end": "2026-11-11T13:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -19494,7 +19609,7 @@
       "end": "2026-11-11T12:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -19518,7 +19633,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -19546,7 +19661,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -19574,7 +19689,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -19602,7 +19717,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -19629,7 +19744,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -19652,7 +19767,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -19676,7 +19791,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -19699,7 +19814,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -19723,7 +19838,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -19749,7 +19864,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -19773,7 +19888,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -19797,7 +19912,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -19820,7 +19935,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -19845,7 +19960,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -19872,7 +19987,7 @@
       "end": "2026-11-11T12:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -19897,7 +20012,7 @@
       "end": "2026-11-11T12:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -19920,7 +20035,7 @@
       "end": "2026-11-11T12:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -19944,7 +20059,7 @@
       "end": "2026-11-11T12:25:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -19967,7 +20082,7 @@
       "end": "2026-11-11T12:35:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -19990,7 +20105,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20007,7 +20122,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | Upper Mezzanine",
-      "room_sort": 30,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -20024,7 +20139,7 @@
       "end": "2026-11-11T12:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20048,7 +20163,7 @@
       "end": "2026-11-11T13:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -20071,7 +20186,7 @@
       "end": "2026-11-11T12:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20094,7 +20209,7 @@
       "end": "2026-11-11T13:45:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
-      "room_sort": 35,
+      "col": 31,
       "categories": [
         {
           "category": "All Sessions",
@@ -20119,7 +20234,7 @@
       "end": "2026-11-11T13:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20143,7 +20258,7 @@
       "end": "2026-11-11T13:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -20160,7 +20275,7 @@
       "end": "2026-11-11T13:15:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 32,
       "categories": [
         {
           "category": "All Sessions",
@@ -20183,7 +20298,7 @@
       "end": "2026-11-11T13:25:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -20206,7 +20321,7 @@
       "end": "2026-11-11T13:45:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20227,7 +20342,7 @@
       "end": "2026-11-11T13:35:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20252,7 +20367,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20279,7 +20394,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20307,7 +20422,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20338,7 +20453,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20366,7 +20481,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20394,7 +20509,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20422,7 +20537,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20449,7 +20564,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20476,7 +20591,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20507,7 +20622,7 @@
       "end": "2026-11-11T14:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20535,7 +20650,7 @@
       "end": "2026-11-11T14:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -20559,7 +20674,7 @@
       "end": "2026-11-11T13:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -20582,7 +20697,7 @@
       "end": "2026-11-11T13:53:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20606,7 +20721,7 @@
       "end": "2026-11-11T15:15:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -20623,7 +20738,7 @@
       "end": "2026-11-11T14:15:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -20644,7 +20759,7 @@
       "end": "2026-11-11T14:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 32,
       "categories": [
         {
           "category": "All Sessions",
@@ -20667,7 +20782,7 @@
       "end": "2026-11-11T17:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -20684,7 +20799,7 @@
       "end": "2026-11-11T14:15:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -20708,7 +20823,7 @@
       "end": "2026-11-11T14:03:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20731,7 +20846,7 @@
       "end": "2026-11-11T14:28:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -20757,7 +20872,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -20780,7 +20895,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -20807,7 +20922,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -20834,7 +20949,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -20861,7 +20976,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -20889,7 +21004,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -20913,7 +21028,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -20937,7 +21052,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -20960,7 +21075,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -20983,7 +21098,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -21007,7 +21122,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -21035,7 +21150,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -21059,7 +21174,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -21085,7 +21200,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -21108,7 +21223,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -21135,7 +21250,7 @@
       "end": "2026-11-11T14:45:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -21161,7 +21276,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -21187,7 +21302,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -21211,7 +21326,7 @@
       "end": "2026-11-11T14:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -21234,7 +21349,7 @@
       "end": "2026-11-11T14:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21261,7 +21376,7 @@
       "end": "2026-11-11T14:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -21284,7 +21399,7 @@
       "end": "2026-11-11T14:39:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21311,7 +21426,7 @@
       "end": "2026-11-11T14:46:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21338,7 +21453,7 @@
       "end": "2026-11-11T14:50:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -21362,7 +21477,7 @@
       "end": "2026-11-11T15:05:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -21386,7 +21501,7 @@
       "end": "2026-11-11T14:53:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21417,7 +21532,7 @@
       "end": "2026-11-11T15:05:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -21440,7 +21555,7 @@
       "end": "2026-11-11T15:00:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21467,7 +21582,7 @@
       "end": "2026-11-11T15:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -21490,7 +21605,7 @@
       "end": "2026-11-11T15:07:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21521,7 +21636,7 @@
       "end": "2026-11-11T15:12:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -21544,7 +21659,7 @@
       "end": "2026-11-11T15:14:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -21571,7 +21686,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -21594,7 +21709,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -21622,7 +21737,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -21650,7 +21765,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -21678,7 +21793,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -21705,7 +21820,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -21729,7 +21844,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -21753,7 +21868,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -21776,7 +21891,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -21800,7 +21915,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -21827,7 +21942,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -21854,7 +21969,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -21881,7 +21996,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -21907,7 +22022,7 @@
       "end": "2026-11-11T15:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -21930,7 +22045,7 @@
       "end": "2026-11-11T15:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -21953,7 +22068,7 @@
       "end": "2026-11-11T15:29:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -21977,7 +22092,7 @@
       "end": "2026-11-11T15:21:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -22004,7 +22119,7 @@
       "end": "2026-11-11T16:25:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -22021,7 +22136,7 @@
       "end": "2026-11-11T15:46:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -22044,7 +22159,7 @@
       "end": "2026-11-11T15:55:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -22067,7 +22182,7 @@
       "end": "2026-11-11T16:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -22084,7 +22199,7 @@
       "end": "2026-11-11T16:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -22101,7 +22216,7 @@
       "end": "2026-11-11T16:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
-      "room_sort": 35,
+      "col": 31,
       "categories": [
         {
           "category": "All Sessions",
@@ -22126,7 +22241,7 @@
       "end": "2026-11-11T16:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 32,
       "categories": [
         {
           "category": "All Sessions",
@@ -22150,7 +22265,7 @@
       "end": "2026-11-11T15:53:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -22173,7 +22288,7 @@
       "end": "2026-11-11T16:10:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -22197,7 +22312,7 @@
       "end": "2026-11-11T16:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -22220,7 +22335,7 @@
       "end": "2026-11-11T16:20:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -22243,7 +22358,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -22267,7 +22382,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -22295,7 +22410,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -22323,7 +22438,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -22350,7 +22465,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -22378,7 +22493,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -22402,7 +22517,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -22426,7 +22541,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -22449,7 +22564,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -22473,7 +22588,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -22497,7 +22612,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -22520,7 +22635,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -22548,7 +22663,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -22574,7 +22689,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -22600,7 +22715,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -22624,7 +22739,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -22648,7 +22763,7 @@
       "end": "2026-11-11T16:40:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -22671,7 +22786,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -22695,7 +22810,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -22720,7 +22835,7 @@
       "end": "2026-11-11T16:17:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -22743,7 +22858,7 @@
       "end": "2026-11-11T16:24:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -22766,7 +22881,7 @@
       "end": "2026-11-11T16:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -22790,7 +22905,7 @@
       "end": "2026-11-11T16:45:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 28,
       "categories": [
         {
           "category": "All Sessions",
@@ -22814,7 +22929,7 @@
       "end": "2026-11-11T17:00:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -22831,7 +22946,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom B",
-      "room_sort": 1,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -22855,7 +22970,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -22882,7 +22997,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -22910,7 +23025,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -22939,7 +23054,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -22966,7 +23081,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -22990,7 +23105,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -23014,7 +23129,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -23038,7 +23153,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -23062,7 +23177,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -23085,7 +23200,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -23109,7 +23224,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -23133,7 +23248,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -23156,7 +23271,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -23181,7 +23296,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -23205,7 +23320,7 @@
       "end": "2026-11-11T17:30:00",
       "day": "2026-11-11",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -23231,7 +23346,7 @@
       "end": "2026-11-12T00:00:00",
       "day": "2026-11-11",
       "room": "Off-Site Location",
-      "room_sort": 27,
+      "col": 24,
       "categories": [
         {
           "category": "All Sessions",
@@ -23252,7 +23367,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | 200 South Entrance (South)",
-      "room_sort": 24,
+      "col": 21,
       "categories": [
         {
           "category": "All Sessions",
@@ -23269,7 +23384,7 @@
       "end": "2026-11-12T16:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | East Registration",
-      "room_sort": 25,
+      "col": 22,
       "categories": [
         {
           "category": "All Sessions",
@@ -23286,7 +23401,7 @@
       "end": "2026-11-12T09:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23305,7 +23420,7 @@
       "end": "2026-11-12T09:17:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23328,7 +23443,7 @@
       "end": "2026-11-12T09:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23347,7 +23462,7 @@
       "end": "2026-11-12T09:37:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23367,7 +23482,7 @@
       "end": "2026-11-12T09:44:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23390,7 +23505,7 @@
       "end": "2026-11-12T09:49:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23410,7 +23525,7 @@
       "end": "2026-11-12T09:54:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23430,7 +23545,7 @@
       "end": "2026-11-12T10:01:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23454,7 +23569,7 @@
       "end": "2026-11-12T10:08:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23477,7 +23592,7 @@
       "end": "2026-11-12T10:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23496,7 +23611,7 @@
       "end": "2026-11-12T10:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Hall DE",
-      "room_sort": 0,
+      "col": 0,
       "categories": [
         {
           "category": "All Sessions",
@@ -23513,7 +23628,7 @@
       "end": "2026-11-12T14:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -23530,7 +23645,7 @@
       "end": "2026-11-12T11:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -23547,7 +23662,7 @@
       "end": "2026-11-12T11:55:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 24,
       "categories": [
         {
           "category": "All Sessions",
@@ -23564,7 +23679,7 @@
       "end": "2026-11-12T10:55:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -23587,7 +23702,7 @@
       "end": "2026-11-12T10:50:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -23610,7 +23725,7 @@
       "end": "2026-11-12T11:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 24,
       "categories": [
         {
           "category": "All Sessions",
@@ -23627,7 +23742,7 @@
       "end": "2026-11-12T11:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -23650,7 +23765,7 @@
       "end": "2026-11-12T11:15:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -23674,7 +23789,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -23702,7 +23817,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -23729,7 +23844,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -23757,7 +23872,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -23784,7 +23899,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -23812,7 +23927,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -23835,7 +23950,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -23858,7 +23973,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -23885,7 +24000,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -23909,7 +24024,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -23933,7 +24048,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -23963,7 +24078,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -23989,7 +24104,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -24014,7 +24129,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -24038,7 +24153,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -24061,7 +24176,7 @@
       "end": "2026-11-12T11:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -24085,7 +24200,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -24111,7 +24226,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -24138,7 +24253,7 @@
       "end": "2026-11-12T12:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 23,
       "categories": [
         {
           "category": "All Sessions",
@@ -24162,7 +24277,7 @@
       "end": "2026-11-12T11:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -24185,7 +24300,7 @@
       "end": "2026-11-12T11:35:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -24209,7 +24324,7 @@
       "end": "2026-11-12T11:45:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -24233,7 +24348,7 @@
       "end": "2026-11-12T11:55:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -24257,7 +24372,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -24285,7 +24400,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -24313,7 +24428,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -24344,7 +24459,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -24372,7 +24487,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -24400,7 +24515,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -24423,7 +24538,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -24446,7 +24561,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -24470,7 +24585,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -24494,7 +24609,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -24518,7 +24633,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -24542,7 +24657,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -24567,7 +24682,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -24591,7 +24706,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -24615,7 +24730,7 @@
       "end": "2026-11-12T12:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -24639,7 +24754,7 @@
       "end": "2026-11-12T14:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 24,
       "categories": [
         {
           "category": "All Sessions",
@@ -24656,7 +24771,7 @@
       "end": "2026-11-12T12:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -24680,7 +24795,7 @@
       "end": "2026-11-12T12:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -24704,7 +24819,7 @@
       "end": "2026-11-12T12:45:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 23,
       "categories": [
         {
           "category": "All Sessions",
@@ -24727,7 +24842,7 @@
       "end": "2026-11-12T13:50:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Halls A-C, Halls 1-5",
-      "room_sort": 21,
+      "col": 19,
       "categories": [
         {
           "category": "All Sessions",
@@ -24744,7 +24859,7 @@
       "end": "2026-11-12T14:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 5 | Cosmic Canyon Zone | Project Pavilion",
-      "room_sort": 29,
+      "col": 24,
       "categories": [
         {
           "category": "All Sessions",
@@ -24761,7 +24876,7 @@
       "end": "2026-11-12T12:32:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Halls 5 | Cosmic Canyon Zone | Cloud Native Theater",
-      "room_sort": 22,
+      "col": 20,
       "categories": [
         {
           "category": "All Sessions",
@@ -24784,7 +24899,7 @@
       "end": "2026-11-12T13:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Network Nook",
-      "room_sort": 35,
+      "col": 26,
       "categories": [
         {
           "category": "All Sessions",
@@ -24809,7 +24924,7 @@
       "end": "2026-11-12T13:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall 1 | Alpine Overlook Zone | Demo Theater",
-      "room_sort": 31,
+      "col": 25,
       "categories": [
         {
           "category": "All Sessions",
@@ -24832,7 +24947,7 @@
       "end": "2026-11-12T13:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -24855,7 +24970,7 @@
       "end": "2026-11-12T13:45:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Solutions Showcase | Hall B | Starlight Summit Zone",
-      "room_sort": 36,
+      "col": 27,
       "categories": [
         {
           "category": "All Sessions",
@@ -24878,7 +24993,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -24905,7 +25020,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -24933,7 +25048,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -24961,7 +25076,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -24988,7 +25103,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -25007,7 +25122,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -25031,7 +25146,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -25055,7 +25170,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -25079,7 +25194,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -25102,7 +25217,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -25126,7 +25241,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -25157,7 +25272,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -25181,7 +25296,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -25200,7 +25315,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -25227,7 +25342,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -25251,7 +25366,7 @@
       "end": "2026-11-12T14:20:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -25274,7 +25389,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 A",
-      "room_sort": 19,
+      "col": 17,
       "categories": [
         {
           "category": "All Sessions",
@@ -25299,7 +25414,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 D",
-      "room_sort": 20,
+      "col": 18,
       "categories": [
         {
           "category": "All Sessions",
@@ -25322,7 +25437,7 @@
       "end": "2026-11-12T14:30:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 23,
       "categories": [
         {
           "category": "All Sessions",
@@ -25345,7 +25460,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -25373,7 +25488,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -25401,7 +25516,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -25429,7 +25544,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -25457,7 +25572,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -25484,7 +25599,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -25508,7 +25623,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -25532,7 +25647,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -25556,7 +25671,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -25579,7 +25694,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -25602,7 +25717,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -25625,7 +25740,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -25649,7 +25764,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -25672,7 +25787,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -25696,7 +25811,7 @@
       "end": "2026-11-12T15:10:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
@@ -25720,7 +25835,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom J",
-      "room_sort": 28,
+      "col": 23,
       "categories": [
         {
           "category": "All Sessions",
@@ -25741,7 +25856,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom ACE",
-      "room_sort": 2,
+      "col": 1,
       "categories": [
         {
           "category": "All Sessions",
@@ -25768,7 +25883,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom BDF",
-      "room_sort": 3,
+      "col": 2,
       "categories": [
         {
           "category": "All Sessions",
@@ -25796,7 +25911,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom H",
-      "room_sort": 4,
+      "col": 3,
       "categories": [
         {
           "category": "All Sessions",
@@ -25824,7 +25939,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | Grand Ballroom GI",
-      "room_sort": 5,
+      "col": 4,
       "categories": [
         {
           "category": "All Sessions",
@@ -25852,7 +25967,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 1 | 151",
-      "room_sort": 6,
+      "col": 5,
       "categories": [
         {
           "category": "All Sessions",
@@ -25876,7 +25991,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 BC",
-      "room_sort": 7,
+      "col": 6,
       "categories": [
         {
           "category": "All Sessions",
@@ -25899,7 +26014,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 255 EF",
-      "room_sort": 8,
+      "col": 7,
       "categories": [
         {
           "category": "All Sessions",
@@ -25923,7 +26038,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom C",
-      "room_sort": 9,
+      "col": 8,
       "categories": [
         {
           "category": "All Sessions",
@@ -25946,7 +26061,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 2 | Salt Lake Ballroom DE",
-      "room_sort": 10,
+      "col": 9,
       "categories": [
         {
           "category": "All Sessions",
@@ -25970,7 +26085,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom CD",
-      "room_sort": 12,
+      "col": 10,
       "categories": [
         {
           "category": "All Sessions",
@@ -25994,7 +26109,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Hyatt Regency | Level 4 | Regency Ballroom A",
-      "room_sort": 13,
+      "col": 11,
       "categories": [
         {
           "category": "All Sessions",
@@ -26018,7 +26133,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 A-C",
-      "room_sort": 14,
+      "col": 12,
       "categories": [
         {
           "category": "All Sessions",
@@ -26041,7 +26156,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 250 D-F",
-      "room_sort": 15,
+      "col": 13,
       "categories": [
         {
           "category": "All Sessions",
@@ -26065,7 +26180,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 A-C",
-      "room_sort": 16,
+      "col": 14,
       "categories": [
         {
           "category": "All Sessions",
@@ -26088,7 +26203,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 251 D-F",
-      "room_sort": 17,
+      "col": 15,
       "categories": [
         {
           "category": "All Sessions",
@@ -26111,7 +26226,7 @@
       "end": "2026-11-12T16:00:00",
       "day": "2026-11-12",
       "room": "Salt Palace | Level 2 | 254",
-      "room_sort": 18,
+      "col": 16,
       "categories": [
         {
           "category": "All Sessions",
