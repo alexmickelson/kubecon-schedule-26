@@ -480,6 +480,10 @@ fn render_session_stack_line(
     room_column_width: usize,
     focused_session_index: Option<usize>,
 ) -> Span<'static> {
+    // A focused title can be shorter than the row; keep its background going
+    // through the unused lines so the highlight has no gap.
+    let focus_fills_blanks =
+        focused_session_index.is_some_and(|session_index| session_indices.contains(&session_index));
     let mut line_offset = content_line;
     for (session_position, &session_index) in session_indices.iter().enumerate() {
         let content_line_count = layout::session_content_line_count(
@@ -498,12 +502,23 @@ fn render_session_stack_line(
         line_offset -= content_line_count;
         if session_position + 1 < session_indices.len() {
             if line_offset == 0 {
-                return Span::raw(" ".repeat(room_column_width));
+                return blank_room_cell(room_column_width, focus_fills_blanks);
             }
             line_offset -= 1;
         }
     }
-    Span::raw(" ".repeat(room_column_width))
+    blank_room_cell(room_column_width, focus_fills_blanks)
+}
+
+fn blank_room_cell(room_column_width: usize, focused: bool) -> Span<'static> {
+    Span::styled(
+        " ".repeat(room_column_width),
+        if focused {
+            Style::default().bg(FOCUSED_CELL_BACKGROUND)
+        } else {
+            Style::default()
+        },
+    )
 }
 
 fn render_session_content_line(
