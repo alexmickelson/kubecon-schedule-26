@@ -20,8 +20,8 @@ const SELECTED_SESSION_BACKGROUND: Color = Color::Rgb(38, 79, 120);
 const SUBTRACK: Color = Color::Rgb(122, 130, 144);
 const SELECTED_SUBTRACK: Color = Color::Rgb(176, 188, 204);
 
-/// Width of the time gutter: now marker + "HH:MM" + space.
-const TIME_GUTTER_WIDTH: usize = 7;
+/// Width of the time gutter: now marker + "12:00 PM" + space.
+const TIME_GUTTER_WIDTH: usize = 10;
 const MIN_ROOM_COLUMN_WIDTH: usize = 24;
 const MAX_ROOM_COLUMN_WIDTH: usize = 40;
 
@@ -32,19 +32,90 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
     }
 
     let screen_area = frame.area();
+    let (visible_room_count, room_column_width) =
+        grid_metrics(screen_area.width as usize, app.room_columns.len());
+    app.first_visible_room_index = room_column_offset_for_selection(app, visible_room_count);
+    let room_header_height = wrapped_room_header_height(
+        app,
+        app.first_visible_room_index,
+        visible_room_count,
+        room_column_width,
+    );
     let panes = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
             Constraint::Length(2),
-            Constraint::Length(2),
+            Constraint::Length(room_header_height as u16),
             Constraint::Min(3),
             Constraint::Length(1),
         ])
         .split(screen_area);
 
     draw_event_header(frame, app, panes[0]);
-    draw_schedule_grid(frame, app, panes[1], panes[2]);
+    draw_schedule_grid(
+        frame,
+        app,
+        panes[1],
+        panes[2],
+        visible_room_count,
+        room_column_width,
+    );
     draw_key_help_footer(frame, app, panes[3]);
+}
+
+fn grid_metrics(screen_width: usize, room_count: usize) -> (usize, usize) {
+    if room_count == 0 {
+        return (0, MIN_ROOM_COLUMN_WIDTH);
+    }
+
+    let grid_width_after_gutter = screen_width.saturating_sub(TIME_GUTTER_WIDTH);
+    let max_visible_rooms = (grid_width_after_gutter / (MIN_ROOM_COLUMN_WIDTH + 1)).max(1);
+    let visible_room_count = max_visible_rooms.min(room_count);
+    let room_column_width = (grid_width_after_gutter / visible_room_count)
+        .saturating_sub(1)
+        .clamp(MIN_ROOM_COLUMN_WIDTH, MAX_ROOM_COLUMN_WIDTH);
+    (visible_room_count, room_column_width)
+}
+
+fn room_column_offset_for_selection(app: &App, visible_room_count: usize) -> usize {
+    if visible_room_count == 0 || app.room_columns.is_empty() {
+        return 0;
+    }
+
+    let selected_room_column = app.selected_room_column();
+    let mut first_visible_room_index = if app.pending_view_anchor.is_some() {
+        selected_room_column.saturating_sub(visible_room_count / 2)
+    } else {
+        app.first_visible_room_index
+    };
+
+    if selected_room_column < first_visible_room_index {
+        first_visible_room_index = selected_room_column;
+    } else if selected_room_column >= first_visible_room_index + visible_room_count {
+        first_visible_room_index = selected_room_column + 1 - visible_room_count;
+    }
+
+    first_visible_room_index.min(app.room_columns.len().saturating_sub(visible_room_count))
+}
+
+fn wrapped_room_header_height(
+    app: &App,
+    first_visible_room_index: usize,
+    visible_room_count: usize,
+    room_column_width: usize,
+) -> usize {
+    let max_room_name_line_count = (first_visible_room_index
+        ..first_visible_room_index + visible_room_count)
+        .filter_map(|room_column_index| app.room_columns.get(room_column_index))
+        .map(|room_column| {
+            let room_name = compact_room(&room_column.room_name);
+            layout::wrap_text_to_width(&room_name, room_column_width)
+                .len()
+                .max(1)
+        })
+        .max()
+        .unwrap_or(1);
+    max_room_name_line_count + 1
 }
 
 fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
@@ -105,7 +176,14 @@ fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
     );
 }
 
-fn draw_schedule_grid(frame: &mut Frame, app: &mut App, header_area: Rect, body_area: Rect) {
+fn draw_schedule_grid(
+    frame: &mut Frame,
+    app: &mut App,
+    header_area: Rect,
+    body_area: Rect,
+    visible_room_count: usize,
+    room_column_width: usize,
+) {
     if app.room_columns.is_empty() || app.time_row_starts.is_empty() {
         frame.render_widget(
             Paragraph::new("No sessions scheduled.")
@@ -116,15 +194,7 @@ fn draw_schedule_grid(frame: &mut Frame, app: &mut App, header_area: Rect, body_
         return;
     }
 
-    let grid_width = body_area.width as usize;
-    let grid_width_after_gutter = grid_width.saturating_sub(TIME_GUTTER_WIDTH);
-    let max_visible_rooms = (grid_width_after_gutter / (MIN_ROOM_COLUMN_WIDTH + 1)).max(1);
-    let visible_room_count = max_visible_rooms.min(app.room_columns.len());
-    let room_column_width = (grid_width_after_gutter / visible_room_count)
-        .saturating_sub(1)
-        .clamp(MIN_ROOM_COLUMN_WIDTH, MAX_ROOM_COLUMN_WIDTH);
     let viewport_height = body_area.height as usize;
-
     app.viewport_height = viewport_height;
     app.visible_room_count = visible_room_count;
 
@@ -148,8 +218,8 @@ fn draw_room_headers(
     room_column_width: usize,
     visible_room_count: usize,
 ) {
-    let mut room_header_spans = vec![Span::raw(" ".repeat(TIME_GUTTER_WIDTH))];
-    let mut header_rule = "─".repeat(TIME_GUTTER_WIDTH);
+    let room_name_line_count = (area.height as usize).saturating_sub(1);
+    let mut visible_headers = Vec::new();
 
     for visible_column_index in 0..visible_room_count {
         let room_column_index = app.first_visible_room_index + visible_column_index;
@@ -157,8 +227,8 @@ fn draw_room_headers(
             break;
         }
 
-        room_header_spans.push(Span::styled("│", Style::default().fg(DIM)));
         let room_name = compact_room(&app.room_columns[room_column_index].room_name);
+        let wrapped_room_name_lines = layout::wrap_text_to_width(&room_name, room_column_width);
         let header_style = if room_column_index == app.selected_room_column() {
             Style::default()
                 .fg(ACCENT)
@@ -166,25 +236,37 @@ fn draw_room_headers(
         } else {
             Style::default().fg(Color::Gray)
         };
-        room_header_spans.push(Span::styled(
-            layout::pad_text_to_width(
-                &layout::truncate_text_to_width(&room_name, room_column_width),
-                room_column_width,
-            ),
-            header_style,
-        ));
+        visible_headers.push((wrapped_room_name_lines, header_style));
+    }
 
+    let mut header_lines = Vec::with_capacity(room_name_line_count + 1);
+    for room_name_line_index in 0..room_name_line_count {
+        let mut room_header_spans = vec![Span::raw(" ".repeat(TIME_GUTTER_WIDTH))];
+        for (wrapped_room_name_lines, header_style) in &visible_headers {
+            room_header_spans.push(Span::styled("│", Style::default().fg(DIM)));
+            let room_name_line = wrapped_room_name_lines
+                .get(room_name_line_index)
+                .map(String::as_str)
+                .unwrap_or("");
+            room_header_spans.push(Span::styled(
+                layout::pad_text_to_width(room_name_line, room_column_width),
+                *header_style,
+            ));
+        }
+        header_lines.push(Line::from(room_header_spans));
+    }
+
+    let mut header_rule = "─".repeat(TIME_GUTTER_WIDTH);
+    for _ in &visible_headers {
         header_rule.push('┼');
         header_rule.push_str(&"─".repeat(room_column_width));
     }
+    header_lines.push(Line::from(Span::styled(
+        header_rule,
+        Style::default().fg(DIM),
+    )));
 
-    frame.render_widget(
-        Paragraph::new(vec![
-            Line::from(room_header_spans),
-            Line::from(Span::styled(header_rule, Style::default().fg(DIM))),
-        ]),
-        area,
-    );
+    frame.render_widget(Paragraph::new(header_lines), area);
 }
 
 fn draw_time_rows(
@@ -255,7 +337,7 @@ fn render_time_row_line(
     if line_in_time_row == 0 {
         let now_marker = if is_current_time_row { "▶" } else { " " };
         spans.push(Span::styled(
-            format!("{now_marker}{:>5} ", app.time_row_label(time_row)),
+            format!("{now_marker}{:>8} ", app.time_row_label(time_row)),
             time_gutter_style,
         ));
     } else {

@@ -143,17 +143,13 @@ impl App {
             .min(self.time_row_starts.len() - 1)
     }
 
-    pub fn time_row_label(&self, time_row: usize) -> &str {
-        self.time_row_starts
-            .get(time_row)
-            .map(|start| {
-                if start.len() >= 16 {
-                    &start[11..16]
-                } else {
-                    start.as_str()
-                }
-            })
-            .unwrap_or("--:--")
+    pub fn time_row_label(&self, time_row: usize) -> String {
+        let Some(start) = self.time_row_starts.get(time_row) else {
+            return "--:--".to_string();
+        };
+        chrono::NaiveDateTime::parse_from_str(start, "%Y-%m-%dT%H:%M:%S")
+            .map(|local_time| local_time.format("%-I:%M %p").to_string())
+            .unwrap_or_else(|_| "--:--".to_string())
     }
 
     /// The time row containing "now", if the day has started.
@@ -342,33 +338,47 @@ impl App {
         self.session_detail_scroll_line = 0;
     }
 
-    /// h/l: adjacent room column, staying near the same point in time.
+    /// h/l: move toward the nearest room column that has a session starting in
+    /// the anchor time row, then try later rows in order. Columns whose next
+    /// session starts much later are skipped instead of jumping hours ahead.
     pub fn select_adjacent_room(&mut self, delta: isize) {
-        if self.room_columns.is_empty() {
+        if delta == 0 || self.room_columns.is_empty() {
             return;
         }
+        let Some(anchor_time_row) = self.time_row_anchor_for_room_change() else {
+            return;
+        };
         let current_room_column = self.selected_room_column();
-        let target_room_column = (current_room_column as isize + delta)
-            .clamp(0, self.room_columns.len() as isize - 1)
-            as usize;
-        if target_room_column == current_room_column {
-            return;
-        }
-        let anchor_time = self.time_anchor_for_room_change();
-        if let Some(session_index) =
-            self.session_active_or_next_in_room(target_room_column, &anchor_time)
-        {
-            self.selected_session_index = session_index;
-            self.session_detail_scroll_line = 0;
+        let step = delta.signum();
+
+        for time_row in anchor_time_row..self.time_row_starts.len() {
+            let time_row_start = self.time_row_starts[time_row].as_str();
+            let mut room_column = current_room_column as isize + step;
+            while room_column >= 0 && (room_column as usize) < self.room_columns.len() {
+                let room = &self.room_columns[room_column as usize];
+                if let Some(session_index) = room
+                    .session_index_by_time_row
+                    .get(time_row)
+                    .copied()
+                    .flatten()
+                {
+                    if self.schedule.sessions[session_index].start.as_str() == time_row_start {
+                        self.selected_session_index = session_index;
+                        self.session_detail_scroll_line = 0;
+                        return;
+                    }
+                }
+                room_column += step;
+            }
         }
     }
 
-    /// Time used when moving horizontally. A short session anchors on its own
-    /// start; a long/all-day session anchors on the middle of the viewport so
-    /// changing rooms keeps the user near the time they were looking at.
-    fn time_anchor_for_room_change(&self) -> String {
+    /// Time row used when moving horizontally. A short session anchors on its
+    /// own start; a long/all-day session anchors on the middle of the viewport
+    /// so changing rooms keeps the user near the time they were looking at.
+    fn time_row_anchor_for_room_change(&self) -> Option<usize> {
         if self.time_row_starts.is_empty() {
-            return String::new();
+            return None;
         }
         let (first_grid_line, end_grid_line) = self.grid_line_span(self.selected_session_index);
         let anchor_grid_line =
@@ -378,8 +388,7 @@ impl App {
             } else {
                 first_grid_line
             };
-        let time_row = self.time_row_at_grid_line(anchor_grid_line);
-        self.time_row_starts[time_row].clone()
+        Some(self.time_row_at_grid_line(anchor_grid_line))
     }
 
     /// The session in `room_column_index` that is ongoing at `time`, else the
