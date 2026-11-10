@@ -16,9 +16,9 @@ const ACCENT: Color = Color::Rgb(97, 175, 239);
 const LIVE: Color = Color::Rgb(152, 195, 121);
 const DIM: Color = Color::Rgb(92, 99, 112);
 const FAINT: Color = Color::Rgb(55, 60, 72);
-const SELECTED_SESSION_BACKGROUND: Color = Color::Rgb(38, 79, 120);
+const FOCUSED_CELL_BACKGROUND: Color = Color::Rgb(38, 79, 120);
 const TRACK: Color = Color::Rgb(122, 130, 144);
-const SELECTED_TRACK: Color = Color::Rgb(176, 188, 204);
+const FOCUSED_TRACK: Color = Color::Rgb(176, 188, 204);
 
 /// Width of the time gutter: now marker + "12:00 PM" + space.
 const TIME_GUTTER_WIDTH: usize = 10;
@@ -34,7 +34,7 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
     let screen_area = frame.area();
     let (visible_room_count, room_column_width) =
         grid_metrics(screen_area.width as usize, app.room_columns.len());
-    app.first_visible_room_index = room_column_offset_for_selection(app, visible_room_count);
+    app.first_visible_room_index = room_column_offset_for_focus(app, visible_room_count);
     let room_header_height = wrapped_room_header_height(
         app,
         app.first_visible_room_index,
@@ -77,22 +77,22 @@ fn grid_metrics(screen_width: usize, room_count: usize) -> (usize, usize) {
     (visible_room_count, room_column_width)
 }
 
-fn room_column_offset_for_selection(app: &App, visible_room_count: usize) -> usize {
+fn room_column_offset_for_focus(app: &App, visible_room_count: usize) -> usize {
     if visible_room_count == 0 || app.room_columns.is_empty() {
         return 0;
     }
 
-    let selected_room_column = app.selected_room_column();
+    let focused_room_column = app.focused_room_column;
     let mut first_visible_room_index = if app.pending_view_anchor.is_some() {
-        selected_room_column.saturating_sub(visible_room_count / 2)
+        focused_room_column.saturating_sub(visible_room_count / 2)
     } else {
         app.first_visible_room_index
     };
 
-    if selected_room_column < first_visible_room_index {
-        first_visible_room_index = selected_room_column;
-    } else if selected_room_column >= first_visible_room_index + visible_room_count {
-        first_visible_room_index = selected_room_column + 1 - visible_room_count;
+    if focused_room_column < first_visible_room_index {
+        first_visible_room_index = focused_room_column;
+    } else if focused_room_column >= first_visible_room_index + visible_room_count {
+        first_visible_room_index = focused_room_column + 1 - visible_room_count;
     }
 
     first_visible_room_index.min(app.room_columns.len().saturating_sub(visible_room_count))
@@ -229,7 +229,7 @@ fn draw_room_headers(
 
         let room_name = compact_room(&app.room_columns[room_column_index].room_name);
         let wrapped_room_name_lines = layout::wrap_text_to_width(&room_name, room_column_width);
-        let header_style = if room_column_index == app.selected_room_column() {
+        let header_style = if room_column_index == app.focused_room_column {
             Style::default()
                 .fg(ACCENT)
                 .add_modifier(Modifier::BOLD | Modifier::UNDERLINED)
@@ -326,6 +326,7 @@ fn render_time_row_line(
     let mut spans = Vec::new();
 
     let is_current_time_row = current_time_row == Some(time_row);
+    let focused_session_index = app.focused_session_index();
 
     if is_current_time_row && line_in_time_row == 0 {
         spans.push(Span::styled(
@@ -386,7 +387,7 @@ fn render_time_row_line(
             Some(session_index) => {
                 let session = &app.schedule.sessions[session_index];
                 let (session_start_time_row, _) = app.time_row_span(session_index);
-                let is_selected_session = session_index == app.selected_session_index;
+                let is_focused_session = focused_session_index == Some(session_index);
                 let session_status = session.status(app.now, app.tz);
 
                 if time_row == session_start_time_row {
@@ -416,10 +417,10 @@ fn render_time_row_line(
                         } else {
                             "  "
                         };
-                        let title_style = if is_selected_session {
+                        let title_style = if is_focused_session {
                             Style::default()
                                 .fg(Color::White)
-                                .bg(SELECTED_SESSION_BACKGROUND)
+                                .bg(FOCUSED_CELL_BACKGROUND)
                                 .add_modifier(Modifier::BOLD)
                         } else {
                             match session_status {
@@ -434,10 +435,10 @@ fn render_time_row_line(
                     } else if let Some(metadata_line) =
                         wrapped_metadata_lines.get(content_line_in_time_row - title_line_count)
                     {
-                        let metadata_style = if is_selected_session {
+                        let metadata_style = if is_focused_session {
                             Style::default()
-                                .fg(SELECTED_TRACK)
-                                .bg(SELECTED_SESSION_BACKGROUND)
+                                .fg(FOCUSED_TRACK)
+                                .bg(FOCUSED_CELL_BACKGROUND)
                         } else if session_status == Status::Past {
                             Style::default().fg(FAINT)
                         } else {
@@ -445,8 +446,8 @@ fn render_time_row_line(
                         };
                         (format!("  {metadata_line}"), metadata_style)
                     } else {
-                        let blank_style = if is_selected_session {
-                            Style::default().bg(SELECTED_SESSION_BACKGROUND)
+                        let blank_style = if is_focused_session {
+                            Style::default().bg(FOCUSED_CELL_BACKGROUND)
                         } else {
                             Style::default()
                         };
@@ -457,10 +458,10 @@ fn render_time_row_line(
                         cell_style,
                     ));
                 } else {
-                    let continuation_style = if is_selected_session {
+                    let continuation_style = if is_focused_session {
                         Style::default()
                             .fg(Color::White)
-                            .bg(SELECTED_SESSION_BACKGROUND)
+                            .bg(FOCUSED_CELL_BACKGROUND)
                             .add_modifier(Modifier::BOLD)
                     } else {
                         Style::default().fg(FAINT)
@@ -470,6 +471,14 @@ fn render_time_row_line(
                         continuation_style,
                     ));
                 }
+            }
+            None if room_column_index == app.focused_room_column
+                && time_row == app.focused_time_row =>
+            {
+                spans.push(Span::styled(
+                    " ".repeat(room_column_width),
+                    Style::default().bg(FOCUSED_CELL_BACKGROUND),
+                ));
             }
             None => spans.push(Span::raw(" ".repeat(room_column_width))),
         }
@@ -492,34 +501,33 @@ fn position_schedule_viewport(
         return;
     }
 
-    let (selected_first_grid_line, selected_end_grid_line) =
-        app.grid_line_span(app.selected_session_index);
-    let selected_room_column = app.selected_room_column();
-    let keep_bottom_margin = std::mem::take(&mut app.pending_selected_session_bottom_margin);
+    let focused_first_grid_line = app.first_grid_line_of_time_row(app.focused_time_row);
+    let focused_end_grid_line = app.first_grid_line_of_time_row(app.focused_time_row + 1);
+    let focused_room_column = app.focused_room_column;
+    let keep_bottom_margin = std::mem::take(&mut app.pending_focus_bottom_margin);
 
     if let Some(view_anchor) = app.pending_view_anchor.take() {
         let anchor_grid_line = match view_anchor {
             ViewAnchor::CurrentTime => app
                 .time_row_containing_now()
                 .map(|time_row| app.first_grid_line_of_time_row(time_row))
-                .unwrap_or(selected_first_grid_line),
-            ViewAnchor::SelectedSession => selected_first_grid_line,
+                .unwrap_or(focused_first_grid_line),
+            ViewAnchor::FocusedRow => focused_first_grid_line,
         };
         app.first_visible_grid_line = anchor_grid_line.saturating_sub(viewport_height / 3);
-        app.first_visible_room_index = selected_room_column.saturating_sub(visible_room_count / 2);
+        app.first_visible_room_index = focused_room_column.saturating_sub(visible_room_count / 2);
     }
 
-    // Long sessions keep the viewport in place while any part of their span
-    // is still visible; only scroll when they are fully above/below.
-    if selected_end_grid_line <= app.first_visible_grid_line {
-        app.first_visible_grid_line = selected_first_grid_line;
-    } else if selected_first_grid_line >= app.first_visible_grid_line + viewport_height {
-        app.first_visible_grid_line = selected_first_grid_line + 1 - viewport_height;
+    // Keep the focused row visible; only scroll when it is fully above/below.
+    if focused_end_grid_line <= app.first_visible_grid_line {
+        app.first_visible_grid_line = focused_first_grid_line;
+    } else if focused_first_grid_line >= app.first_visible_grid_line + viewport_height {
+        app.first_visible_grid_line = focused_first_grid_line + 1 - viewport_height;
     }
 
     if keep_bottom_margin {
-        let selected_content_line_count = app
-            .selected_session()
+        let focused_content_line_count = app
+            .focused_session()
             .map(|session| {
                 let session_start_time_row = app.time_row_for_start(&session.start);
                 let now_indicator_line_count =
@@ -528,15 +536,15 @@ fn position_schedule_viewport(
                     + now_indicator_line_count
             })
             .unwrap_or(1);
-        // Keep about a third of the viewport below the selection, but never
-        // less than the selected title's height.
+        // Keep about a third of the viewport below the focus, but never less
+        // than the focused title's height.
         let bottom_margin = (viewport_height / 3)
-            .max(selected_content_line_count)
+            .max(focused_content_line_count)
             .min(viewport_height);
-        let selected_bottom_grid_line = selected_first_grid_line + bottom_margin;
+        let focused_bottom_grid_line = focused_first_grid_line + bottom_margin;
         let viewport_bottom_grid_line = app.first_visible_grid_line + viewport_height;
-        if selected_bottom_grid_line > viewport_bottom_grid_line {
-            app.first_visible_grid_line = selected_bottom_grid_line - viewport_height;
+        if focused_bottom_grid_line > viewport_bottom_grid_line {
+            app.first_visible_grid_line = focused_bottom_grid_line - viewport_height;
         }
     }
 
@@ -545,10 +553,10 @@ fn position_schedule_viewport(
         .first_visible_grid_line
         .min(total_grid_lines.saturating_sub(viewport_height));
 
-    if selected_room_column < app.first_visible_room_index {
-        app.first_visible_room_index = selected_room_column;
-    } else if selected_room_column >= app.first_visible_room_index + visible_room_count {
-        app.first_visible_room_index = selected_room_column + 1 - visible_room_count;
+    if focused_room_column < app.first_visible_room_index {
+        app.first_visible_room_index = focused_room_column;
+    } else if focused_room_column >= app.first_visible_room_index + visible_room_count {
+        app.first_visible_room_index = focused_room_column + 1 - visible_room_count;
     }
     app.first_visible_room_index = app
         .first_visible_room_index
@@ -636,7 +644,7 @@ fn draw_session_detail(frame: &mut Frame, app: &mut App) {
     let detail_text_area = detail_border.inner(panes[0]);
     frame.render_widget(detail_border, panes[0]);
 
-    let Some(session) = app.selected_session() else {
+    let Some(session) = app.focused_session() else {
         frame.render_widget(
             Paragraph::new("No session selected.").style(Style::default().fg(DIM)),
             detail_text_area,
