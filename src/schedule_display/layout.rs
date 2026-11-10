@@ -6,9 +6,11 @@ use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 use super::app::App;
 
 /// Recompute time row heights and their grid line offsets. Cached per room
-/// column width.
+/// column width and current time row.
 pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
+    let current_time_row = app.time_row_containing_now();
     if app.measured_room_column_width == Some(room_column_width)
+        && app.measured_current_time_row == current_time_row
         && app.time_row_line_heights.len() == app.time_row_starts.len()
     {
         return;
@@ -40,6 +42,13 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
         }
     }
 
+    // The current time row gets one extra line for the now indicator.
+    if let Some(current_time_row) = current_time_row {
+        if let Some(time_row_line_height) = time_row_line_heights.get_mut(current_time_row) {
+            *time_row_line_height += 1;
+        }
+    }
+
     let mut time_row_line_offsets = Vec::with_capacity(app.time_row_starts.len() + 1);
     let mut total_grid_lines = 0;
     time_row_line_offsets.push(0);
@@ -51,6 +60,7 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
     app.time_row_line_heights = time_row_line_heights;
     app.time_row_line_offsets = time_row_line_offsets;
     app.measured_room_column_width = Some(room_column_width);
+    app.measured_current_time_row = current_time_row;
 }
 
 /// Greedy word wrap by terminal display width.

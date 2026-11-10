@@ -326,6 +326,26 @@ fn render_time_row_line(
     let mut spans = Vec::new();
 
     let is_current_time_row = current_time_row == Some(time_row);
+
+    if is_current_time_row && line_in_time_row == 0 {
+        spans.push(Span::styled(
+            format!("▶{:>8} ", app.time_row_label(time_row)),
+            Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
+        ));
+        for visible_column_index in 0..visible_room_count {
+            let room_column_index = app.first_visible_room_index + visible_column_index;
+            if room_column_index >= app.room_columns.len() {
+                break;
+            }
+            spans.push(Span::styled("│", Style::default().fg(DIM)));
+            spans.push(Span::styled(
+                "┈".repeat(room_column_width),
+                Style::default().fg(LIVE),
+            ));
+        }
+        return Line::from(spans);
+    }
+
     let time_gutter_style = if is_current_time_row {
         Style::default().fg(LIVE).add_modifier(Modifier::BOLD)
     } else if current_time_row.is_some_and(|current| time_row < current) {
@@ -343,6 +363,12 @@ fn render_time_row_line(
     } else {
         spans.push(Span::raw(" ".repeat(TIME_GUTTER_WIDTH)));
     }
+
+    let content_line_in_time_row = if is_current_time_row {
+        line_in_time_row - 1
+    } else {
+        line_in_time_row
+    };
 
     for visible_column_index in 0..visible_room_count {
         let room_column_index = app.first_visible_room_index + visible_column_index;
@@ -380,9 +406,9 @@ fn render_time_row_line(
                         })
                         .unwrap_or_default();
 
-                    let (cell_text, cell_style) = if line_in_time_row < title_line_count {
-                        let title_line_text = &wrapped_title_lines[line_in_time_row];
-                        let status_prefix = if line_in_time_row == 0 {
+                    let (cell_text, cell_style) = if content_line_in_time_row < title_line_count {
+                        let title_line_text = &wrapped_title_lines[content_line_in_time_row];
+                        let status_prefix = if content_line_in_time_row == 0 {
                             if session_status == Status::Live {
                                 "▶ "
                             } else {
@@ -407,7 +433,7 @@ fn render_time_row_line(
                         };
                         (format!("{status_prefix}{title_line_text}"), title_style)
                     } else if let Some(subtrack_line) =
-                        wrapped_subtrack_lines.get(line_in_time_row - title_line_count)
+                        wrapped_subtrack_lines.get(content_line_in_time_row - title_line_count)
                     {
                         let subtrack_style = if is_selected_session {
                             Style::default()

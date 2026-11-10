@@ -35,6 +35,8 @@ pub struct App {
     /// Prefix sum of `time_row_line_heights`; one longer than the heights.
     pub time_row_line_offsets: Vec<usize>,
     pub measured_room_column_width: Option<usize>,
+    /// Current time row the cached height measurements were made for.
+    pub measured_current_time_row: Option<usize>,
     pub first_visible_grid_line: usize,
     pub first_visible_room_index: usize,
     /// Consumed by the view to center the current time or the selection.
@@ -65,6 +67,7 @@ impl App {
             time_row_line_heights: Vec::new(),
             time_row_line_offsets: vec![0],
             measured_room_column_width: None,
+            measured_current_time_row: None,
             first_visible_grid_line: 0,
             first_visible_room_index: 0,
             pending_view_anchor: None,
@@ -224,6 +227,7 @@ impl App {
         self.time_row_line_heights = vec![1; self.time_row_starts.len()];
         self.time_row_line_offsets = (0..=self.time_row_starts.len()).collect();
         self.measured_room_column_width = None;
+        self.measured_current_time_row = None;
         self.first_visible_grid_line = 0;
     }
 
@@ -339,8 +343,8 @@ impl App {
     }
 
     /// h/l: move toward the nearest room column that has a session starting in
-    /// the anchor time row, then try later rows in order. Columns whose next
-    /// session starts much later are skipped instead of jumping hours ahead.
+    /// the anchor time row, then try later rows within 30 minutes. Columns
+    /// whose next session is farther away are skipped rather than jumping.
     pub fn select_adjacent_room(&mut self, delta: isize) {
         if delta == 0 || self.room_columns.is_empty() {
             return;
@@ -348,11 +352,26 @@ impl App {
         let Some(anchor_time_row) = self.time_row_anchor_for_room_change() else {
             return;
         };
+        let Some(anchor_start) = self.time_row_starts.get(anchor_time_row) else {
+            return;
+        };
+        let Some(latest_start) =
+            chrono::NaiveDateTime::parse_from_str(anchor_start, "%Y-%m-%dT%H:%M:%S")
+                .map(|anchor_time| anchor_time + chrono::Duration::minutes(30))
+                .map(|latest_time| latest_time.format("%Y-%m-%dT%H:%M:%S").to_string())
+                .ok()
+        else {
+            return;
+        };
+
         let current_room_column = self.selected_room_column();
         let step = delta.signum();
 
         for time_row in anchor_time_row..self.time_row_starts.len() {
             let time_row_start = self.time_row_starts[time_row].as_str();
+            if time_row_start > latest_start.as_str() {
+                break;
+            }
             let mut room_column = current_room_column as isize + step;
             while room_column >= 0 && (room_column as usize) < self.room_columns.len() {
                 let room = &self.room_columns[room_column as usize];
