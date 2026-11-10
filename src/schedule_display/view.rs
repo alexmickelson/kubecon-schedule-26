@@ -749,12 +749,12 @@ fn draw_key_help_footer(frame: &mut Frame, app: &App, area: Rect) {
 }
 
 fn draw_search_footer(frame: &mut Frame, search: &SessionSearch, area: Rect) {
-    let match_count_text = match search.matches.len() {
-        0 => "no matches".to_string(),
-        1 => "1 match".to_string(),
-        count => format!("{count} matches"),
+    let match_count_text = if search.matches.is_empty() {
+        "no matches".to_string()
+    } else {
+        format!("{}/{}", search.selected_match + 1, search.matches.len())
     };
-    let hint_text = format!(" {match_count_text} · ↑/↓ choose · Enter select · Esc cancel ");
+    let hint_text = format!(" {match_count_text} · ↑/↓ next/prev · Enter select · Esc cancel ");
     let hint_width = layout::text_display_width(&hint_text);
     let prompt_text = format!(" /{}▌", search.query);
     let prompt_text = layout::truncate_text_to_width(
