@@ -17,8 +17,8 @@ const LIVE: Color = Color::Rgb(152, 195, 121);
 const DIM: Color = Color::Rgb(92, 99, 112);
 const FAINT: Color = Color::Rgb(55, 60, 72);
 const SELECTED_SESSION_BACKGROUND: Color = Color::Rgb(38, 79, 120);
-const SUBTRACK: Color = Color::Rgb(122, 130, 144);
-const SELECTED_SUBTRACK: Color = Color::Rgb(176, 188, 204);
+const TRACK: Color = Color::Rgb(122, 130, 144);
+const SELECTED_TRACK: Color = Color::Rgb(176, 188, 204);
 
 /// Width of the time gutter: now marker + "12:00 PM" + space.
 const TIME_GUTTER_WIDTH: usize = 10;
@@ -395,12 +395,11 @@ fn render_time_row_line(
                         room_column_width.saturating_sub(2),
                     );
                     let title_line_count = wrapped_title_lines.len();
-                    let wrapped_subtrack_lines = session
-                        .subtrack()
-                        .filter(|subtrack| !subtrack.is_empty())
-                        .map(|subtrack| {
+                    let wrapped_metadata_lines = session
+                        .track_and_subtrack()
+                        .map(|metadata| {
                             layout::wrap_text_to_width(
-                                subtrack,
+                                &metadata,
                                 room_column_width.saturating_sub(2),
                             )
                         })
@@ -432,19 +431,19 @@ fn render_time_row_line(
                             }
                         };
                         (format!("{status_prefix}{title_line_text}"), title_style)
-                    } else if let Some(subtrack_line) =
-                        wrapped_subtrack_lines.get(content_line_in_time_row - title_line_count)
+                    } else if let Some(metadata_line) =
+                        wrapped_metadata_lines.get(content_line_in_time_row - title_line_count)
                     {
-                        let subtrack_style = if is_selected_session {
+                        let metadata_style = if is_selected_session {
                             Style::default()
-                                .fg(SELECTED_SUBTRACK)
+                                .fg(SELECTED_TRACK)
                                 .bg(SELECTED_SESSION_BACKGROUND)
                         } else if session_status == Status::Past {
                             Style::default().fg(FAINT)
                         } else {
-                            Style::default().fg(SUBTRACK)
+                            Style::default().fg(TRACK)
                         };
-                        (format!("  {subtrack_line}"), subtrack_style)
+                        (format!("  {metadata_line}"), metadata_style)
                     } else {
                         let blank_style = if is_selected_session {
                             Style::default().bg(SELECTED_SESSION_BACKGROUND)

@@ -6,18 +6,18 @@ use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 use super::app::App;
 use crate::session_data::Session;
 
-/// Lines occupied by a session's title and subtrack in a room column.
+/// Lines occupied by a session's title and track/subtrack metadata in a room
+/// column.
 pub fn session_content_line_count(session: &Session, room_column_width: usize) -> usize {
     let title_wrap_width = room_column_width.saturating_sub(2).max(1);
     let title_line_count = wrap_text_to_width(&session.title, title_wrap_width)
         .len()
         .max(1);
-    let subtrack_line_count = session
-        .subtrack()
-        .filter(|subtrack| !subtrack.is_empty())
-        .map(|subtrack| wrap_text_to_width(subtrack, title_wrap_width).len())
+    let metadata_line_count = session
+        .track_and_subtrack()
+        .map(|metadata| wrap_text_to_width(&metadata, title_wrap_width).len())
         .unwrap_or(0);
-    title_line_count + subtrack_line_count
+    title_line_count + metadata_line_count
 }
 
 /// Recompute time row heights and their grid line offsets. Cached per room

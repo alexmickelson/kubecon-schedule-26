@@ -188,6 +188,26 @@ impl Session {
         self.category("SubTopic")
     }
 
+    /// Track plus subtrack, combined for the subdued line under grid titles.
+    pub fn track_and_subtrack(&self) -> Option<String> {
+        let track = self
+            .track()
+            .map(str::trim)
+            .filter(|value| !value.is_empty());
+        let subtrack = self
+            .subtrack()
+            .map(str::trim)
+            .filter(|value| !value.is_empty());
+        match (track, subtrack) {
+            (Some(track), Some(subtrack)) if track != subtrack => {
+                Some(format!("{track} · {subtrack}"))
+            }
+            (Some(track), _) => Some(track.to_string()),
+            (None, Some(subtrack)) => Some(subtrack.to_string()),
+            (None, None) => None,
+        }
+    }
+
     pub fn tags(&self) -> Vec<&str> {
         self.categories
             .iter()
