@@ -17,6 +17,8 @@ const LIVE: Color = Color::Rgb(152, 195, 121);
 const DIM: Color = Color::Rgb(92, 99, 112);
 const FAINT: Color = Color::Rgb(55, 60, 72);
 const SELECTED_SESSION_BACKGROUND: Color = Color::Rgb(38, 79, 120);
+const SUBTRACK: Color = Color::Rgb(122, 130, 144);
+const SELECTED_SUBTRACK: Color = Color::Rgb(176, 188, 204);
 
 /// Width of the time gutter: now marker + "HH:MM" + space.
 const TIME_GUTTER_WIDTH: usize = 7;
@@ -284,38 +286,68 @@ fn render_time_row_line(
                         &session.title,
                         room_column_width.saturating_sub(2),
                     );
-                    let title_line_text = wrapped_title_lines
-                        .get(line_in_time_row)
-                        .map(String::as_str)
-                        .unwrap_or("");
-                    let status_prefix = if line_in_time_row == 0 {
-                        if session_status == Status::Live {
-                            "▶ "
+                    let title_line_count = wrapped_title_lines.len();
+                    let wrapped_subtrack_lines = session
+                        .subtrack()
+                        .filter(|subtrack| !subtrack.is_empty())
+                        .map(|subtrack| {
+                            layout::wrap_text_to_width(
+                                subtrack,
+                                room_column_width.saturating_sub(2),
+                            )
+                        })
+                        .unwrap_or_default();
+
+                    let (cell_text, cell_style) = if line_in_time_row < title_line_count {
+                        let title_line_text = &wrapped_title_lines[line_in_time_row];
+                        let status_prefix = if line_in_time_row == 0 {
+                            if session_status == Status::Live {
+                                "▶ "
+                            } else {
+                                "  "
+                            }
                         } else {
                             "  "
-                        }
+                        };
+                        let title_style = if is_selected_session {
+                            Style::default()
+                                .fg(Color::White)
+                                .bg(SELECTED_SESSION_BACKGROUND)
+                                .add_modifier(Modifier::BOLD)
+                        } else {
+                            match session_status {
+                                Status::Live => {
+                                    Style::default().fg(LIVE).add_modifier(Modifier::BOLD)
+                                }
+                                Status::Upcoming => Style::default().fg(Color::White),
+                                Status::Past => Style::default().fg(DIM),
+                            }
+                        };
+                        (format!("{status_prefix}{title_line_text}"), title_style)
+                    } else if let Some(subtrack_line) =
+                        wrapped_subtrack_lines.get(line_in_time_row - title_line_count)
+                    {
+                        let subtrack_style = if is_selected_session {
+                            Style::default()
+                                .fg(SELECTED_SUBTRACK)
+                                .bg(SELECTED_SESSION_BACKGROUND)
+                        } else if session_status == Status::Past {
+                            Style::default().fg(FAINT)
+                        } else {
+                            Style::default().fg(SUBTRACK)
+                        };
+                        (format!("  {subtrack_line}"), subtrack_style)
                     } else {
-                        "  "
-                    };
-
-                    let title_style = if is_selected_session {
-                        Style::default()
-                            .fg(Color::White)
-                            .bg(SELECTED_SESSION_BACKGROUND)
-                            .add_modifier(Modifier::BOLD)
-                    } else {
-                        match session_status {
-                            Status::Live => Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
-                            Status::Upcoming => Style::default().fg(Color::White),
-                            Status::Past => Style::default().fg(DIM),
-                        }
+                        let blank_style = if is_selected_session {
+                            Style::default().bg(SELECTED_SESSION_BACKGROUND)
+                        } else {
+                            Style::default()
+                        };
+                        ("  ".to_string(), blank_style)
                     };
                     spans.push(Span::styled(
-                        layout::pad_text_to_width(
-                            &format!("{status_prefix}{title_line_text}"),
-                            room_column_width,
-                        ),
-                        title_style,
+                        layout::pad_text_to_width(&cell_text, room_column_width),
+                        cell_style,
                     ));
                 } else {
                     let continuation_style = if is_selected_session {
@@ -513,9 +545,8 @@ fn session_detail_lines(app: &App, session: &Session) -> Vec<Line<'static>> {
     if !projects.is_empty() {
         rendered_lines.push(detail_field_row("Projects", projects.join(", ")));
     }
-    let subtopics = session.subtopics();
-    if !subtopics.is_empty() {
-        rendered_lines.push(detail_field_row("Subtopics", subtopics.join(", ")));
+    if let Some(subtrack) = session.subtrack() {
+        rendered_lines.push(detail_field_row("Subtrack", subtrack.to_string()));
     }
     let tags = session.tags();
     if !tags.is_empty() {

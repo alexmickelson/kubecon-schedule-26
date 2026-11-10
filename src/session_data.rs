@@ -183,8 +183,9 @@ impl Session {
         self.category_all("CNCF Projects")
     }
 
-    pub fn subtopics(&self) -> Vec<&str> {
-        self.category_all("SubTopic")
+    /// Sessionize's "SubTopic" category, shown as the session subtrack.
+    pub fn subtrack(&self) -> Option<&str> {
+        self.category("SubTopic")
     }
 
     pub fn tags(&self) -> Vec<&str> {

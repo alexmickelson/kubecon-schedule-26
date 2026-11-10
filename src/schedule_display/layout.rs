@@ -23,13 +23,19 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
             let session_start_time_row = app
                 .time_row_starts
                 .partition_point(|time_row_start| time_row_start.as_str() < session.start.as_str());
-            let wrapped_title_line_count = wrap_text_to_width(&session.title, title_wrap_width)
+            let title_line_count = wrap_text_to_width(&session.title, title_wrap_width)
                 .len()
                 .max(1);
+            let subtrack_line_count = session
+                .subtrack()
+                .filter(|subtrack| !subtrack.is_empty())
+                .map(|subtrack| wrap_text_to_width(subtrack, title_wrap_width).len())
+                .unwrap_or(0);
+            let cell_line_count = title_line_count + subtrack_line_count;
             if let Some(time_row_line_height) =
                 time_row_line_heights.get_mut(session_start_time_row)
             {
-                *time_row_line_height = (*time_row_line_height).max(wrapped_title_line_count);
+                *time_row_line_height = (*time_row_line_height).max(cell_line_count);
             }
         }
     }
