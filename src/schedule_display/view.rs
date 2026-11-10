@@ -24,6 +24,9 @@ const FOCUSED_TRACK: Color = Color::Rgb(176, 188, 204);
 const TIME_GUTTER_WIDTH: usize = 10;
 const MIN_ROOM_COLUMN_WIDTH: usize = 20;
 const MAX_ROOM_COLUMN_WIDTH: usize = 32;
+/// Keep at least this much room for the event title before putting the clock
+/// on its own line.
+const MIN_EVENT_TITLE_WIDTH: usize = 20;
 
 pub fn draw(frame: &mut Frame, app: &mut App) {
     if app.session_detail_open {
@@ -41,10 +44,11 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
         visible_room_count,
         room_column_width,
     );
+    let event_header_height = event_header_height(app, screen_area.width as usize);
     let panes = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(2),
+            Constraint::Length(event_header_height as u16),
             Constraint::Length(room_header_height as u16),
             Constraint::Min(3),
             Constraint::Length(1),
@@ -118,8 +122,19 @@ fn wrapped_room_header_height(
     max_room_name_line_count + 1
 }
 
-fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
-    let screen_width = area.width as usize;
+struct EventHeaderLayout {
+    title_lines: Vec<String>,
+    clock_text: String,
+    clock_beside_title: bool,
+}
+
+impl EventHeaderLayout {
+    fn line_count(&self) -> usize {
+        self.title_lines.len() + usize::from(!self.clock_beside_title) + 1
+    }
+}
+
+fn event_header_layout(app: &App, screen_width: usize) -> EventHeaderLayout {
     let clock_text = format!(
         "{} {} {}  {} {} ",
         app.now.format("%a"),
@@ -128,22 +143,58 @@ fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
         app.now.format("%H:%M:%S"),
         app.now.format("%Z"),
     );
-    let event_title = layout::truncate_text_to_width(
-        &format!(" {}", app.schedule.event.name),
-        screen_width.saturating_sub(layout::text_display_width(&clock_text)),
-    );
-    let gap_width = screen_width.saturating_sub(
-        layout::text_display_width(&event_title) + layout::text_display_width(&clock_text),
-    );
+    let clock_width = layout::text_display_width(&clock_text);
+    let clock_beside_title = screen_width >= clock_width + MIN_EVENT_TITLE_WIDTH;
+    let title_width = if clock_beside_title {
+        screen_width.saturating_sub(clock_width)
+    } else {
+        screen_width
+    };
+    let event_title = app.schedule.event.name.as_str();
+    let title_lines = layout::wrap_text_to_width(event_title, title_width.saturating_sub(1))
+        .into_iter()
+        .map(|line| format!(" {line}"))
+        .collect();
+    EventHeaderLayout {
+        title_lines,
+        clock_text,
+        clock_beside_title,
+    }
+}
 
-    let event_title_line = Line::from(vec![
-        Span::styled(
-            event_title,
+fn event_header_height(app: &App, screen_width: usize) -> usize {
+    event_header_layout(app, screen_width).line_count()
+}
+
+fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
+    let screen_width = area.width as usize;
+    let header_layout = event_header_layout(app, screen_width);
+
+    let mut header_lines = Vec::with_capacity(header_layout.line_count());
+    for (line_index, title_line) in header_layout.title_lines.iter().enumerate() {
+        let mut spans = vec![Span::styled(
+            title_line.clone(),
             Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
-        ),
-        Span::raw(" ".repeat(gap_width)),
-        Span::styled(clock_text, Style::default().fg(Color::Gray)),
-    ]);
+        )];
+        if header_layout.clock_beside_title && line_index == 0 {
+            let used_width = layout::text_display_width(title_line)
+                + layout::text_display_width(&header_layout.clock_text);
+            spans.push(Span::raw(
+                " ".repeat(screen_width.saturating_sub(used_width)),
+            ));
+            spans.push(Span::styled(
+                header_layout.clock_text.clone(),
+                Style::default().fg(Color::Gray),
+            ));
+        }
+        header_lines.push(Line::from(spans));
+    }
+    if !header_layout.clock_beside_title {
+        header_lines.push(Line::from(Span::styled(
+            header_layout.clock_text,
+            Style::default().fg(Color::Gray),
+        )));
+    }
 
     let event_day = &app.schedule.days[app.day_index];
     let session_count: usize = app
@@ -167,13 +218,11 @@ fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
         event_summary_line.push_str(&format!("  ·  {live_session_count} live"));
     }
 
-    frame.render_widget(
-        Paragraph::new(vec![
-            event_title_line,
-            Line::from(Span::styled(event_summary_line, Style::default().fg(DIM))),
-        ]),
-        area,
-    );
+    header_lines.push(Line::from(Span::styled(
+        event_summary_line,
+        Style::default().fg(DIM),
+    )));
+    frame.render_widget(Paragraph::new(header_lines), area);
 }
 
 fn draw_schedule_grid(
