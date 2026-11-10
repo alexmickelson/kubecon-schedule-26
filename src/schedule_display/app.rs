@@ -41,6 +41,8 @@ pub struct App {
     pub first_visible_room_index: usize,
     /// Consumed by the view to center the current time or the selection.
     pub pending_view_anchor: Option<ViewAnchor>,
+    /// Set when moving down so the viewport keeps room below the selection.
+    pub pending_selected_session_bottom_margin: bool,
     pub viewport_height: usize,
     pub visible_room_count: usize,
     pub session_detail_open: bool,
@@ -71,6 +73,7 @@ impl App {
             first_visible_grid_line: 0,
             first_visible_room_index: 0,
             pending_view_anchor: None,
+            pending_selected_session_bottom_margin: false,
             viewport_height: 20,
             visible_room_count: 5,
             session_detail_open: false,
@@ -281,6 +284,7 @@ impl App {
         }
 
         self.pending_view_anchor = Some(ViewAnchor::CurrentTime);
+        self.pending_selected_session_bottom_margin = false;
         self.session_detail_scroll_line = 0;
     }
 
@@ -315,6 +319,7 @@ impl App {
         self.first_visible_grid_line = 0;
         self.first_visible_room_index = 0;
         self.session_detail_open = false;
+        self.pending_selected_session_bottom_margin = false;
         self.build_room_columns();
         true
     }
@@ -338,8 +343,11 @@ impl App {
             .unwrap_or(0) as isize;
         let next_position =
             (current_position + delta).clamp(0, session_indices.len() as isize - 1) as usize;
-        self.selected_session_index = session_indices[next_position];
-        self.session_detail_scroll_line = 0;
+        if next_position != current_position as usize {
+            self.selected_session_index = session_indices[next_position];
+            self.pending_selected_session_bottom_margin = delta > 0;
+            self.session_detail_scroll_line = 0;
+        }
     }
 
     /// h/l: move toward the nearest room column that has a session starting at
@@ -467,6 +475,7 @@ impl App {
         {
             self.selected_session_index = session_index;
             self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+            self.pending_selected_session_bottom_margin = false;
             self.session_detail_scroll_line = 0;
         }
     }
@@ -480,6 +489,7 @@ impl App {
         {
             self.selected_session_index = session_index;
             self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+            self.pending_selected_session_bottom_margin = false;
             self.session_detail_scroll_line = 0;
         }
     }

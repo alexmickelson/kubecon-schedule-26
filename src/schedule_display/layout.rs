@@ -4,6 +4,21 @@
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
 use super::app::App;
+use crate::session_data::Session;
+
+/// Lines occupied by a session's title and subtrack in a room column.
+pub fn session_content_line_count(session: &Session, room_column_width: usize) -> usize {
+    let title_wrap_width = room_column_width.saturating_sub(2).max(1);
+    let title_line_count = wrap_text_to_width(&session.title, title_wrap_width)
+        .len()
+        .max(1);
+    let subtrack_line_count = session
+        .subtrack()
+        .filter(|subtrack| !subtrack.is_empty())
+        .map(|subtrack| wrap_text_to_width(subtrack, title_wrap_width).len())
+        .unwrap_or(0);
+    title_line_count + subtrack_line_count
+}
 
 /// Recompute time row heights and their grid line offsets. Cached per room
 /// column width and current time row.
@@ -16,7 +31,6 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
         return;
     }
 
-    let title_wrap_width = room_column_width.saturating_sub(2).max(1);
     let mut time_row_line_heights = vec![1usize; app.time_row_starts.len()];
 
     for room_column in &app.room_columns {
@@ -25,15 +39,7 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
             let session_start_time_row = app
                 .time_row_starts
                 .partition_point(|time_row_start| time_row_start.as_str() < session.start.as_str());
-            let title_line_count = wrap_text_to_width(&session.title, title_wrap_width)
-                .len()
-                .max(1);
-            let subtrack_line_count = session
-                .subtrack()
-                .filter(|subtrack| !subtrack.is_empty())
-                .map(|subtrack| wrap_text_to_width(subtrack, title_wrap_width).len())
-                .unwrap_or(0);
-            let cell_line_count = title_line_count + subtrack_line_count;
+            let cell_line_count = session_content_line_count(session, room_column_width);
             if let Some(time_row_line_height) =
                 time_row_line_heights.get_mut(session_start_time_row)
             {

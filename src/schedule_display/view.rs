@@ -199,7 +199,7 @@ fn draw_schedule_grid(
     app.visible_room_count = visible_room_count;
 
     layout::measure_time_row_line_heights(app, room_column_width);
-    position_schedule_viewport(app, viewport_height, visible_room_count);
+    position_schedule_viewport(app, viewport_height, visible_room_count, room_column_width);
 
     draw_room_headers(
         frame,
@@ -479,7 +479,12 @@ fn render_time_row_line(
     Line::from(spans)
 }
 
-fn position_schedule_viewport(app: &mut App, viewport_height: usize, visible_room_count: usize) {
+fn position_schedule_viewport(
+    app: &mut App,
+    viewport_height: usize,
+    visible_room_count: usize,
+    room_column_width: usize,
+) {
     if app.time_row_starts.is_empty()
         || app.room_columns.is_empty()
         || viewport_height == 0
@@ -491,6 +496,7 @@ fn position_schedule_viewport(app: &mut App, viewport_height: usize, visible_roo
     let (selected_first_grid_line, selected_end_grid_line) =
         app.grid_line_span(app.selected_session_index);
     let selected_room_column = app.selected_room_column();
+    let keep_bottom_margin = std::mem::take(&mut app.pending_selected_session_bottom_margin);
 
     if let Some(view_anchor) = app.pending_view_anchor.take() {
         let anchor_grid_line = match view_anchor {
@@ -510,6 +516,29 @@ fn position_schedule_viewport(app: &mut App, viewport_height: usize, visible_roo
         app.first_visible_grid_line = selected_first_grid_line;
     } else if selected_first_grid_line >= app.first_visible_grid_line + viewport_height {
         app.first_visible_grid_line = selected_first_grid_line + 1 - viewport_height;
+    }
+
+    if keep_bottom_margin {
+        let selected_content_line_count = app
+            .selected_session()
+            .map(|session| {
+                let session_start_time_row = app.time_row_for_start(&session.start);
+                let now_indicator_line_count =
+                    usize::from(app.time_row_containing_now() == Some(session_start_time_row));
+                layout::session_content_line_count(session, room_column_width)
+                    + now_indicator_line_count
+            })
+            .unwrap_or(1);
+        // Keep about a third of the viewport below the selection, but never
+        // less than the selected title's height.
+        let bottom_margin = (viewport_height / 3)
+            .max(selected_content_line_count)
+            .min(viewport_height);
+        let selected_bottom_grid_line = selected_first_grid_line + bottom_margin;
+        let viewport_bottom_grid_line = app.first_visible_grid_line + viewport_height;
+        if selected_bottom_grid_line > viewport_bottom_grid_line {
+            app.first_visible_grid_line = selected_bottom_grid_line - viewport_height;
+        }
     }
 
     let total_grid_lines = app.grid_line_count();
