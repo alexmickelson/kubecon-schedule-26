@@ -342,9 +342,9 @@ impl App {
         self.session_detail_scroll_line = 0;
     }
 
-    /// h/l: move toward the nearest room column that has a session starting in
-    /// the anchor time row, then try later rows within 30 minutes. Columns
-    /// whose next session is farther away are skipped rather than jumping.
+    /// h/l: move toward the nearest room column that has a session starting at
+    /// the selected session's start time, then try later rows within 30
+    /// minutes. Columns whose next session is farther away are skipped.
     pub fn select_adjacent_room(&mut self, delta: isize) {
         if delta == 0 || self.room_columns.is_empty() {
             return;
@@ -392,22 +392,10 @@ impl App {
         }
     }
 
-    /// Time row used when moving horizontally. A short session anchors on its
-    /// own start; a long/all-day session anchors on the middle of the viewport
-    /// so changing rooms keeps the user near the time they were looking at.
+    /// Horizontal movement is anchored to when the selected session starts.
     fn time_row_anchor_for_room_change(&self) -> Option<usize> {
-        if self.time_row_starts.is_empty() {
-            return None;
-        }
-        let (first_grid_line, end_grid_line) = self.grid_line_span(self.selected_session_index);
-        let anchor_grid_line =
-            if end_grid_line.saturating_sub(first_grid_line) > (self.viewport_height / 2).max(1) {
-                (self.first_visible_grid_line + self.viewport_height / 2)
-                    .min(self.grid_line_count().saturating_sub(1))
-            } else {
-                first_grid_line
-            };
-        Some(self.time_row_at_grid_line(anchor_grid_line))
+        let session = self.selected_session()?;
+        Some(self.time_row_for_start(&session.start))
     }
 
     /// The session in `room_column_index` that is ongoing at `time`, else the
