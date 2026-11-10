@@ -22,8 +22,8 @@ const SELECTED_SUBTRACK: Color = Color::Rgb(176, 188, 204);
 
 /// Width of the time gutter: now marker + "12:00 PM" + space.
 const TIME_GUTTER_WIDTH: usize = 10;
-const MIN_ROOM_COLUMN_WIDTH: usize = 24;
-const MAX_ROOM_COLUMN_WIDTH: usize = 40;
+const MIN_ROOM_COLUMN_WIDTH: usize = 20;
+const MAX_ROOM_COLUMN_WIDTH: usize = 32;
 
 pub fn draw(frame: &mut Frame, app: &mut App) {
     if app.session_detail_open {
