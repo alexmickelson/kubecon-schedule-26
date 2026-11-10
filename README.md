@@ -5,7 +5,8 @@ Time-aware terminal schedule for **KubeCon + CloudNativeCon North America 2026**
 
 It shows the current day as a room-by-room grid in the same column order as
 the website's schedule grid, dims sessions that have already ended, highlights
-what is live, and scrolls to the current time on launch.
+what is live, and scrolls to the current time on launch. Session titles wrap,
+and time rows expand as needed so every talk stays readable.
 
 ## Setup
 
@@ -64,6 +65,7 @@ src/
   schedule_display/
     mod.rs                   terminal setup and event loop
     app.rs                   grid rows/columns, selection, time-aware state
+    layout.rs                wrapped-title measurement and row heights
     input.rs                 vim key mapping
     view.rs                  grid, column headers, details
 data/sessions.json           committed one-time scrape

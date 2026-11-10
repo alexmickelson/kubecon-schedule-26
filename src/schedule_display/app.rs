@@ -16,6 +16,16 @@ pub struct Column {
     pub cells: Vec<Option<usize>>,
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
+pub enum Center {
+    #[default]
+    None,
+    /// Scroll so the current time is near the top third.
+    Now,
+    /// Scroll so the selected session's start is near the top third.
+    Selection,
+}
+
 pub struct App {
     pub data: SessionData,
     pub tz: Tz,
@@ -26,14 +36,21 @@ pub struct App {
     pub columns: Vec<Column>,
     /// Global index into `data.sessions`.
     pub selected: usize,
-    pub row_offset: usize,
+    /// Terminal lines needed by each time row (wrapped title height).
+    pub row_heights: Vec<usize>,
+    /// Prefix sum of `row_heights`; one longer than `row_heights`.
+    pub row_offsets: Vec<usize>,
+    /// Column width the row heights were last computed for.
+    pub layout_width: Option<usize>,
+    /// First visible terminal line of the grid.
+    pub line_offset: usize,
     pub col_offset: usize,
-    /// Set after `t`/launch so the view centers the selection.
-    pub center_selection: bool,
-    pub view_rows: usize,
+    pub center: Center,
+    pub view_height: usize,
     pub view_cols: usize,
     pub detail_open: bool,
     pub detail_scroll: u16,
+    /// Maximum useful scroll offset in the detail pane, set by the view.
     pub detail_total: usize,
     pub should_quit: bool,
 }
@@ -52,10 +69,13 @@ impl App {
             rows: Vec::new(),
             columns: Vec::new(),
             selected: 0,
-            row_offset: 0,
+            row_heights: Vec::new(),
+            row_offsets: vec![0],
+            layout_width: None,
+            line_offset: 0,
             col_offset: 0,
-            center_selection: false,
-            view_rows: 20,
+            center: Center::None,
+            view_height: 20,
             view_cols: 5,
             detail_open: false,
             detail_scroll: 0,
@@ -73,12 +93,6 @@ impl App {
 
     pub fn selected_col(&self) -> usize {
         self.session().map(|session| session.col).unwrap_or(0)
-    }
-
-    pub fn selected_row(&self) -> usize {
-        self.session()
-            .map(|session| self.row_of_start(&session.start))
-            .unwrap_or(0)
     }
 
     pub fn row_of_start(&self, start: &str) -> usize {
@@ -102,6 +116,33 @@ impl App {
             .max(start + 1)
             .min(self.rows.len());
         (start, end)
+    }
+
+    /// Session span in terminal lines rather than time rows.
+    pub fn session_line_span(&self, index: usize) -> (usize, usize) {
+        let (start_row, end_row) = self.session_span(index);
+        (self.row_top_line(start_row), self.row_top_line(end_row))
+    }
+
+    pub fn total_lines(&self) -> usize {
+        self.row_offsets.last().copied().unwrap_or(0)
+    }
+
+    pub fn row_top_line(&self, row: usize) -> usize {
+        self.row_offsets
+            .get(row)
+            .copied()
+            .unwrap_or_else(|| self.total_lines())
+    }
+
+    pub fn row_for_line(&self, line: usize) -> usize {
+        if self.rows.is_empty() {
+            return 0;
+        }
+        self.row_offsets
+            .partition_point(|&offset| offset <= line)
+            .saturating_sub(1)
+            .min(self.rows.len() - 1)
     }
 
     pub fn row_label(&self, row: usize) -> &str {
@@ -175,6 +216,15 @@ impl App {
                 }
             }
         }
+
+        self.reset_layout();
+    }
+
+    fn reset_layout(&mut self) {
+        self.row_heights = vec![1; self.rows.len()];
+        self.row_offsets = (0..=self.rows.len()).collect();
+        self.layout_width = None;
+        self.line_offset = 0;
     }
 
     /// Focus the live session that started most recently (so all-day
@@ -224,7 +274,7 @@ impl App {
             self.selected = *index;
         }
 
-        self.center_selection = true;
+        self.center = Center::Now;
         self.detail_scroll = 0;
     }
 
@@ -255,7 +305,7 @@ impl App {
 
         self.day_index = index;
         self.selected = 0;
-        self.row_offset = 0;
+        self.line_offset = 0;
         self.col_offset = 0;
         self.detail_open = false;
         self.rebuild_grid();
@@ -306,13 +356,14 @@ impl App {
         if self.rows.is_empty() {
             return String::new();
         }
-        let (start, end) = self.session_span(self.selected);
-        let anchor = if end.saturating_sub(start) > (self.view_rows / 2).max(1) {
-            (self.row_offset + self.view_rows / 2).min(self.rows.len() - 1)
+        let (start, end) = self.session_line_span(self.selected);
+        let anchor = if end.saturating_sub(start) > (self.view_height / 2).max(1) {
+            (self.line_offset + self.view_height / 2).min(self.total_lines().saturating_sub(1))
         } else {
             start
         };
-        self.rows[anchor].clone()
+        let row = self.row_for_line(anchor);
+        self.rows[row].clone()
     }
 
     /// The session in `col` that is ongoing at `time`, else the next one,
@@ -338,13 +389,24 @@ impl App {
 
     /// Ctrl-d/Ctrl-u: move the time window by half a page, keeping the room.
     pub fn page(&mut self, direction: isize) {
-        if self.rows.is_empty() {
+        let total = self.total_lines();
+        if total == 0 || self.view_height == 0 {
             return;
         }
-        let step = (self.view_rows / 2).max(1) as isize;
-        let target = (self.selected_row() as isize + direction * step)
-            .clamp(0, self.rows.len() as isize - 1) as usize;
-        let time = self.rows[target].clone();
+
+        let half_page = (self.view_height / 2).max(1) as isize;
+        let max_offset = total.saturating_sub(self.view_height);
+        let target = (self.line_offset as isize + direction * half_page)
+            .clamp(0, max_offset as isize) as usize;
+        if target == self.line_offset {
+            return;
+        }
+        self.line_offset = target;
+
+        // Select whatever is near the middle of the newly positioned window.
+        let anchor = (self.line_offset + self.view_height / 2).min(total - 1);
+        let row = self.row_for_line(anchor);
+        let time = self.rows[row].clone();
         let col = self.selected_col();
         if let Some(index) = self.nearest_session(col, &time) {
             self.selected = index;
@@ -360,7 +422,7 @@ impl App {
             .and_then(|column| column.sessions.first())
         {
             self.selected = index;
-            self.center_selection = true;
+            self.center = Center::Selection;
             self.detail_scroll = 0;
         }
     }
@@ -373,7 +435,7 @@ impl App {
             .and_then(|column| column.sessions.last())
         {
             self.selected = index;
-            self.center_selection = true;
+            self.center = Center::Selection;
             self.detail_scroll = 0;
         }
     }
@@ -386,7 +448,7 @@ impl App {
     }
 
     pub fn scroll_detail(&mut self, delta: isize) {
-        let max = self.detail_total.saturating_sub(1).min(u16::MAX as usize) as isize;
+        let max = self.detail_total.min(u16::MAX as usize) as isize;
         self.detail_scroll = (self.detail_scroll as isize + delta).clamp(0, max) as u16;
     }
 }

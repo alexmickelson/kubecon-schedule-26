@@ -2,6 +2,7 @@
 
 mod app;
 mod input;
+mod layout;
 mod view;
 
 use std::io;

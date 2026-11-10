@@ -1,5 +1,5 @@
 //! All rendering. Widgets only read `App`; the only state written here is
-//! scroll bookkeeping that depends on the available terminal size.
+//! scroll/layout bookkeeping that depends on the available terminal size.
 
 use chrono::Datelike;
 use ratatui::layout::{Alignment, Constraint, Direction, Layout, Rect};
@@ -7,9 +7,9 @@ use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, BorderType, Borders, Padding, Paragraph, Wrap};
 use ratatui::Frame;
-use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
-use super::app::App;
+use super::app::{App, Center};
+use super::layout;
 use crate::session_data::{compact_room, Session, Speaker, Status};
 
 const ACCENT: Color = Color::Rgb(97, 175, 239);
@@ -55,11 +55,12 @@ fn draw_header(frame: &mut Frame, app: &App, area: Rect) {
         app.now.format("%H:%M:%S"),
         app.now.format("%Z"),
     );
-    let left = truncate(
+    let left = layout::truncate(
         &format!(" {}", app.data.event.name),
-        width.saturating_sub(display_width(&clock)),
+        width.saturating_sub(layout::display_width(&clock)),
     );
-    let padding = width.saturating_sub(display_width(&left) + display_width(&clock));
+    let padding =
+        width.saturating_sub(layout::display_width(&left) + layout::display_width(&clock));
 
     let line1 = Line::from(vec![
         Span::styled(
@@ -113,11 +114,13 @@ fn draw_grid(frame: &mut Frame, app: &mut App, header_area: Rect, body_area: Rec
     let column_width = (usable / view_columns)
         .saturating_sub(1)
         .clamp(MIN_COLUMN_WIDTH, MAX_COLUMN_WIDTH);
-    let view_rows = body_area.height as usize;
+    let view_height = body_area.height as usize;
 
-    app.view_rows = view_rows;
+    app.view_height = view_height;
     app.view_cols = view_columns;
-    update_offsets(app, view_rows, view_columns);
+
+    layout::update_rows(app, column_width);
+    update_offsets(app, view_height, view_columns);
 
     draw_column_headers(frame, app, header_area, column_width, view_columns);
     draw_grid_body(frame, app, body_area, column_width, view_columns);
@@ -149,7 +152,7 @@ fn draw_column_headers(
             Style::default().fg(Color::Gray)
         };
         names.push(Span::styled(
-            pad_right(&truncate(&name, column_width), column_width),
+            layout::pad_right(&layout::truncate(&name, column_width), column_width),
             style,
         ));
 
@@ -173,104 +176,169 @@ fn draw_grid_body(
     column_width: usize,
     view_columns: usize,
 ) {
+    let view_height = area.height as usize;
     let current_row = app.current_row();
-    let mut lines: Vec<Line> = Vec::with_capacity(area.height as usize);
+    let mut lines: Vec<Line> = Vec::with_capacity(view_height);
 
-    for screen_row in 0..area.height as usize {
-        let row = app.row_offset + screen_row;
-        if row >= app.rows.len() {
-            break;
+    let start_row = app.row_for_line(app.line_offset);
+    let mut row = start_row;
+    let mut local_line = app.line_offset.saturating_sub(app.row_top_line(start_row));
+    let mut screen_line = 0;
+
+    while screen_line < view_height && row < app.rows.len() {
+        let row_height = app.row_heights.get(row).copied().unwrap_or(1).max(1);
+
+        while local_line < row_height && screen_line < view_height {
+            lines.push(grid_line(
+                app,
+                row,
+                local_line,
+                column_width,
+                view_columns,
+                current_row,
+            ));
+            local_line += 1;
+            screen_line += 1;
         }
 
-        let mut spans = Vec::new();
-        let is_current = current_row == Some(row);
-        let label_style = if is_current {
-            Style::default().fg(LIVE).add_modifier(Modifier::BOLD)
-        } else if current_row.is_some_and(|current| row < current) {
-            Style::default().fg(DIM)
-        } else {
-            Style::default().fg(Color::Gray)
-        };
-        let marker = if is_current { "▶" } else { " " };
-        spans.push(Span::styled(
-            format!("{marker}{:>5} ", app.row_label(row)),
-            label_style,
-        ));
-
-        for offset in 0..view_columns {
-            let col = app.col_offset + offset;
-            if col >= app.columns.len() {
-                break;
-            }
-            spans.push(Span::styled("│", Style::default().fg(DIM)));
-
-            let cell = app.columns[col].cells.get(row).copied().flatten();
-            match cell {
-                Some(index) => {
-                    let session = &app.data.sessions[index];
-                    let (start_row, _) = app.session_span(index);
-                    let selected = index == app.selected;
-                    let status = session.status(app.now, app.tz);
-
-                    let (text, style) = if row == start_row {
-                        let glyph = if status == Status::Live { "▶" } else { " " };
-                        let title = truncate(&session.title, column_width.saturating_sub(2));
-                        let base = match status {
-                            Status::Live => Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
-                            Status::Upcoming => Style::default().fg(Color::White),
-                            Status::Past => Style::default().fg(DIM),
-                        };
-                        (format!("{glyph} {title}"), base)
-                    } else {
-                        (" ┆".to_string(), Style::default().fg(FAINT))
-                    };
-
-                    let style = if selected {
-                        style.bg(SELECT_BG).add_modifier(Modifier::BOLD)
-                    } else {
-                        style
-                    };
-                    spans.push(Span::styled(pad_right(&text, column_width), style));
-                }
-                None => spans.push(Span::raw(" ".repeat(column_width))),
-            }
-        }
-
-        lines.push(Line::from(spans));
+        row += 1;
+        local_line = 0;
     }
 
     frame.render_widget(Paragraph::new(lines), area);
 }
 
-fn update_offsets(app: &mut App, view_rows: usize, view_columns: usize) {
-    if app.rows.is_empty() || app.columns.is_empty() || view_rows == 0 || view_columns == 0 {
+fn grid_line(
+    app: &App,
+    row: usize,
+    local_line: usize,
+    column_width: usize,
+    view_columns: usize,
+    current_row: Option<usize>,
+) -> Line<'static> {
+    let mut spans = Vec::new();
+
+    let is_current = current_row == Some(row);
+    let gutter_style = if is_current {
+        Style::default().fg(LIVE).add_modifier(Modifier::BOLD)
+    } else if current_row.is_some_and(|current| row < current) {
+        Style::default().fg(DIM)
+    } else {
+        Style::default().fg(Color::Gray)
+    };
+
+    if local_line == 0 {
+        let marker = if is_current { "▶" } else { " " };
+        spans.push(Span::styled(
+            format!("{marker}{:>5} ", app.row_label(row)),
+            gutter_style,
+        ));
+    } else {
+        spans.push(Span::raw(" ".repeat(GUTTER)));
+    }
+
+    for offset in 0..view_columns {
+        let col = app.col_offset + offset;
+        if col >= app.columns.len() {
+            break;
+        }
+        spans.push(Span::styled("│", Style::default().fg(DIM)));
+
+        let cell = app.columns[col].cells.get(row).copied().flatten();
+        match cell {
+            Some(index) => {
+                let session = &app.data.sessions[index];
+                let (start_row, _) = app.session_span(index);
+                let selected = index == app.selected;
+                let status = session.status(app.now, app.tz);
+
+                if row == start_row {
+                    let wrapped = layout::wrap(&session.title, column_width.saturating_sub(2));
+                    let title_line = wrapped.get(local_line).map(String::as_str).unwrap_or("");
+                    let prefix = if local_line == 0 {
+                        if status == Status::Live {
+                            "▶ "
+                        } else {
+                            "  "
+                        }
+                    } else {
+                        "  "
+                    };
+
+                    let style = if selected {
+                        Style::default()
+                            .fg(Color::White)
+                            .bg(SELECT_BG)
+                            .add_modifier(Modifier::BOLD)
+                    } else {
+                        match status {
+                            Status::Live => Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
+                            Status::Upcoming => Style::default().fg(Color::White),
+                            Status::Past => Style::default().fg(DIM),
+                        }
+                    };
+                    spans.push(Span::styled(
+                        layout::pad_right(&format!("{prefix}{title_line}"), column_width),
+                        style,
+                    ));
+                } else {
+                    let style = if selected {
+                        Style::default()
+                            .fg(Color::White)
+                            .bg(SELECT_BG)
+                            .add_modifier(Modifier::BOLD)
+                    } else {
+                        Style::default().fg(FAINT)
+                    };
+                    spans.push(Span::styled(layout::pad_right(" ┆", column_width), style));
+                }
+            }
+            None => spans.push(Span::raw(" ".repeat(column_width))),
+        }
+    }
+
+    Line::from(spans)
+}
+
+fn update_offsets(app: &mut App, view_height: usize, view_columns: usize) {
+    if app.rows.is_empty() || app.columns.is_empty() || view_height == 0 || view_columns == 0 {
         return;
     }
 
-    let (selected_start, selected_end) = app.session_span(app.selected);
+    let (selected_start, selected_end) = app.session_line_span(app.selected);
     let selected_col = app.selected_col();
 
-    if app.center_selection {
-        app.row_offset = selected_start.saturating_sub(view_rows / 3);
+    let focus = match app.center {
+        Center::Now => Some(
+            app.current_row()
+                .map(|row| app.row_top_line(row))
+                .unwrap_or(selected_start),
+        ),
+        Center::Selection => Some(selected_start),
+        Center::None => None,
+    };
+    if let Some(focus) = focus {
+        app.line_offset = focus.saturating_sub(view_height / 3);
         app.col_offset = selected_col.saturating_sub(view_columns / 2);
-        app.center_selection = false;
+        app.center = Center::None;
     }
 
-    // Keep the viewport put when a long session still occupies it; only scroll
-    // when the session is completely above or below the visible rows.
-    if selected_end <= app.row_offset {
-        app.row_offset = selected_start;
-    } else if selected_start >= app.row_offset + view_rows {
-        app.row_offset = selected_start + 1 - view_rows;
+    // Long sessions keep the viewport in place while any part of their span
+    // is still visible; only scroll when they are fully above/below.
+    if selected_end <= app.line_offset {
+        app.line_offset = selected_start;
+    } else if selected_start >= app.line_offset + view_height {
+        app.line_offset = selected_start + 1 - view_height;
     }
+
+    let total = app.total_lines();
+    app.line_offset = app.line_offset.min(total.saturating_sub(view_height));
 
     if selected_col < app.col_offset {
         app.col_offset = selected_col;
     } else if selected_col >= app.col_offset + view_columns {
         app.col_offset = selected_col + 1 - view_columns;
     }
-
-    app.row_offset = app.row_offset.min(app.rows.len().saturating_sub(view_rows));
     app.col_offset = app
         .col_offset
         .min(app.columns.len().saturating_sub(view_columns));
@@ -285,7 +353,8 @@ fn draw_footer(frame: &mut Frame, app: &App, area: Rect) {
         let last = (app.col_offset + app.view_cols).min(app.columns.len());
         format!("rooms {first}-{last}/{} ", app.columns.len())
     };
-    let padding = (area.width as usize).saturating_sub(display_width(left) + display_width(&right));
+    let padding = (area.width as usize)
+        .saturating_sub(layout::display_width(left) + layout::display_width(&right));
 
     frame.render_widget(
         Paragraph::new(Line::from(vec![
@@ -332,11 +401,12 @@ fn draw_detail(frame: &mut Frame, app: &mut App) {
     // One extra line of slack: our wrap estimate is approximate, and it is
     // better to allow scrolling a line too far than to hide the last line.
     let total = wrapped_line_count(&lines, inner.width as usize) + 1;
-    app.detail_total = total;
+    let max_scroll = total
+        .saturating_sub(inner.height as usize)
+        .min(u16::MAX as usize);
+    app.detail_total = max_scroll;
+    app.detail_scroll = app.detail_scroll.min(max_scroll as u16);
     let paragraph = Paragraph::new(lines).wrap(Wrap { trim: false });
-
-    let max_scroll = total.saturating_sub(1).min(u16::MAX as usize) as u16;
-    app.detail_scroll = app.detail_scroll.min(max_scroll);
     frame.render_widget(paragraph.scroll((app.detail_scroll, 0)), inner);
 
     frame.render_widget(
@@ -524,66 +594,10 @@ fn wrapped_line_count(lines: &[Line<'static>], width: usize) -> usize {
                 .iter()
                 .map(|span| span.content.as_ref())
                 .collect();
-            wrap_line_count(&text, width)
+            let word_lines = layout::wrap(&text, width).len();
+            let char_lines = layout::display_width(&text).div_ceil(width).max(1);
+            word_lines.max(char_lines)
         })
         .sum::<usize>()
         .max(1)
-}
-
-fn wrap_line_count(text: &str, width: usize) -> usize {
-    if text.is_empty() {
-        return 1;
-    }
-    let mut rows = 0;
-    let mut current = 0;
-    for word in text.split(' ') {
-        let length = display_width(word);
-        if current == 0 {
-            current = length;
-        } else if current + 1 + length <= width {
-            current += 1 + length;
-        } else {
-            rows += 1;
-            current = length;
-        }
-        while current > width {
-            rows += 1;
-            current -= width;
-        }
-    }
-    rows + 1
-}
-
-fn display_width(text: &str) -> usize {
-    UnicodeWidthStr::width(text)
-}
-
-fn pad_right(text: &str, width: usize) -> String {
-    format!(
-        "{text}{}",
-        " ".repeat(width.saturating_sub(display_width(text)))
-    )
-}
-
-fn truncate(text: &str, width: usize) -> String {
-    if width == 0 {
-        return String::new();
-    }
-    if display_width(text) <= width {
-        return text.to_string();
-    }
-
-    let limit = width.saturating_sub(1);
-    let mut shortened = String::new();
-    let mut used = 0;
-    for character in text.chars() {
-        let character_width = UnicodeWidthChar::width(character).unwrap_or(0);
-        if used + character_width > limit {
-            break;
-        }
-        shortened.push(character);
-        used += character_width;
-    }
-    shortened.push('…');
-    shortened
 }
