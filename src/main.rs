@@ -32,15 +32,15 @@ fn main() -> ExitCode {
     }
 
     // main owns loading: read + parse the scraped JSON, then hand it to the UI.
-    let data = match session_data::SessionData::load(&path) {
-        Ok(data) => data,
+    let schedule = match session_data::SessionData::load(&path) {
+        Ok(schedule) => schedule,
         Err(error) => {
             eprintln!("kubecon-tui: {error}");
             return ExitCode::FAILURE;
         }
     };
 
-    match schedule_display::run(data) {
+    match schedule_display::run(schedule) {
         Ok(()) => ExitCode::SUCCESS,
         Err(error) => {
             eprintln!("kubecon-tui: {error}");

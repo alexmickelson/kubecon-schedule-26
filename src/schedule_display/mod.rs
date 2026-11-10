@@ -16,8 +16,8 @@ use crate::session_data::SessionData;
 
 type Tui = Terminal<CrosstermBackend<std::io::Stdout>>;
 
-pub fn run(data: SessionData) -> io::Result<()> {
-    let mut app = app::App::new(data);
+pub fn run(schedule: SessionData) -> io::Result<()> {
+    let mut app = app::App::new(schedule);
     let mut terminal = ratatui::init();
     let result = run_loop(&mut terminal, &mut app);
     ratatui::restore();
@@ -25,7 +25,7 @@ pub fn run(data: SessionData) -> io::Result<()> {
 }
 
 fn run_loop(terminal: &mut Tui, app: &mut app::App) -> io::Result<()> {
-    while !app.should_quit {
+    while !app.quit_requested {
         terminal.draw(|frame| view::draw(frame, app))?;
 
         if event::poll(Duration::from_millis(200))? {
@@ -36,7 +36,7 @@ fn run_loop(terminal: &mut Tui, app: &mut app::App) -> io::Result<()> {
             }
         }
 
-        app.tick();
+        app.refresh_clock();
     }
     Ok(())
 }

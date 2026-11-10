@@ -64,10 +64,10 @@ src/
   session_data.rs            data model, day filtering, time/status helpers
   schedule_display/
     mod.rs                   terminal setup and event loop
-    app.rs                   grid rows/columns, selection, time-aware state
-    layout.rs                wrapped-title measurement and row heights
+    app.rs                   time rows, room columns, selection, time-aware state
+    layout.rs                wrapped-title measurement and time row line heights
     input.rs                 vim key mapping
-    view.rs                  grid, column headers, details
+    view.rs                  schedule grid, room headers, session details
 data/sessions.json           committed one-time scrape
 scrape.py                    one-time Sessionize scraper
 flake.nix / .envrc           Nix dev shell and direnv integration

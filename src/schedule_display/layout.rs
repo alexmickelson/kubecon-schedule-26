@@ -5,138 +5,157 @@ use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
 use super::app::App;
 
-/// Recompute row heights and their line offsets. Cached per column width.
-pub fn update_rows(app: &mut App, column_width: usize) {
-    if app.layout_width == Some(column_width) && app.row_heights.len() == app.rows.len() {
+/// Recompute time row heights and their grid line offsets. Cached per room
+/// column width.
+pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
+    if app.measured_room_column_width == Some(room_column_width)
+        && app.time_row_line_heights.len() == app.time_row_starts.len()
+    {
         return;
     }
 
-    let content_width = column_width.saturating_sub(2).max(1);
-    let mut heights = vec![1usize; app.rows.len()];
+    let title_wrap_width = room_column_width.saturating_sub(2).max(1);
+    let mut time_row_line_heights = vec![1usize; app.time_row_starts.len()];
 
-    for column in &app.columns {
-        for &index in &column.sessions {
-            let session = &app.data.sessions[index];
-            let start_row = app
-                .rows
-                .partition_point(|row| row.as_str() < session.start.as_str());
-            let height = wrap(&session.title, content_width).len().max(1);
-            if let Some(slot) = heights.get_mut(start_row) {
-                *slot = (*slot).max(height);
+    for room_column in &app.room_columns {
+        for &session_index in &room_column.session_indices_by_start {
+            let session = &app.schedule.sessions[session_index];
+            let session_start_time_row = app
+                .time_row_starts
+                .partition_point(|time_row_start| time_row_start.as_str() < session.start.as_str());
+            let wrapped_title_line_count = wrap_text_to_width(&session.title, title_wrap_width)
+                .len()
+                .max(1);
+            if let Some(time_row_line_height) =
+                time_row_line_heights.get_mut(session_start_time_row)
+            {
+                *time_row_line_height = (*time_row_line_height).max(wrapped_title_line_count);
             }
         }
     }
 
-    let mut offsets = Vec::with_capacity(app.rows.len() + 1);
-    let mut total = 0;
-    offsets.push(0);
-    for height in &heights {
-        total += *height;
-        offsets.push(total);
+    let mut time_row_line_offsets = Vec::with_capacity(app.time_row_starts.len() + 1);
+    let mut total_grid_lines = 0;
+    time_row_line_offsets.push(0);
+    for time_row_line_height in &time_row_line_heights {
+        total_grid_lines += *time_row_line_height;
+        time_row_line_offsets.push(total_grid_lines);
     }
 
-    app.row_heights = heights;
-    app.row_offsets = offsets;
-    app.layout_width = Some(column_width);
+    app.time_row_line_heights = time_row_line_heights;
+    app.time_row_line_offsets = time_row_line_offsets;
+    app.measured_room_column_width = Some(room_column_width);
 }
 
 /// Greedy word wrap by terminal display width.
-pub fn wrap(text: &str, width: usize) -> Vec<String> {
-    let width = width.max(1);
-    let mut out = Vec::new();
+pub fn wrap_text_to_width(text: &str, width: usize) -> Vec<String> {
+    let max_line_width = width.max(1);
+    let mut wrapped_lines = Vec::new();
 
     for paragraph in text.split('\n') {
-        let mut line = String::new();
-        let mut line_width = 0;
+        let mut current_line = String::new();
+        let mut current_line_width = 0;
 
         for word in paragraph.split(' ') {
-            let word_width = display_width(word);
+            let word_width = text_display_width(word);
 
-            if line.is_empty() {
-                if word_width <= width {
-                    line.push_str(word);
-                    line_width = word_width;
+            if current_line.is_empty() {
+                if word_width <= max_line_width {
+                    current_line.push_str(word);
+                    current_line_width = word_width;
                 } else {
-                    push_split_word(&mut out, &mut line, &mut line_width, word, width);
+                    push_split_long_word(
+                        &mut wrapped_lines,
+                        &mut current_line,
+                        &mut current_line_width,
+                        word,
+                        max_line_width,
+                    );
                 }
                 continue;
             }
 
-            if line_width + 1 + word_width <= width {
-                line.push(' ');
-                line.push_str(word);
-                line_width += 1 + word_width;
+            if current_line_width + 1 + word_width <= max_line_width {
+                current_line.push(' ');
+                current_line.push_str(word);
+                current_line_width += 1 + word_width;
             } else {
-                out.push(std::mem::take(&mut line));
-                line_width = 0;
-                if word_width <= width {
-                    line.push_str(word);
-                    line_width = word_width;
+                wrapped_lines.push(std::mem::take(&mut current_line));
+                current_line_width = 0;
+                if word_width <= max_line_width {
+                    current_line.push_str(word);
+                    current_line_width = word_width;
                 } else {
-                    push_split_word(&mut out, &mut line, &mut line_width, word, width);
+                    push_split_long_word(
+                        &mut wrapped_lines,
+                        &mut current_line,
+                        &mut current_line_width,
+                        word,
+                        max_line_width,
+                    );
                 }
             }
         }
 
-        if !line.is_empty() || paragraph.is_empty() {
-            out.push(line);
+        if !current_line.is_empty() || paragraph.is_empty() {
+            wrapped_lines.push(current_line);
         }
     }
 
-    if out.is_empty() {
-        out.push(String::new());
+    if wrapped_lines.is_empty() {
+        wrapped_lines.push(String::new());
     }
-    out
+    wrapped_lines
 }
 
-fn push_split_word(
-    out: &mut Vec<String>,
-    line: &mut String,
-    line_width: &mut usize,
-    word: &str,
-    width: usize,
+fn push_split_long_word(
+    wrapped_lines: &mut Vec<String>,
+    current_line: &mut String,
+    current_line_width: &mut usize,
+    long_word: &str,
+    max_line_width: usize,
 ) {
-    for character in word.chars() {
+    for character in long_word.chars() {
         let character_width = UnicodeWidthChar::width(character).unwrap_or(0);
-        if *line_width + character_width > width && !line.is_empty() {
-            out.push(std::mem::take(line));
-            *line_width = 0;
+        if *current_line_width + character_width > max_line_width && !current_line.is_empty() {
+            wrapped_lines.push(std::mem::take(current_line));
+            *current_line_width = 0;
         }
-        line.push(character);
-        *line_width += character_width;
+        current_line.push(character);
+        *current_line_width += character_width;
     }
 }
 
-pub fn display_width(text: &str) -> usize {
+pub fn text_display_width(text: &str) -> usize {
     UnicodeWidthStr::width(text)
 }
 
-pub fn pad_right(text: &str, width: usize) -> String {
+pub fn pad_text_to_width(text: &str, width: usize) -> String {
     format!(
         "{text}{}",
-        " ".repeat(width.saturating_sub(display_width(text)))
+        " ".repeat(width.saturating_sub(text_display_width(text)))
     )
 }
 
-pub fn truncate(text: &str, width: usize) -> String {
+pub fn truncate_text_to_width(text: &str, width: usize) -> String {
     if width == 0 {
         return String::new();
     }
-    if display_width(text) <= width {
+    if text_display_width(text) <= width {
         return text.to_string();
     }
 
-    let limit = width.saturating_sub(1);
-    let mut shortened = String::new();
-    let mut used = 0;
+    let max_text_width = width.saturating_sub(1);
+    let mut shortened_text = String::new();
+    let mut used_width = 0;
     for character in text.chars() {
         let character_width = UnicodeWidthChar::width(character).unwrap_or(0);
-        if used + character_width > limit {
+        if used_width + character_width > max_text_width {
             break;
         }
-        shortened.push(character);
-        used += character_width;
+        shortened_text.push(character);
+        used_width += character_width;
     }
-    shortened.push('…');
-    shortened
+    shortened_text.push('…');
+    shortened_text
 }

@@ -6,148 +6,146 @@ use chrono_tz::Tz;
 
 use crate::session_data::{Session, SessionData, Status};
 
-pub struct Column {
-    /// Full room name from `Day::rooms`, in website grid order.
-    pub name: String,
-    /// Global session indices in this room, in start order.
-    pub sessions: Vec<usize>,
-    /// Row -> session occupying that cell (for long sessions, every row of
-    /// their span points at them).
-    pub cells: Vec<Option<usize>>,
+pub struct RoomColumn {
+    pub room_name: String,
+    /// Indices into `schedule.sessions`, in start order.
+    pub session_indices_by_start: Vec<usize>,
+    /// Every time row covered by a long session points at that session.
+    pub session_index_by_time_row: Vec<Option<usize>>,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Default)]
-pub enum Center {
-    #[default]
-    None,
+#[derive(Clone, Copy)]
+pub enum ViewAnchor {
     /// Scroll so the current time is near the top third.
-    Now,
+    CurrentTime,
     /// Scroll so the selected session's start is near the top third.
-    Selection,
+    SelectedSession,
 }
 
 pub struct App {
-    pub data: SessionData,
+    pub schedule: SessionData,
     pub tz: Tz,
     pub now: DateTime<Tz>,
     pub day_index: usize,
-    /// Unique session start timestamps for the day; the grid's time rows.
-    pub rows: Vec<String>,
-    pub columns: Vec<Column>,
-    /// Global index into `data.sessions`.
-    pub selected: usize,
-    /// Terminal lines needed by each time row (wrapped title height).
-    pub row_heights: Vec<usize>,
-    /// Prefix sum of `row_heights`; one longer than `row_heights`.
-    pub row_offsets: Vec<usize>,
-    /// Column width the row heights were last computed for.
-    pub layout_width: Option<usize>,
-    /// First visible terminal line of the grid.
-    pub line_offset: usize,
-    pub col_offset: usize,
-    pub center: Center,
-    pub view_height: usize,
-    pub view_cols: usize,
-    pub detail_open: bool,
-    pub detail_scroll: u16,
-    /// Maximum useful scroll offset in the detail pane, set by the view.
-    pub detail_total: usize,
-    pub should_quit: bool,
+    pub time_row_starts: Vec<String>,
+    pub room_columns: Vec<RoomColumn>,
+    /// Index into `schedule.sessions`.
+    pub selected_session_index: usize,
+    pub time_row_line_heights: Vec<usize>,
+    /// Prefix sum of `time_row_line_heights`; one longer than the heights.
+    pub time_row_line_offsets: Vec<usize>,
+    pub measured_room_column_width: Option<usize>,
+    pub first_visible_grid_line: usize,
+    pub first_visible_room_index: usize,
+    /// Consumed by the view to center the current time or the selection.
+    pub pending_view_anchor: Option<ViewAnchor>,
+    pub viewport_height: usize,
+    pub visible_room_count: usize,
+    pub session_detail_open: bool,
+    pub session_detail_scroll_line: u16,
+    /// Set by the view after measuring the rendered detail lines.
+    pub session_detail_max_scroll_line: usize,
+    pub quit_requested: bool,
 }
 
 impl App {
-    pub fn new(data: SessionData) -> Self {
-        let tz = data.timezone();
+    pub fn new(schedule: SessionData) -> Self {
+        let tz = schedule.timezone();
         let now = Utc::now().with_timezone(&tz);
-        let day_index = choose_day(&data, now.date_naive());
+        let day_index = event_day_for_date(&schedule, now.date_naive());
 
         let mut app = Self {
-            data,
+            schedule,
             tz,
             now,
             day_index,
-            rows: Vec::new(),
-            columns: Vec::new(),
-            selected: 0,
-            row_heights: Vec::new(),
-            row_offsets: vec![0],
-            layout_width: None,
-            line_offset: 0,
-            col_offset: 0,
-            center: Center::None,
-            view_height: 20,
-            view_cols: 5,
-            detail_open: false,
-            detail_scroll: 0,
-            detail_total: 0,
-            should_quit: false,
+            time_row_starts: Vec::new(),
+            room_columns: Vec::new(),
+            selected_session_index: 0,
+            time_row_line_heights: Vec::new(),
+            time_row_line_offsets: vec![0],
+            measured_room_column_width: None,
+            first_visible_grid_line: 0,
+            first_visible_room_index: 0,
+            pending_view_anchor: None,
+            viewport_height: 20,
+            visible_room_count: 5,
+            session_detail_open: false,
+            session_detail_scroll_line: 0,
+            session_detail_max_scroll_line: 0,
+            quit_requested: false,
         };
-        app.rebuild_grid();
-        app.focus_now();
+        app.build_room_columns();
+        app.select_current_or_next_session();
         app
     }
 
-    pub fn session(&self) -> Option<&Session> {
-        self.data.sessions.get(self.selected)
+    pub fn selected_session(&self) -> Option<&Session> {
+        self.schedule.sessions.get(self.selected_session_index)
     }
 
-    pub fn selected_col(&self) -> usize {
-        self.session().map(|session| session.col).unwrap_or(0)
+    pub fn selected_room_column(&self) -> usize {
+        self.selected_session()
+            .map(|session| session.room_column)
+            .unwrap_or(0)
     }
 
-    pub fn row_of_start(&self, start: &str) -> usize {
-        self.rows
-            .partition_point(|row| row.as_str() < start)
-            .min(self.rows.len().saturating_sub(1))
+    pub fn time_row_for_start(&self, start: &str) -> usize {
+        self.time_row_starts
+            .partition_point(|time_row_start| time_row_start.as_str() < start)
+            .min(self.time_row_starts.len().saturating_sub(1))
     }
 
-    /// Inclusive start row, exclusive end row of a session's grid span.
-    pub fn session_span(&self, index: usize) -> (usize, usize) {
-        if self.rows.is_empty() {
+    /// Inclusive first time row, exclusive end time row of a session span.
+    pub fn time_row_span(&self, session_index: usize) -> (usize, usize) {
+        if self.time_row_starts.is_empty() {
             return (0, 0);
         }
-        let Some(session) = self.data.sessions.get(index) else {
+        let Some(session) = self.schedule.sessions.get(session_index) else {
             return (0, 0);
         };
-        let start = self.row_of_start(&session.start);
-        let end = self
-            .rows
-            .partition_point(|row| row.as_str() < session.end.as_str())
-            .max(start + 1)
-            .min(self.rows.len());
-        (start, end)
+        let first_time_row = self.time_row_for_start(&session.start);
+        let end_time_row = self
+            .time_row_starts
+            .partition_point(|time_row_start| time_row_start.as_str() < session.end.as_str())
+            .max(first_time_row + 1)
+            .min(self.time_row_starts.len());
+        (first_time_row, end_time_row)
     }
 
-    /// Session span in terminal lines rather than time rows.
-    pub fn session_line_span(&self, index: usize) -> (usize, usize) {
-        let (start_row, end_row) = self.session_span(index);
-        (self.row_top_line(start_row), self.row_top_line(end_row))
+    /// Session span in terminal grid lines rather than time rows.
+    pub fn grid_line_span(&self, session_index: usize) -> (usize, usize) {
+        let (first_time_row, end_time_row) = self.time_row_span(session_index);
+        (
+            self.first_grid_line_of_time_row(first_time_row),
+            self.first_grid_line_of_time_row(end_time_row),
+        )
     }
 
-    pub fn total_lines(&self) -> usize {
-        self.row_offsets.last().copied().unwrap_or(0)
+    pub fn grid_line_count(&self) -> usize {
+        self.time_row_line_offsets.last().copied().unwrap_or(0)
     }
 
-    pub fn row_top_line(&self, row: usize) -> usize {
-        self.row_offsets
-            .get(row)
+    pub fn first_grid_line_of_time_row(&self, time_row: usize) -> usize {
+        self.time_row_line_offsets
+            .get(time_row)
             .copied()
-            .unwrap_or_else(|| self.total_lines())
+            .unwrap_or_else(|| self.grid_line_count())
     }
 
-    pub fn row_for_line(&self, line: usize) -> usize {
-        if self.rows.is_empty() {
+    pub fn time_row_at_grid_line(&self, grid_line: usize) -> usize {
+        if self.time_row_starts.is_empty() {
             return 0;
         }
-        self.row_offsets
-            .partition_point(|&offset| offset <= line)
+        self.time_row_line_offsets
+            .partition_point(|&offset| offset <= grid_line)
             .saturating_sub(1)
-            .min(self.rows.len() - 1)
+            .min(self.time_row_starts.len() - 1)
     }
 
-    pub fn row_label(&self, row: usize) -> &str {
-        self.rows
-            .get(row)
+    pub fn time_row_label(&self, time_row: usize) -> &str {
+        self.time_row_starts
+            .get(time_row)
             .map(|start| {
                 if start.len() >= 16 {
                     &start[11..16]
@@ -159,101 +157,109 @@ impl App {
     }
 
     /// The time row containing "now", if the day has started.
-    pub fn current_row(&self) -> Option<usize> {
+    pub fn time_row_containing_now(&self) -> Option<usize> {
         let now = self.now.format("%Y-%m-%dT%H:%M:%S").to_string();
-        self.rows
-            .partition_point(|row| row.as_str() <= now.as_str())
+        self.time_row_starts
+            .partition_point(|time_row_start| time_row_start.as_str() <= now.as_str())
             .checked_sub(1)
     }
 
-    /// Build rows from session starts, then columns in website grid order,
-    /// then mark every cell covered by each session.
-    fn rebuild_grid(&mut self) {
-        let rooms = self.data.days[self.day_index].rooms.clone();
-        let indices = self.data.sessions_on(&self.data.days[self.day_index]);
+    /// Build time rows from session starts, then room columns in website grid
+    /// order, then mark every time row covered by each session.
+    fn build_room_columns(&mut self) {
+        let room_names = self.schedule.days[self.day_index].rooms.clone();
+        let session_indices = self
+            .schedule
+            .session_indices_on(&self.schedule.days[self.day_index]);
 
-        let mut starts: Vec<String> = indices
+        let mut time_row_starts: Vec<String> = session_indices
             .iter()
-            .map(|&index| self.data.sessions[index].start.clone())
+            .map(|&session_index| self.schedule.sessions[session_index].start.clone())
             .collect();
-        starts.sort();
-        starts.dedup();
-        self.rows = starts;
+        time_row_starts.sort();
+        time_row_starts.dedup();
+        self.time_row_starts = time_row_starts;
 
-        self.columns = rooms
+        self.room_columns = room_names
             .into_iter()
-            .map(|name| Column {
-                name,
-                sessions: Vec::new(),
-                cells: vec![None; self.rows.len()],
+            .map(|room_name| RoomColumn {
+                room_name,
+                session_indices_by_start: Vec::new(),
+                session_index_by_time_row: vec![None; self.time_row_starts.len()],
             })
             .collect();
 
-        for &index in &indices {
-            let col = self.data.sessions[index].col;
-            if let Some(column) = self.columns.get_mut(col) {
-                column.sessions.push(index);
+        for &session_index in &session_indices {
+            let room_column = self.schedule.sessions[session_index].room_column;
+            if let Some(room_column) = self.room_columns.get_mut(room_column) {
+                room_column.session_indices_by_start.push(session_index);
             }
         }
 
-        let row_count = self.rows.len();
-        for column in &mut self.columns {
-            let sessions = column.sessions.clone();
-            for index in sessions {
-                let session = &self.data.sessions[index];
-                let start = self
-                    .rows
-                    .partition_point(|row| row.as_str() < session.start.as_str());
-                let end = self
-                    .rows
-                    .partition_point(|row| row.as_str() < session.end.as_str())
-                    .max(start + 1)
-                    .min(row_count);
-                if start < row_count {
-                    for cell in &mut column.cells[start..end] {
-                        *cell = Some(index);
+        let time_row_count = self.time_row_starts.len();
+        for room_column in &mut self.room_columns {
+            let session_indices = room_column.session_indices_by_start.clone();
+            for session_index in session_indices {
+                let session = &self.schedule.sessions[session_index];
+                let first_time_row = self.time_row_starts.partition_point(|time_row_start| {
+                    time_row_start.as_str() < session.start.as_str()
+                });
+                let end_time_row = self
+                    .time_row_starts
+                    .partition_point(|time_row_start| {
+                        time_row_start.as_str() < session.end.as_str()
+                    })
+                    .max(first_time_row + 1)
+                    .min(time_row_count);
+                if first_time_row < time_row_count {
+                    for occupant in
+                        &mut room_column.session_index_by_time_row[first_time_row..end_time_row]
+                    {
+                        *occupant = Some(session_index);
                     }
                 }
             }
         }
 
-        self.reset_layout();
+        self.reset_time_row_measurements();
     }
 
-    fn reset_layout(&mut self) {
-        self.row_heights = vec![1; self.rows.len()];
-        self.row_offsets = (0..=self.rows.len()).collect();
-        self.layout_width = None;
-        self.line_offset = 0;
+    fn reset_time_row_measurements(&mut self) {
+        self.time_row_line_heights = vec![1; self.time_row_starts.len()];
+        self.time_row_line_offsets = (0..=self.time_row_starts.len()).collect();
+        self.measured_room_column_width = None;
+        self.first_visible_grid_line = 0;
     }
 
     /// Focus the live session that started most recently (so all-day
     /// registration does not win over an actual talk), else the next one,
     /// else the last session of the day.
-    pub fn focus_now(&mut self) {
+    pub fn select_current_or_next_session(&mut self) {
         self.now = Utc::now().with_timezone(&self.tz);
-        self.refresh_day();
+        self.follow_current_date();
 
-        let now = self.now;
-        let tz = self.tz;
-        let mut live: Option<(usize, DateTime<Tz>)> = None;
-        let mut next: Option<(usize, DateTime<Tz>)> = None;
+        let current_time = self.now;
+        let timezone = self.tz;
+        let mut live_session: Option<(usize, DateTime<Tz>)> = None;
+        let mut next_session: Option<(usize, DateTime<Tz>)> = None;
 
-        for column in &self.columns {
-            for &index in &column.sessions {
-                let session = &self.data.sessions[index];
-                match session.status(now, tz) {
+        for room_column in &self.room_columns {
+            for &session_index in &room_column.session_indices_by_start {
+                let session = &self.schedule.sessions[session_index];
+                match session.status(current_time, timezone) {
                     Status::Live => {
-                        if let Some(start) = session.start_at(tz) {
-                            if live.map_or(true, |(_, best)| start > best) {
-                                live = Some((index, start));
+                        if let Some(start) = session.start_at(timezone) {
+                            if live_session.map_or(true, |(_, latest_start)| start > latest_start) {
+                                live_session = Some((session_index, start));
                             }
                         }
                     }
                     Status::Upcoming => {
-                        if let Some(start) = session.start_at(tz) {
-                            if next.map_or(true, |(_, best)| start < best) {
-                                next = Some((index, start));
+                        if let Some(start) = session.start_at(timezone) {
+                            if next_session
+                                .map_or(true, |(_, earliest_start)| start < earliest_start)
+                            {
+                                next_session = Some((session_index, start));
                             }
                         }
                     }
@@ -262,36 +268,36 @@ impl App {
             }
         }
 
-        if let Some((index, _)) = live.or(next) {
-            self.selected = index;
-        } else if let Some(index) = self
-            .columns
+        if let Some((session_index, _)) = live_session.or(next_session) {
+            self.selected_session_index = session_index;
+        } else if let Some(session_index) = self
+            .room_columns
             .iter()
             .rev()
-            .find(|column| !column.sessions.is_empty())
-            .and_then(|column| column.sessions.last())
+            .find(|room_column| !room_column.session_indices_by_start.is_empty())
+            .and_then(|room_column| room_column.session_indices_by_start.last())
         {
-            self.selected = *index;
+            self.selected_session_index = *session_index;
         }
 
-        self.center = Center::Now;
-        self.detail_scroll = 0;
+        self.pending_view_anchor = Some(ViewAnchor::CurrentTime);
+        self.session_detail_scroll_line = 0;
     }
 
-    pub fn tick(&mut self) {
-        let now = Utc::now().with_timezone(&self.tz);
-        let date_changed = now.date_naive() != self.now.date_naive();
-        self.now = now;
+    pub fn refresh_clock(&mut self) {
+        let current_time = Utc::now().with_timezone(&self.tz);
+        let date_changed = current_time.date_naive() != self.now.date_naive();
+        self.now = current_time;
 
-        if date_changed && self.refresh_day() {
-            self.focus_now();
+        if date_changed && self.follow_current_date() {
+            self.select_current_or_next_session();
         }
     }
 
-    fn refresh_day(&mut self) -> bool {
+    fn follow_current_date(&mut self) -> bool {
         let today = self.now.date_naive().format("%Y-%m-%d").to_string();
         if self
-            .data
+            .schedule
             .days
             .get(self.day_index)
             .is_some_and(|day| day.date == today)
@@ -299,16 +305,17 @@ impl App {
             return false;
         }
 
-        let Some(index) = self.data.days.iter().position(|day| day.date == today) else {
+        let Some(event_day_index) = self.schedule.days.iter().position(|day| day.date == today)
+        else {
             return false;
         };
 
-        self.day_index = index;
-        self.selected = 0;
-        self.line_offset = 0;
-        self.col_offset = 0;
-        self.detail_open = false;
-        self.rebuild_grid();
+        self.day_index = event_day_index;
+        self.selected_session_index = 0;
+        self.first_visible_grid_line = 0;
+        self.first_visible_room_index = 0;
+        self.session_detail_open = false;
+        self.build_room_columns();
         true
     }
 
@@ -317,153 +324,175 @@ impl App {
     // ------------------------------------------------------------------
 
     /// j/k: next/previous session in the current room column.
-    pub fn move_session(&mut self, delta: isize) {
-        let col = self.selected_col();
-        let sessions = match self.columns.get(col) {
-            Some(column) if !column.sessions.is_empty() => column.sessions.clone(),
+    pub fn select_adjacent_session(&mut self, delta: isize) {
+        let room_column_index = self.selected_room_column();
+        let session_indices = match self.room_columns.get(room_column_index) {
+            Some(room_column) if !room_column.session_indices_by_start.is_empty() => {
+                room_column.session_indices_by_start.clone()
+            }
             _ => return,
         };
-        let position = sessions
+        let current_position = session_indices
             .iter()
-            .position(|&index| index == self.selected)
+            .position(|&session_index| session_index == self.selected_session_index)
             .unwrap_or(0) as isize;
-        let next = (position + delta).clamp(0, sessions.len() as isize - 1) as usize;
-        self.selected = sessions[next];
-        self.detail_scroll = 0;
+        let next_position =
+            (current_position + delta).clamp(0, session_indices.len() as isize - 1) as usize;
+        self.selected_session_index = session_indices[next_position];
+        self.session_detail_scroll_line = 0;
     }
 
     /// h/l: adjacent room column, staying near the same point in time.
-    pub fn move_column(&mut self, delta: isize) {
-        if self.columns.is_empty() {
+    pub fn select_adjacent_room(&mut self, delta: isize) {
+        if self.room_columns.is_empty() {
             return;
         }
-        let current = self.selected_col();
-        let target = (current as isize + delta).clamp(0, self.columns.len() as isize - 1) as usize;
-        if target == current {
+        let current_room_column = self.selected_room_column();
+        let target_room_column = (current_room_column as isize + delta)
+            .clamp(0, self.room_columns.len() as isize - 1)
+            as usize;
+        if target_room_column == current_room_column {
             return;
         }
-        let time = self.column_anchor_time();
-        if let Some(index) = self.nearest_session(target, &time) {
-            self.selected = index;
-            self.detail_scroll = 0;
+        let anchor_time = self.time_anchor_for_room_change();
+        if let Some(session_index) =
+            self.session_active_or_next_in_room(target_room_column, &anchor_time)
+        {
+            self.selected_session_index = session_index;
+            self.session_detail_scroll_line = 0;
         }
     }
 
     /// Time used when moving horizontally. A short session anchors on its own
     /// start; a long/all-day session anchors on the middle of the viewport so
     /// changing rooms keeps the user near the time they were looking at.
-    fn column_anchor_time(&self) -> String {
-        if self.rows.is_empty() {
+    fn time_anchor_for_room_change(&self) -> String {
+        if self.time_row_starts.is_empty() {
             return String::new();
         }
-        let (start, end) = self.session_line_span(self.selected);
-        let anchor = if end.saturating_sub(start) > (self.view_height / 2).max(1) {
-            (self.line_offset + self.view_height / 2).min(self.total_lines().saturating_sub(1))
-        } else {
-            start
-        };
-        let row = self.row_for_line(anchor);
-        self.rows[row].clone()
+        let (first_grid_line, end_grid_line) = self.grid_line_span(self.selected_session_index);
+        let anchor_grid_line =
+            if end_grid_line.saturating_sub(first_grid_line) > (self.viewport_height / 2).max(1) {
+                (self.first_visible_grid_line + self.viewport_height / 2)
+                    .min(self.grid_line_count().saturating_sub(1))
+            } else {
+                first_grid_line
+            };
+        let time_row = self.time_row_at_grid_line(anchor_grid_line);
+        self.time_row_starts[time_row].clone()
     }
 
-    /// The session in `col` that is ongoing at `time`, else the next one,
-    /// else the last one.
-    fn nearest_session(&self, col: usize, time: &str) -> Option<usize> {
-        let sessions = &self.columns.get(col)?.sessions;
-        if sessions.is_empty() {
+    /// The session in `room_column_index` that is ongoing at `time`, else the
+    /// next one, else the last one.
+    fn session_active_or_next_in_room(
+        &self,
+        room_column_index: usize,
+        time: &str,
+    ) -> Option<usize> {
+        let session_indices = &self
+            .room_columns
+            .get(room_column_index)?
+            .session_indices_by_start;
+        if session_indices.is_empty() {
             return None;
         }
 
-        let position =
-            sessions.partition_point(|&index| self.data.sessions[index].start.as_str() <= time);
-        for &index in sessions[..position].iter().rev() {
-            if self.data.sessions[index].end.as_str() > time {
-                return Some(index);
+        let first_later_position = session_indices.partition_point(|&session_index| {
+            self.schedule.sessions[session_index].start.as_str() <= time
+        });
+        for &session_index in session_indices[..first_later_position].iter().rev() {
+            if self.schedule.sessions[session_index].end.as_str() > time {
+                return Some(session_index);
             }
         }
-        if let Some(&index) = sessions.get(position) {
-            return Some(index);
+        if let Some(&session_index) = session_indices.get(first_later_position) {
+            return Some(session_index);
         }
-        sessions.last().copied()
+        session_indices.last().copied()
     }
 
     /// Ctrl-d/Ctrl-u: move the time window by half a page, keeping the room.
-    pub fn page(&mut self, direction: isize) {
-        let total = self.total_lines();
-        if total == 0 || self.view_height == 0 {
+    pub fn scroll_half_page(&mut self, direction: isize) {
+        let total_grid_lines = self.grid_line_count();
+        if total_grid_lines == 0 || self.viewport_height == 0 {
             return;
         }
 
-        let half_page = (self.view_height / 2).max(1) as isize;
-        let max_offset = total.saturating_sub(self.view_height);
-        let target = (self.line_offset as isize + direction * half_page)
-            .clamp(0, max_offset as isize) as usize;
-        if target == self.line_offset {
+        let half_page_lines = (self.viewport_height / 2).max(1) as isize;
+        let max_first_line = total_grid_lines.saturating_sub(self.viewport_height);
+        let target_first_line = (self.first_visible_grid_line as isize
+            + direction * half_page_lines)
+            .clamp(0, max_first_line as isize) as usize;
+        if target_first_line == self.first_visible_grid_line {
             return;
         }
-        self.line_offset = target;
+        self.first_visible_grid_line = target_first_line;
 
         // Select whatever is near the middle of the newly positioned window.
-        let anchor = (self.line_offset + self.view_height / 2).min(total - 1);
-        let row = self.row_for_line(anchor);
-        let time = self.rows[row].clone();
-        let col = self.selected_col();
-        if let Some(index) = self.nearest_session(col, &time) {
-            self.selected = index;
-            self.detail_scroll = 0;
-        }
-    }
-
-    pub fn select_first(&mut self) {
-        let col = self.selected_col();
-        if let Some(&index) = self
-            .columns
-            .get(col)
-            .and_then(|column| column.sessions.first())
+        let anchor_grid_line =
+            (self.first_visible_grid_line + self.viewport_height / 2).min(total_grid_lines - 1);
+        let time_row = self.time_row_at_grid_line(anchor_grid_line);
+        let anchor_time = self.time_row_starts[time_row].clone();
+        let room_column_index = self.selected_room_column();
+        if let Some(session_index) =
+            self.session_active_or_next_in_room(room_column_index, &anchor_time)
         {
-            self.selected = index;
-            self.center = Center::Selection;
-            self.detail_scroll = 0;
+            self.selected_session_index = session_index;
+            self.session_detail_scroll_line = 0;
         }
     }
 
-    pub fn select_last(&mut self) {
-        let col = self.selected_col();
-        if let Some(&index) = self
-            .columns
-            .get(col)
-            .and_then(|column| column.sessions.last())
+    pub fn select_first_session_in_room(&mut self) {
+        let room_column_index = self.selected_room_column();
+        if let Some(&session_index) = self
+            .room_columns
+            .get(room_column_index)
+            .and_then(|room_column| room_column.session_indices_by_start.first())
         {
-            self.selected = index;
-            self.center = Center::Selection;
-            self.detail_scroll = 0;
+            self.selected_session_index = session_index;
+            self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+            self.session_detail_scroll_line = 0;
         }
     }
 
-    pub fn open_detail(&mut self) {
-        if self.session().is_some() {
-            self.detail_open = true;
-            self.detail_scroll = 0;
+    pub fn select_last_session_in_room(&mut self) {
+        let room_column_index = self.selected_room_column();
+        if let Some(&session_index) = self
+            .room_columns
+            .get(room_column_index)
+            .and_then(|room_column| room_column.session_indices_by_start.last())
+        {
+            self.selected_session_index = session_index;
+            self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+            self.session_detail_scroll_line = 0;
         }
     }
 
-    pub fn scroll_detail(&mut self, delta: isize) {
-        let max = self.detail_total.min(u16::MAX as usize) as isize;
-        self.detail_scroll = (self.detail_scroll as isize + delta).clamp(0, max) as u16;
+    pub fn open_session_detail(&mut self) {
+        if self.selected_session().is_some() {
+            self.session_detail_open = true;
+            self.session_detail_scroll_line = 0;
+        }
+    }
+
+    pub fn scroll_session_detail(&mut self, delta: isize) {
+        let max_scroll_line = self.session_detail_max_scroll_line.min(u16::MAX as usize) as isize;
+        self.session_detail_scroll_line =
+            (self.session_detail_scroll_line as isize + delta).clamp(0, max_scroll_line) as u16;
     }
 }
 
 /// Today if it is an event day, otherwise the most recent event day that has
 /// started, otherwise the first day.
-fn choose_day(data: &SessionData, today: chrono::NaiveDate) -> usize {
+fn event_day_for_date(schedule: &SessionData, today: chrono::NaiveDate) -> usize {
     let today = today.format("%Y-%m-%d").to_string();
-    let mut best = 0;
-    for (index, day) in data.days.iter().enumerate() {
+    let mut matching_day = 0;
+    for (event_day_index, day) in schedule.days.iter().enumerate() {
         if day.date <= today {
-            best = index;
+            matching_day = event_day_index;
         } else {
             break;
         }
     }
-    best
+    matching_day
 }

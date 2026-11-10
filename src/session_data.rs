@@ -54,8 +54,8 @@ pub struct Session {
     pub end: String,
     pub day: String,
     pub room: String,
-    /// Zero-based grid column (index into `Day::rooms`).
-    pub col: usize,
+    #[serde(rename = "col")]
+    pub room_column: usize,
     #[serde(default)]
     pub categories: Vec<Category>,
     #[serde(default)]
@@ -79,16 +79,16 @@ impl SessionData {
     pub fn load(path: &Path) -> Result<Self, String> {
         let raw = std::fs::read_to_string(path)
             .map_err(|error| format!("cannot read {}: {error}", path.display()))?;
-        let data: SessionData = serde_json::from_str(&raw)
+        let schedule: SessionData = serde_json::from_str(&raw)
             .map_err(|error| format!("cannot parse {}: {error}", path.display()))?;
 
-        if data.days.is_empty() {
+        if schedule.days.is_empty() {
             return Err(format!("{} contains no days", path.display()));
         }
-        if data.sessions.is_empty() {
+        if schedule.sessions.is_empty() {
             return Err(format!("{} contains no sessions", path.display()));
         }
-        Ok(data)
+        Ok(schedule)
     }
 
     pub fn timezone(&self) -> Tz {
@@ -99,23 +99,24 @@ impl SessionData {
     }
 
     /// Indices into `sessions` for one day, ordered by start time then room.
-    pub fn sessions_on(&self, day: &Day) -> Vec<usize> {
-        let mut indices: Vec<usize> = self
+    pub fn session_indices_on(&self, day: &Day) -> Vec<usize> {
+        let mut session_indices: Vec<usize> = self
             .sessions
             .iter()
             .enumerate()
             .filter(|(_, session)| session.day == day.date)
-            .map(|(index, _)| index)
+            .map(|(session_index, _)| session_index)
             .collect();
-        indices.sort_by(|&a, &b| {
-            let left = &self.sessions[a];
-            let right = &self.sessions[b];
-            left.start
-                .cmp(&right.start)
-                .then(left.col.cmp(&right.col))
-                .then_with(|| left.title.cmp(&right.title))
+        session_indices.sort_by(|&left_index, &right_index| {
+            let left_session = &self.sessions[left_index];
+            let right_session = &self.sessions[right_index];
+            left_session
+                .start
+                .cmp(&right_session.start)
+                .then(left_session.room_column.cmp(&right_session.room_column))
+                .then_with(|| left_session.title.cmp(&right_session.title))
         });
-        indices
+        session_indices
     }
 }
 

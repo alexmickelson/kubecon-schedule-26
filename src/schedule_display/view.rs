@@ -8,7 +8,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, BorderType, Borders, Padding, Paragraph, Wrap};
 use ratatui::Frame;
 
-use super::app::{App, Center};
+use super::app::{App, ViewAnchor};
 use super::layout;
 use crate::session_data::{compact_room, Session, Speaker, Status};
 
@@ -16,21 +16,21 @@ const ACCENT: Color = Color::Rgb(97, 175, 239);
 const LIVE: Color = Color::Rgb(152, 195, 121);
 const DIM: Color = Color::Rgb(92, 99, 112);
 const FAINT: Color = Color::Rgb(55, 60, 72);
-const SELECT_BG: Color = Color::Rgb(38, 79, 120);
+const SELECTED_SESSION_BACKGROUND: Color = Color::Rgb(38, 79, 120);
 
 /// Width of the time gutter: now marker + "HH:MM" + space.
-const GUTTER: usize = 7;
-const MIN_COLUMN_WIDTH: usize = 24;
-const MAX_COLUMN_WIDTH: usize = 40;
+const TIME_GUTTER_WIDTH: usize = 7;
+const MIN_ROOM_COLUMN_WIDTH: usize = 24;
+const MAX_ROOM_COLUMN_WIDTH: usize = 40;
 
 pub fn draw(frame: &mut Frame, app: &mut App) {
-    if app.detail_open {
-        draw_detail(frame, app);
+    if app.session_detail_open {
+        draw_session_detail(frame, app);
         return;
     }
 
-    let area = frame.area();
-    let chunks = Layout::default()
+    let screen_area = frame.area();
+    let panes = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
             Constraint::Length(2),
@@ -38,16 +38,16 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
             Constraint::Min(3),
             Constraint::Length(1),
         ])
-        .split(area);
+        .split(screen_area);
 
-    draw_header(frame, app, chunks[0]);
-    draw_grid(frame, app, chunks[1], chunks[2]);
-    draw_footer(frame, app, chunks[3]);
+    draw_event_header(frame, app, panes[0]);
+    draw_schedule_grid(frame, app, panes[1], panes[2]);
+    draw_key_help_footer(frame, app, panes[3]);
 }
 
-fn draw_header(frame: &mut Frame, app: &App, area: Rect) {
-    let width = area.width as usize;
-    let clock = format!(
+fn draw_event_header(frame: &mut Frame, app: &App, area: Rect) {
+    let screen_width = area.width as usize;
+    let clock_text = format!(
         "{} {} {}  {} {} ",
         app.now.format("%a"),
         app.now.format("%b"),
@@ -55,49 +55,56 @@ fn draw_header(frame: &mut Frame, app: &App, area: Rect) {
         app.now.format("%H:%M:%S"),
         app.now.format("%Z"),
     );
-    let left = layout::truncate(
-        &format!(" {}", app.data.event.name),
-        width.saturating_sub(layout::display_width(&clock)),
+    let event_title = layout::truncate_text_to_width(
+        &format!(" {}", app.schedule.event.name),
+        screen_width.saturating_sub(layout::text_display_width(&clock_text)),
     );
-    let padding =
-        width.saturating_sub(layout::display_width(&left) + layout::display_width(&clock));
+    let gap_width = screen_width.saturating_sub(
+        layout::text_display_width(&event_title) + layout::text_display_width(&clock_text),
+    );
 
-    let line1 = Line::from(vec![
+    let event_title_line = Line::from(vec![
         Span::styled(
-            left,
+            event_title,
             Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
         ),
-        Span::raw(" ".repeat(padding)),
-        Span::styled(clock, Style::default().fg(Color::Gray)),
+        Span::raw(" ".repeat(gap_width)),
+        Span::styled(clock_text, Style::default().fg(Color::Gray)),
     ]);
 
-    let day = &app.data.days[app.day_index];
-    let session_count: usize = app.columns.iter().map(|column| column.sessions.len()).sum();
-    let live_count = app
-        .columns
+    let event_day = &app.schedule.days[app.day_index];
+    let session_count: usize = app
+        .room_columns
         .iter()
-        .flat_map(|column| column.sessions.iter())
-        .filter(|&&index| app.data.sessions[index].status(app.now, app.tz) == Status::Live)
+        .map(|room_column| room_column.session_indices_by_start.len())
+        .sum();
+    let live_session_count = app
+        .room_columns
+        .iter()
+        .flat_map(|room_column| room_column.session_indices_by_start.iter())
+        .filter(|&&session_index| {
+            app.schedule.sessions[session_index].status(app.now, app.tz) == Status::Live
+        })
         .count();
-    let mut line2 = format!(
+    let mut event_summary_line = format!(
         " {}  ·  {}  ·  {} sessions",
-        day.label, app.data.event.city, session_count
+        event_day.label, app.schedule.event.city, session_count
     );
-    if live_count > 0 {
-        line2.push_str(&format!("  ·  {live_count} live"));
+    if live_session_count > 0 {
+        event_summary_line.push_str(&format!("  ·  {live_session_count} live"));
     }
 
     frame.render_widget(
         Paragraph::new(vec![
-            line1,
-            Line::from(Span::styled(line2, Style::default().fg(DIM))),
+            event_title_line,
+            Line::from(Span::styled(event_summary_line, Style::default().fg(DIM))),
         ]),
         area,
     );
 }
 
-fn draw_grid(frame: &mut Frame, app: &mut App, header_area: Rect, body_area: Rect) {
-    if app.columns.is_empty() || app.rows.is_empty() {
+fn draw_schedule_grid(frame: &mut Frame, app: &mut App, header_area: Rect, body_area: Rect) {
+    if app.room_columns.is_empty() || app.time_row_starts.is_empty() {
         frame.render_widget(
             Paragraph::new("No sessions scheduled.")
                 .style(Style::default().fg(DIM))
@@ -107,156 +114,182 @@ fn draw_grid(frame: &mut Frame, app: &mut App, header_area: Rect, body_area: Rec
         return;
     }
 
-    let width = body_area.width as usize;
-    let usable = width.saturating_sub(GUTTER);
-    let max_columns = (usable / (MIN_COLUMN_WIDTH + 1)).max(1);
-    let view_columns = max_columns.min(app.columns.len());
-    let column_width = (usable / view_columns)
+    let grid_width = body_area.width as usize;
+    let grid_width_after_gutter = grid_width.saturating_sub(TIME_GUTTER_WIDTH);
+    let max_visible_rooms = (grid_width_after_gutter / (MIN_ROOM_COLUMN_WIDTH + 1)).max(1);
+    let visible_room_count = max_visible_rooms.min(app.room_columns.len());
+    let room_column_width = (grid_width_after_gutter / visible_room_count)
         .saturating_sub(1)
-        .clamp(MIN_COLUMN_WIDTH, MAX_COLUMN_WIDTH);
-    let view_height = body_area.height as usize;
+        .clamp(MIN_ROOM_COLUMN_WIDTH, MAX_ROOM_COLUMN_WIDTH);
+    let viewport_height = body_area.height as usize;
 
-    app.view_height = view_height;
-    app.view_cols = view_columns;
+    app.viewport_height = viewport_height;
+    app.visible_room_count = visible_room_count;
 
-    layout::update_rows(app, column_width);
-    update_offsets(app, view_height, view_columns);
+    layout::measure_time_row_line_heights(app, room_column_width);
+    position_schedule_viewport(app, viewport_height, visible_room_count);
 
-    draw_column_headers(frame, app, header_area, column_width, view_columns);
-    draw_grid_body(frame, app, body_area, column_width, view_columns);
+    draw_room_headers(
+        frame,
+        app,
+        header_area,
+        room_column_width,
+        visible_room_count,
+    );
+    draw_time_rows(frame, app, body_area, room_column_width, visible_room_count);
 }
 
-fn draw_column_headers(
+fn draw_room_headers(
     frame: &mut Frame,
     app: &App,
     area: Rect,
-    column_width: usize,
-    view_columns: usize,
+    room_column_width: usize,
+    visible_room_count: usize,
 ) {
-    let mut names = vec![Span::raw(" ".repeat(GUTTER))];
-    let mut rule = "─".repeat(GUTTER);
+    let mut room_header_spans = vec![Span::raw(" ".repeat(TIME_GUTTER_WIDTH))];
+    let mut header_rule = "─".repeat(TIME_GUTTER_WIDTH);
 
-    for offset in 0..view_columns {
-        let col = app.col_offset + offset;
-        if col >= app.columns.len() {
+    for visible_column_index in 0..visible_room_count {
+        let room_column_index = app.first_visible_room_index + visible_column_index;
+        if room_column_index >= app.room_columns.len() {
             break;
         }
 
-        names.push(Span::styled("│", Style::default().fg(DIM)));
-        let name = compact_room(&app.columns[col].name);
-        let style = if col == app.selected_col() {
+        room_header_spans.push(Span::styled("│", Style::default().fg(DIM)));
+        let room_name = compact_room(&app.room_columns[room_column_index].room_name);
+        let header_style = if room_column_index == app.selected_room_column() {
             Style::default()
                 .fg(ACCENT)
                 .add_modifier(Modifier::BOLD | Modifier::UNDERLINED)
         } else {
             Style::default().fg(Color::Gray)
         };
-        names.push(Span::styled(
-            layout::pad_right(&layout::truncate(&name, column_width), column_width),
-            style,
+        room_header_spans.push(Span::styled(
+            layout::pad_text_to_width(
+                &layout::truncate_text_to_width(&room_name, room_column_width),
+                room_column_width,
+            ),
+            header_style,
         ));
 
-        rule.push('┼');
-        rule.push_str(&"─".repeat(column_width));
+        header_rule.push('┼');
+        header_rule.push_str(&"─".repeat(room_column_width));
     }
 
     frame.render_widget(
         Paragraph::new(vec![
-            Line::from(names),
-            Line::from(Span::styled(rule, Style::default().fg(DIM))),
+            Line::from(room_header_spans),
+            Line::from(Span::styled(header_rule, Style::default().fg(DIM))),
         ]),
         area,
     );
 }
 
-fn draw_grid_body(
+fn draw_time_rows(
     frame: &mut Frame,
     app: &App,
     area: Rect,
-    column_width: usize,
-    view_columns: usize,
+    room_column_width: usize,
+    visible_room_count: usize,
 ) {
-    let view_height = area.height as usize;
-    let current_row = app.current_row();
-    let mut lines: Vec<Line> = Vec::with_capacity(view_height);
+    let viewport_height = area.height as usize;
+    let current_time_row = app.time_row_containing_now();
+    let mut rendered_grid_lines: Vec<Line> = Vec::with_capacity(viewport_height);
 
-    let start_row = app.row_for_line(app.line_offset);
-    let mut row = start_row;
-    let mut local_line = app.line_offset.saturating_sub(app.row_top_line(start_row));
-    let mut screen_line = 0;
+    let start_time_row = app.time_row_at_grid_line(app.first_visible_grid_line);
+    let mut time_row = start_time_row;
+    let mut line_in_time_row = app
+        .first_visible_grid_line
+        .saturating_sub(app.first_grid_line_of_time_row(start_time_row));
+    let mut line_on_screen = 0;
 
-    while screen_line < view_height && row < app.rows.len() {
-        let row_height = app.row_heights.get(row).copied().unwrap_or(1).max(1);
+    while line_on_screen < viewport_height && time_row < app.time_row_starts.len() {
+        let time_row_line_height = app
+            .time_row_line_heights
+            .get(time_row)
+            .copied()
+            .unwrap_or(1)
+            .max(1);
 
-        while local_line < row_height && screen_line < view_height {
-            lines.push(grid_line(
+        while line_in_time_row < time_row_line_height && line_on_screen < viewport_height {
+            rendered_grid_lines.push(render_time_row_line(
                 app,
-                row,
-                local_line,
-                column_width,
-                view_columns,
-                current_row,
+                time_row,
+                line_in_time_row,
+                room_column_width,
+                visible_room_count,
+                current_time_row,
             ));
-            local_line += 1;
-            screen_line += 1;
+            line_in_time_row += 1;
+            line_on_screen += 1;
         }
 
-        row += 1;
-        local_line = 0;
+        time_row += 1;
+        line_in_time_row = 0;
     }
 
-    frame.render_widget(Paragraph::new(lines), area);
+    frame.render_widget(Paragraph::new(rendered_grid_lines), area);
 }
 
-fn grid_line(
+fn render_time_row_line(
     app: &App,
-    row: usize,
-    local_line: usize,
-    column_width: usize,
-    view_columns: usize,
-    current_row: Option<usize>,
+    time_row: usize,
+    line_in_time_row: usize,
+    room_column_width: usize,
+    visible_room_count: usize,
+    current_time_row: Option<usize>,
 ) -> Line<'static> {
     let mut spans = Vec::new();
 
-    let is_current = current_row == Some(row);
-    let gutter_style = if is_current {
+    let is_current_time_row = current_time_row == Some(time_row);
+    let time_gutter_style = if is_current_time_row {
         Style::default().fg(LIVE).add_modifier(Modifier::BOLD)
-    } else if current_row.is_some_and(|current| row < current) {
+    } else if current_time_row.is_some_and(|current| time_row < current) {
         Style::default().fg(DIM)
     } else {
         Style::default().fg(Color::Gray)
     };
 
-    if local_line == 0 {
-        let marker = if is_current { "▶" } else { " " };
+    if line_in_time_row == 0 {
+        let now_marker = if is_current_time_row { "▶" } else { " " };
         spans.push(Span::styled(
-            format!("{marker}{:>5} ", app.row_label(row)),
-            gutter_style,
+            format!("{now_marker}{:>5} ", app.time_row_label(time_row)),
+            time_gutter_style,
         ));
     } else {
-        spans.push(Span::raw(" ".repeat(GUTTER)));
+        spans.push(Span::raw(" ".repeat(TIME_GUTTER_WIDTH)));
     }
 
-    for offset in 0..view_columns {
-        let col = app.col_offset + offset;
-        if col >= app.columns.len() {
+    for visible_column_index in 0..visible_room_count {
+        let room_column_index = app.first_visible_room_index + visible_column_index;
+        if room_column_index >= app.room_columns.len() {
             break;
         }
         spans.push(Span::styled("│", Style::default().fg(DIM)));
 
-        let cell = app.columns[col].cells.get(row).copied().flatten();
-        match cell {
-            Some(index) => {
-                let session = &app.data.sessions[index];
-                let (start_row, _) = app.session_span(index);
-                let selected = index == app.selected;
-                let status = session.status(app.now, app.tz);
+        let session_index_at_time_row = app.room_columns[room_column_index]
+            .session_index_by_time_row
+            .get(time_row)
+            .copied()
+            .flatten();
+        match session_index_at_time_row {
+            Some(session_index) => {
+                let session = &app.schedule.sessions[session_index];
+                let (session_start_time_row, _) = app.time_row_span(session_index);
+                let is_selected_session = session_index == app.selected_session_index;
+                let session_status = session.status(app.now, app.tz);
 
-                if row == start_row {
-                    let wrapped = layout::wrap(&session.title, column_width.saturating_sub(2));
-                    let title_line = wrapped.get(local_line).map(String::as_str).unwrap_or("");
-                    let prefix = if local_line == 0 {
-                        if status == Status::Live {
+                if time_row == session_start_time_row {
+                    let wrapped_title_lines = layout::wrap_text_to_width(
+                        &session.title,
+                        room_column_width.saturating_sub(2),
+                    );
+                    let title_line_text = wrapped_title_lines
+                        .get(line_in_time_row)
+                        .map(String::as_str)
+                        .unwrap_or("");
+                    let status_prefix = if line_in_time_row == 0 {
+                        if session_status == Status::Live {
                             "▶ "
                         } else {
                             "  "
@@ -265,115 +298,131 @@ fn grid_line(
                         "  "
                     };
 
-                    let style = if selected {
+                    let title_style = if is_selected_session {
                         Style::default()
                             .fg(Color::White)
-                            .bg(SELECT_BG)
+                            .bg(SELECTED_SESSION_BACKGROUND)
                             .add_modifier(Modifier::BOLD)
                     } else {
-                        match status {
+                        match session_status {
                             Status::Live => Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
                             Status::Upcoming => Style::default().fg(Color::White),
                             Status::Past => Style::default().fg(DIM),
                         }
                     };
                     spans.push(Span::styled(
-                        layout::pad_right(&format!("{prefix}{title_line}"), column_width),
-                        style,
+                        layout::pad_text_to_width(
+                            &format!("{status_prefix}{title_line_text}"),
+                            room_column_width,
+                        ),
+                        title_style,
                     ));
                 } else {
-                    let style = if selected {
+                    let continuation_style = if is_selected_session {
                         Style::default()
                             .fg(Color::White)
-                            .bg(SELECT_BG)
+                            .bg(SELECTED_SESSION_BACKGROUND)
                             .add_modifier(Modifier::BOLD)
                     } else {
                         Style::default().fg(FAINT)
                     };
-                    spans.push(Span::styled(layout::pad_right(" ┆", column_width), style));
+                    spans.push(Span::styled(
+                        layout::pad_text_to_width(" ┆", room_column_width),
+                        continuation_style,
+                    ));
                 }
             }
-            None => spans.push(Span::raw(" ".repeat(column_width))),
+            None => spans.push(Span::raw(" ".repeat(room_column_width))),
         }
     }
 
     Line::from(spans)
 }
 
-fn update_offsets(app: &mut App, view_height: usize, view_columns: usize) {
-    if app.rows.is_empty() || app.columns.is_empty() || view_height == 0 || view_columns == 0 {
+fn position_schedule_viewport(app: &mut App, viewport_height: usize, visible_room_count: usize) {
+    if app.time_row_starts.is_empty()
+        || app.room_columns.is_empty()
+        || viewport_height == 0
+        || visible_room_count == 0
+    {
         return;
     }
 
-    let (selected_start, selected_end) = app.session_line_span(app.selected);
-    let selected_col = app.selected_col();
+    let (selected_first_grid_line, selected_end_grid_line) =
+        app.grid_line_span(app.selected_session_index);
+    let selected_room_column = app.selected_room_column();
 
-    let focus = match app.center {
-        Center::Now => Some(
-            app.current_row()
-                .map(|row| app.row_top_line(row))
-                .unwrap_or(selected_start),
-        ),
-        Center::Selection => Some(selected_start),
-        Center::None => None,
-    };
-    if let Some(focus) = focus {
-        app.line_offset = focus.saturating_sub(view_height / 3);
-        app.col_offset = selected_col.saturating_sub(view_columns / 2);
-        app.center = Center::None;
+    if let Some(view_anchor) = app.pending_view_anchor.take() {
+        let anchor_grid_line = match view_anchor {
+            ViewAnchor::CurrentTime => app
+                .time_row_containing_now()
+                .map(|time_row| app.first_grid_line_of_time_row(time_row))
+                .unwrap_or(selected_first_grid_line),
+            ViewAnchor::SelectedSession => selected_first_grid_line,
+        };
+        app.first_visible_grid_line = anchor_grid_line.saturating_sub(viewport_height / 3);
+        app.first_visible_room_index = selected_room_column.saturating_sub(visible_room_count / 2);
     }
 
     // Long sessions keep the viewport in place while any part of their span
     // is still visible; only scroll when they are fully above/below.
-    if selected_end <= app.line_offset {
-        app.line_offset = selected_start;
-    } else if selected_start >= app.line_offset + view_height {
-        app.line_offset = selected_start + 1 - view_height;
+    if selected_end_grid_line <= app.first_visible_grid_line {
+        app.first_visible_grid_line = selected_first_grid_line;
+    } else if selected_first_grid_line >= app.first_visible_grid_line + viewport_height {
+        app.first_visible_grid_line = selected_first_grid_line + 1 - viewport_height;
     }
 
-    let total = app.total_lines();
-    app.line_offset = app.line_offset.min(total.saturating_sub(view_height));
+    let total_grid_lines = app.grid_line_count();
+    app.first_visible_grid_line = app
+        .first_visible_grid_line
+        .min(total_grid_lines.saturating_sub(viewport_height));
 
-    if selected_col < app.col_offset {
-        app.col_offset = selected_col;
-    } else if selected_col >= app.col_offset + view_columns {
-        app.col_offset = selected_col + 1 - view_columns;
+    if selected_room_column < app.first_visible_room_index {
+        app.first_visible_room_index = selected_room_column;
+    } else if selected_room_column >= app.first_visible_room_index + visible_room_count {
+        app.first_visible_room_index = selected_room_column + 1 - visible_room_count;
     }
-    app.col_offset = app
-        .col_offset
-        .min(app.columns.len().saturating_sub(view_columns));
+    app.first_visible_room_index = app
+        .first_visible_room_index
+        .min(app.room_columns.len().saturating_sub(visible_room_count));
 }
 
-fn draw_footer(frame: &mut Frame, app: &App, area: Rect) {
-    let left = " h/l room · j/k session · g/G · Ctrl-d/u · Enter details · t now · q quit ";
-    let right = if app.columns.is_empty() {
+fn draw_key_help_footer(frame: &mut Frame, app: &App, area: Rect) {
+    let key_help_text =
+        " h/l room · j/k session · g/G · Ctrl-d/u · Enter details · t now · q quit ";
+    let room_range_text = if app.room_columns.is_empty() {
         String::new()
     } else {
-        let first = app.col_offset + 1;
-        let last = (app.col_offset + app.view_cols).min(app.columns.len());
-        format!("rooms {first}-{last}/{} ", app.columns.len())
+        let first_visible_room_number = app.first_visible_room_index + 1;
+        let last_visible_room_number =
+            (app.first_visible_room_index + app.visible_room_count).min(app.room_columns.len());
+        format!(
+            "rooms {first_visible_room_number}-{last_visible_room_number}/{} ",
+            app.room_columns.len()
+        )
     };
-    let padding = (area.width as usize)
-        .saturating_sub(layout::display_width(left) + layout::display_width(&right));
+    let gap_width = (area.width as usize).saturating_sub(
+        layout::text_display_width(key_help_text) + layout::text_display_width(&room_range_text),
+    );
 
     frame.render_widget(
         Paragraph::new(Line::from(vec![
-            Span::styled(left, Style::default().fg(DIM)),
-            Span::raw(" ".repeat(padding)),
-            Span::styled(right, Style::default().fg(DIM)),
+            Span::styled(key_help_text, Style::default().fg(DIM)),
+            Span::raw(" ".repeat(gap_width)),
+            Span::styled(room_range_text, Style::default().fg(DIM)),
         ])),
         area,
     );
 }
 
-fn draw_detail(frame: &mut Frame, app: &mut App) {
-    let area = frame.area();
-    let chunks = Layout::default()
+fn draw_session_detail(frame: &mut Frame, app: &mut App) {
+    let screen_area = frame.area();
+    let panes = Layout::default()
         .direction(Direction::Vertical)
         .constraints([Constraint::Min(3), Constraint::Length(1)])
-        .split(area);
+        .split(screen_area);
 
-    let block = Block::default()
+    let detail_border = Block::default()
         .borders(Borders::ALL)
         .border_type(BorderType::Rounded)
         .border_style(Style::default().fg(DIM))
@@ -382,163 +431,175 @@ fn draw_detail(frame: &mut Frame, app: &mut App) {
             " Session details ",
             Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
         ));
-    let inner = block.inner(chunks[0]);
-    frame.render_widget(block, chunks[0]);
+    let detail_text_area = detail_border.inner(panes[0]);
+    frame.render_widget(detail_border, panes[0]);
 
-    let Some(session) = app.session() else {
+    let Some(session) = app.selected_session() else {
         frame.render_widget(
             Paragraph::new("No session selected.").style(Style::default().fg(DIM)),
-            inner,
+            detail_text_area,
         );
         return;
     };
 
-    if inner.width == 0 || inner.height == 0 {
+    if detail_text_area.width == 0 || detail_text_area.height == 0 {
         return;
     }
 
-    let lines = detail_lines(app, session);
+    let rendered_detail_lines = session_detail_lines(app, session);
     // One extra line of slack: our wrap estimate is approximate, and it is
     // better to allow scrolling a line too far than to hide the last line.
-    let total = wrapped_line_count(&lines, inner.width as usize) + 1;
-    let max_scroll = total
-        .saturating_sub(inner.height as usize)
+    let estimated_detail_line_count =
+        estimated_wrapped_line_count(&rendered_detail_lines, detail_text_area.width as usize) + 1;
+    let max_detail_scroll_line = estimated_detail_line_count
+        .saturating_sub(detail_text_area.height as usize)
         .min(u16::MAX as usize);
-    app.detail_total = max_scroll;
-    app.detail_scroll = app.detail_scroll.min(max_scroll as u16);
-    let paragraph = Paragraph::new(lines).wrap(Wrap { trim: false });
-    frame.render_widget(paragraph.scroll((app.detail_scroll, 0)), inner);
+    app.session_detail_max_scroll_line = max_detail_scroll_line;
+    app.session_detail_scroll_line = app
+        .session_detail_scroll_line
+        .min(max_detail_scroll_line as u16);
+    let detail_paragraph = Paragraph::new(rendered_detail_lines).wrap(Wrap { trim: false });
+    frame.render_widget(
+        detail_paragraph.scroll((app.session_detail_scroll_line, 0)),
+        detail_text_area,
+    );
 
     frame.render_widget(
         Paragraph::new(" Esc/h back · j/k scroll · Ctrl-d/u page · g/G top/bottom ")
             .style(Style::default().fg(DIM))
             .alignment(Alignment::Center),
-        chunks[1],
+        panes[1],
     );
 }
 
-fn detail_lines(app: &App, session: &Session) -> Vec<Line<'static>> {
-    let mut lines = Vec::new();
+fn session_detail_lines(app: &App, session: &Session) -> Vec<Line<'static>> {
+    let mut rendered_lines = Vec::new();
 
-    lines.push(Line::from(Span::styled(
+    rendered_lines.push(Line::from(Span::styled(
         session.title.clone(),
         Style::default()
             .fg(Color::White)
             .add_modifier(Modifier::BOLD),
     )));
-    lines.push(Line::from(Span::styled(
-        status_text(app, session),
-        status_style(app, session),
+    rendered_lines.push(Line::from(Span::styled(
+        session_status_text(app, session),
+        session_status_style(app, session),
     )));
-    lines.push(Line::default());
+    rendered_lines.push(Line::default());
 
-    let day_label = &app.data.days[app.day_index].label;
-    let tz_name = session
+    let event_day_label = &app.schedule.days[app.day_index].label;
+    let timezone_abbreviation = session
         .start_at(app.tz)
-        .map(|time| time.format("%Z").to_string())
+        .map(|start_time| start_time.format("%Z").to_string())
         .unwrap_or_default();
-    let when = format!(
+    let session_time_range = format!(
         "{} · {}–{} · {} min ({})",
-        day_label,
+        event_day_label,
         session.start_hm(app.tz),
         session.end_hm(app.tz),
         session.duration_minutes(app.tz),
-        tz_name
+        timezone_abbreviation
     );
-    lines.push(field("When", when));
-    lines.push(field("Room", session.room.clone()));
+    rendered_lines.push(detail_field_row("When", session_time_range));
+    rendered_lines.push(detail_field_row("Room", session.room.clone()));
 
     if let Some(track) = session.track() {
-        lines.push(field("Track", track.to_string()));
+        rendered_lines.push(detail_field_row("Track", track.to_string()));
     }
     if let Some(level) = session.level() {
-        lines.push(field("Level", level.to_string()));
+        rendered_lines.push(detail_field_row("Level", level.to_string()));
     }
     let projects = session.projects();
     if !projects.is_empty() {
-        lines.push(field("Projects", projects.join(", ")));
+        rendered_lines.push(detail_field_row("Projects", projects.join(", ")));
     }
     let subtopics = session.subtopics();
     if !subtopics.is_empty() {
-        lines.push(field("Subtopics", subtopics.join(", ")));
+        rendered_lines.push(detail_field_row("Subtopics", subtopics.join(", ")));
     }
     let tags = session.tags();
     if !tags.is_empty() {
-        lines.push(field("Tags", tags.join(", ")));
+        rendered_lines.push(detail_field_row("Tags", tags.join(", ")));
     }
 
-    lines.push(Line::default());
-    lines.push(section("About"));
+    rendered_lines.push(Line::default());
+    rendered_lines.push(detail_section_heading("About"));
     match session.description.as_deref() {
         Some(description) if !description.trim().is_empty() => {
-            push_paragraph(&mut lines, description, Style::default().fg(Color::Gray));
+            push_wrapped_paragraph(
+                &mut rendered_lines,
+                description,
+                Style::default().fg(Color::Gray),
+            );
         }
-        _ => lines.push(Line::from(Span::styled(
+        _ => rendered_lines.push(Line::from(Span::styled(
             "No description.",
             Style::default().fg(DIM),
         ))),
     }
 
-    let speakers: Vec<&Speaker> = session
+    let session_speakers: Vec<&Speaker> = session
         .speakers
         .iter()
-        .filter_map(|id| app.data.speakers.get(id))
+        .filter_map(|speaker_id| app.schedule.speakers.get(speaker_id))
         .collect();
-    if !speakers.is_empty() {
-        lines.push(Line::default());
-        lines.push(section("Speakers"));
-        for (index, speaker) in speakers.iter().enumerate() {
-            let mut header = vec![Span::styled(
+    if !session_speakers.is_empty() {
+        rendered_lines.push(Line::default());
+        rendered_lines.push(detail_section_heading("Speakers"));
+        for (speaker_index, speaker) in session_speakers.iter().enumerate() {
+            let mut speaker_header_spans = vec![Span::styled(
                 speaker.name.clone(),
                 Style::default()
                     .fg(Color::White)
                     .add_modifier(Modifier::BOLD),
             )];
             if let Some(tagline) = &speaker.tagline {
-                header.push(Span::styled(
+                speaker_header_spans.push(Span::styled(
                     format!("  {tagline}"),
                     Style::default().fg(DIM),
                 ));
             }
-            lines.push(Line::from(header));
+            rendered_lines.push(Line::from(speaker_header_spans));
 
             for link in &speaker.links {
-                let label = link.title.as_deref().unwrap_or("Link");
-                lines.push(Line::from(Span::styled(
-                    format!("  {label}: {}", link.url),
+                let link_label = link.title.as_deref().unwrap_or("Link");
+                rendered_lines.push(Line::from(Span::styled(
+                    format!("  {link_label}: {}", link.url),
                     Style::default().fg(ACCENT),
                 )));
             }
             if let Some(bio) = &speaker.bio {
-                push_paragraph(&mut lines, bio, Style::default().fg(Color::Gray));
+                push_wrapped_paragraph(&mut rendered_lines, bio, Style::default().fg(Color::Gray));
             }
-            if index + 1 < speakers.len() {
-                lines.push(Line::default());
+            if speaker_index + 1 < session_speakers.len() {
+                rendered_lines.push(Line::default());
             }
         }
     }
 
-    lines
+    rendered_lines
 }
 
-fn status_text(app: &App, session: &Session) -> String {
+fn session_status_text(app: &App, session: &Session) -> String {
     match session.status(app.now, app.tz) {
         Status::Live => match session.end_at(app.tz) {
-            Some(end) => format!("● LIVE · ends in {}", humanize(end - app.now)),
+            Some(end_time) => format!("● LIVE · ends in {}", format_duration(end_time - app.now)),
             None => "● LIVE".to_string(),
         },
         Status::Upcoming => match session.start_at(app.tz) {
-            Some(start) => format!("Starts in {}", humanize(start - app.now)),
+            Some(start_time) => format!("Starts in {}", format_duration(start_time - app.now)),
             None => "Upcoming".to_string(),
         },
         Status::Past => match session.end_at(app.tz) {
-            Some(end) => format!("Ended {} ago", humanize(app.now - end)),
+            Some(end_time) => {
+                format!("Ended {} ago", format_duration(app.now - end_time))
+            }
             None => "Ended".to_string(),
         },
     }
 }
 
-fn status_style(app: &App, session: &Session) -> Style {
+fn session_status_style(app: &App, session: &Session) -> Style {
     match session.status(app.now, app.tz) {
         Status::Live => Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
         Status::Upcoming => Style::default().fg(Color::Yellow),
@@ -546,57 +607,70 @@ fn status_style(app: &App, session: &Session) -> Style {
     }
 }
 
-fn humanize(delta: chrono::Duration) -> String {
-    let minutes = delta.num_minutes().max(0);
-    if minutes == 0 {
+fn format_duration(delta: chrono::Duration) -> String {
+    let delta_minutes = delta.num_minutes().max(0);
+    if delta_minutes == 0 {
         "<1m".to_string()
-    } else if minutes < 60 {
-        format!("{minutes}m")
-    } else if minutes < 60 * 24 {
-        format!("{}h {:02}m", minutes / 60, minutes % 60)
+    } else if delta_minutes < 60 {
+        format!("{delta_minutes}m")
+    } else if delta_minutes < 60 * 24 {
+        format!("{}h {:02}m", delta_minutes / 60, delta_minutes % 60)
     } else {
-        format!("{}d {}h", minutes / (60 * 24), (minutes % (60 * 24)) / 60)
+        format!(
+            "{}d {}h",
+            delta_minutes / (60 * 24),
+            (delta_minutes % (60 * 24)) / 60
+        )
     }
 }
 
-fn field(label: &str, value: String) -> Line<'static> {
+fn detail_field_row(field_label: &str, field_value: String) -> Line<'static> {
     Line::from(vec![
         Span::styled(
-            format!("{label:<10}"),
+            format!("{field_label:<10}"),
             Style::default().fg(DIM).add_modifier(Modifier::BOLD),
         ),
-        Span::styled(value, Style::default().fg(Color::Gray)),
+        Span::styled(field_value, Style::default().fg(Color::Gray)),
     ])
 }
 
-fn section(label: &str) -> Line<'static> {
+fn detail_section_heading(section_heading: &str) -> Line<'static> {
     Line::from(Span::styled(
-        label.to_string(),
+        section_heading.to_string(),
         Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
     ))
 }
 
-fn push_paragraph(lines: &mut Vec<Line<'static>>, text: &str, style: Style) {
-    for line in text.lines() {
-        lines.push(Line::from(Span::styled(line.trim_end().to_string(), style)));
+fn push_wrapped_paragraph(
+    rendered_lines: &mut Vec<Line<'static>>,
+    paragraph_text: &str,
+    paragraph_style: Style,
+) {
+    for paragraph_line in paragraph_text.lines() {
+        rendered_lines.push(Line::from(Span::styled(
+            paragraph_line.trim_end().to_string(),
+            paragraph_style,
+        )));
     }
 }
 
 /// Approximate the number of terminal rows used by wrapped plain text, so the
 /// detail pane can clamp its scroll offset. Styling does not affect wrapping.
-fn wrapped_line_count(lines: &[Line<'static>], width: usize) -> usize {
+fn estimated_wrapped_line_count(lines: &[Line<'static>], width: usize) -> usize {
     let width = width.max(1);
     lines
         .iter()
         .map(|line| {
-            let text: String = line
+            let plain_text: String = line
                 .spans
                 .iter()
                 .map(|span| span.content.as_ref())
                 .collect();
-            let word_lines = layout::wrap(&text, width).len();
-            let char_lines = layout::display_width(&text).div_ceil(width).max(1);
-            word_lines.max(char_lines)
+            let word_wrapped_line_count = layout::wrap_text_to_width(&plain_text, width).len();
+            let dense_line_count = layout::text_display_width(&plain_text)
+                .div_ceil(width)
+                .max(1);
+            word_wrapped_line_count.max(dense_line_count)
         })
         .sum::<usize>()
         .max(1)
