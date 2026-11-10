@@ -20,6 +20,26 @@ pub fn session_content_line_count(session: &Session, room_column_width: usize) -
     title_line_count + metadata_line_count
 }
 
+/// Lines occupied by a stack of sessions starting in the same room/time cell,
+/// including one blank separator between adjacent sessions.
+pub fn session_stack_line_count(
+    app: &App,
+    session_indices: &[usize],
+    room_column_width: usize,
+) -> usize {
+    if session_indices.is_empty() {
+        return 0;
+    }
+    session_indices
+        .iter()
+        .map(|&session_index| {
+            session_content_line_count(&app.schedule.sessions[session_index], room_column_width)
+        })
+        .sum::<usize>()
+        + session_indices.len()
+        - 1
+}
+
 /// Recompute time row heights and their grid line offsets. Cached per room
 /// column width and current time row.
 pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
@@ -33,18 +53,13 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
 
     let mut time_row_line_heights = vec![1usize; app.time_row_starts.len()];
 
-    for room_column in &app.room_columns {
-        for &session_index in &room_column.session_indices_by_start {
-            let session = &app.schedule.sessions[session_index];
-            let session_start_time_row = app
-                .time_row_starts
-                .partition_point(|time_row_start| time_row_start.as_str() < session.start.as_str());
-            let cell_line_count = session_content_line_count(session, room_column_width);
-            if let Some(time_row_line_height) =
-                time_row_line_heights.get_mut(session_start_time_row)
-            {
-                *time_row_line_height = (*time_row_line_height).max(cell_line_count);
-            }
+    for (time_row, time_row_line_height) in time_row_line_heights.iter_mut().enumerate() {
+        for room_column in &app.room_columns {
+            let starting_session_indices =
+                &room_column.session_indices_starting_by_time_row[time_row];
+            let cell_line_count =
+                session_stack_line_count(app, starting_session_indices, room_column_width);
+            *time_row_line_height = (*time_row_line_height).max(cell_line_count);
         }
     }
 

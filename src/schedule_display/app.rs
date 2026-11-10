@@ -10,16 +10,20 @@ pub struct RoomColumn {
     pub room_name: String,
     /// Indices into `schedule.sessions`, in start order.
     pub session_indices_by_start: Vec<usize>,
-    /// Every time row covered by a long session points at that session.
-    pub session_index_by_time_row: Vec<Option<usize>>,
+    /// Sessions that begin at each time row. Several sessions can share a row
+    /// when the venue lists concurrent rooms under one room label.
+    pub session_indices_starting_by_time_row: Vec<Vec<usize>>,
+    /// Sessions whose start/end span covers each time row.
+    pub session_indices_covering_by_time_row: Vec<Vec<usize>>,
 }
 
 pub struct SessionSearch {
     pub query: String,
     pub matches: Vec<usize>,
     pub selected_match: usize,
-    /// Room column and time row to return to when search is cancelled.
+    /// Room column, time row, and session to return to when search is cancelled.
     focus_before_search: (usize, usize),
+    session_before_search: Option<usize>,
 }
 
 #[derive(Clone, Copy)]
@@ -37,9 +41,11 @@ pub struct App {
     pub day_index: usize,
     pub time_row_starts: Vec<String>,
     pub room_columns: Vec<RoomColumn>,
-    /// The room column and time row under the grid cursor.
+    /// The room column and time row under the grid cursor, plus the specific
+    /// session when that cell contains one.
     pub focused_room_column: usize,
     pub focused_time_row: usize,
+    pub focused_session_index: Option<usize>,
     pub time_row_line_heights: Vec<usize>,
     /// Prefix sum of `time_row_line_heights`; one longer than the heights.
     pub time_row_line_offsets: Vec<usize>,
@@ -77,6 +83,7 @@ impl App {
             room_columns: Vec::new(),
             focused_room_column: 0,
             focused_time_row: 0,
+            focused_session_index: None,
             time_row_line_heights: Vec::new(),
             time_row_line_offsets: vec![0],
             measured_room_column_width: None,
@@ -98,12 +105,8 @@ impl App {
         app
     }
 
-    pub fn focused_session_index(&self) -> Option<usize> {
-        self.session_index_at(self.focused_room_column, self.focused_time_row)
-    }
-
     pub fn focused_session(&self) -> Option<&Session> {
-        self.focused_session_index()
+        self.focused_session_index
             .and_then(|session_index| self.schedule.sessions.get(session_index))
     }
 
@@ -114,38 +117,36 @@ impl App {
         };
         self.focused_room_column = session.room_column;
         self.focused_time_row = self.time_row_for_start(&session.start);
+        self.focused_session_index = Some(session_index);
     }
 
-    fn session_index_at(&self, room_column_index: usize, time_row: usize) -> Option<usize> {
-        self.room_columns
-            .get(room_column_index)?
-            .session_index_by_time_row
+    /// Move the cursor to a cell, selecting its first session if it has one.
+    fn focus_cell(&mut self, room_column_index: usize, time_row: usize) {
+        self.focused_room_column = room_column_index;
+        self.focused_time_row = time_row;
+        self.focused_session_index = self.default_session_index_at(room_column_index, time_row);
+    }
+
+    fn default_session_index_at(&self, room_column_index: usize, time_row: usize) -> Option<usize> {
+        let room_column = self.room_columns.get(room_column_index)?;
+        room_column
+            .session_indices_starting_by_time_row
             .get(time_row)
+            .and_then(|session_indices| session_indices.first())
             .copied()
-            .flatten()
+            .or_else(|| {
+                room_column
+                    .session_indices_covering_by_time_row
+                    .get(time_row)
+                    .and_then(|session_indices| session_indices.first())
+                    .copied()
+            })
     }
 
     pub fn time_row_for_start(&self, start: &str) -> usize {
         self.time_row_starts
             .partition_point(|time_row_start| time_row_start.as_str() < start)
             .min(self.time_row_starts.len().saturating_sub(1))
-    }
-
-    /// Inclusive first time row, exclusive end time row of a session span.
-    pub fn time_row_span(&self, session_index: usize) -> (usize, usize) {
-        if self.time_row_starts.is_empty() {
-            return (0, 0);
-        }
-        let Some(session) = self.schedule.sessions.get(session_index) else {
-            return (0, 0);
-        };
-        let first_time_row = self.time_row_for_start(&session.start);
-        let end_time_row = self
-            .time_row_starts
-            .partition_point(|time_row_start| time_row_start.as_str() < session.end.as_str())
-            .max(first_time_row + 1)
-            .min(self.time_row_starts.len());
-        (first_time_row, end_time_row)
     }
 
     /// Total number of rendered grid lines across every time row.
@@ -203,12 +204,14 @@ impl App {
         time_row_starts.dedup();
         self.time_row_starts = time_row_starts;
 
+        let time_row_count = self.time_row_starts.len();
         self.room_columns = room_names
             .into_iter()
             .map(|room_name| RoomColumn {
                 room_name,
                 session_indices_by_start: Vec::new(),
-                session_index_by_time_row: vec![None; self.time_row_starts.len()],
+                session_indices_starting_by_time_row: vec![Vec::new(); time_row_count],
+                session_indices_covering_by_time_row: vec![Vec::new(); time_row_count],
             })
             .collect();
 
@@ -219,26 +222,27 @@ impl App {
             }
         }
 
-        let time_row_count = self.time_row_starts.len();
+        let time_row_starts = self.time_row_starts.clone();
         for room_column in &mut self.room_columns {
             let session_indices = room_column.session_indices_by_start.clone();
             for session_index in session_indices {
                 let session = &self.schedule.sessions[session_index];
-                let first_time_row = self.time_row_starts.partition_point(|time_row_start| {
+                let first_time_row = time_row_starts.partition_point(|time_row_start| {
                     time_row_start.as_str() < session.start.as_str()
                 });
-                let end_time_row = self
-                    .time_row_starts
+                let end_time_row = time_row_starts
                     .partition_point(|time_row_start| {
                         time_row_start.as_str() < session.end.as_str()
                     })
                     .max(first_time_row + 1)
                     .min(time_row_count);
                 if first_time_row < time_row_count {
-                    for occupant in
-                        &mut room_column.session_index_by_time_row[first_time_row..end_time_row]
+                    room_column.session_indices_starting_by_time_row[first_time_row]
+                        .push(session_index);
+                    for covering in &mut room_column.session_indices_covering_by_time_row
+                        [first_time_row..end_time_row]
                     {
-                        *occupant = Some(session_index);
+                        covering.push(session_index);
                     }
                 }
             }
@@ -346,6 +350,7 @@ impl App {
         self.day_index = day_index;
         self.focused_room_column = 0;
         self.focused_time_row = 0;
+        self.focused_session_index = None;
         self.first_visible_grid_line = 0;
         self.first_visible_room_index = 0;
         self.pending_view_anchor = None;
@@ -396,7 +401,7 @@ impl App {
     // ------------------------------------------------------------------
 
     pub fn start_search(&mut self) {
-        let focused_session_index = self.focused_session_index();
+        let focused_session_index = self.focused_session_index;
         let matches = self.current_day_session_indices();
         let selected_match = focused_session_index
             .and_then(|focused_session_index| {
@@ -410,6 +415,7 @@ impl App {
             matches,
             selected_match,
             focus_before_search: (self.focused_room_column, self.focused_time_row),
+            session_before_search: self.focused_session_index,
         });
     }
 
@@ -451,6 +457,7 @@ impl App {
     pub fn cancel_search(&mut self) {
         if let Some(search) = self.search.take() {
             (self.focused_room_column, self.focused_time_row) = search.focus_before_search;
+            self.focused_session_index = search.session_before_search;
             self.pending_view_anchor = Some(ViewAnchor::FocusedRow);
             self.pending_focus_bottom_margin = false;
             self.session_detail_scroll_line = 0;
@@ -463,16 +470,15 @@ impl App {
         };
         let query = search.query.clone();
         let focus_before_search = search.focus_before_search;
-        let previous_focused_session = self.focused_session_index();
+        let session_before_search = search.session_before_search;
+        let previous_focused_session = self.focused_session_index;
         let matches: Vec<usize> = self
             .current_day_session_indices()
             .into_iter()
             .filter(|&session_index| self.session_matches_search(session_index, &query))
             .collect();
-        let session_at_initial_focus =
-            self.session_index_at(focus_before_search.0, focus_before_search.1);
         let preferred_session = if query.trim().is_empty() {
-            session_at_initial_focus
+            session_before_search
         } else {
             previous_focused_session
         };
@@ -488,6 +494,7 @@ impl App {
             self.focus_session(session_index);
         } else {
             (self.focused_room_column, self.focused_time_row) = focus_before_search;
+            self.focused_session_index = session_before_search;
         }
 
         let search = self.search.as_mut().unwrap();
@@ -541,7 +548,7 @@ impl App {
             _ => return,
         };
 
-        let next_session_index = if let Some(focused_session_index) = self.focused_session_index() {
+        let next_session_index = if let Some(focused_session_index) = self.focused_session_index {
             let current_position = session_indices
                 .iter()
                 .position(|&session_index| session_index == focused_session_index)
@@ -590,7 +597,7 @@ impl App {
         if target_room_column == self.focused_room_column {
             return;
         }
-        self.focused_room_column = target_room_column;
+        self.focus_cell(target_room_column, self.focused_time_row);
         self.pending_focus_bottom_margin = false;
         self.session_detail_scroll_line = 0;
     }
@@ -651,7 +658,7 @@ impl App {
         {
             self.focus_session(session_index);
         } else {
-            self.focused_time_row = time_row;
+            self.focus_cell(self.focused_room_column, time_row);
         }
         self.session_detail_scroll_line = 0;
     }

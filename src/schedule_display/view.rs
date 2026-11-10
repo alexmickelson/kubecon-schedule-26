@@ -375,7 +375,7 @@ fn render_time_row_line(
     let mut spans = Vec::new();
 
     let is_current_time_row = current_time_row == Some(time_row);
-    let focused_session_index = app.focused_session_index();
+    let focused_session_index = app.focused_session_index;
 
     if is_current_time_row && line_in_time_row == 0 {
         spans.push(Span::styled(
@@ -427,113 +427,193 @@ fn render_time_row_line(
         }
         spans.push(Span::styled("│", Style::default().fg(DIM)));
 
-        let session_index_at_time_row = app.room_columns[room_column_index]
-            .session_index_by_time_row
-            .get(time_row)
-            .copied()
-            .flatten();
-        match session_index_at_time_row {
-            Some(session_index) => {
-                let session = &app.schedule.sessions[session_index];
-                let (session_start_time_row, _) = app.time_row_span(session_index);
-                let is_focused_session = focused_session_index == Some(session_index);
-                let session_status = session.status(app.now, app.tz);
-
-                if time_row == session_start_time_row {
-                    let wrapped_title_lines = layout::wrap_text_to_width(
-                        &session.title,
-                        room_column_width.saturating_sub(2),
-                    );
-                    let title_line_count = wrapped_title_lines.len();
-                    let wrapped_metadata_lines = session
-                        .track_and_subtrack()
-                        .map(|metadata| {
-                            layout::wrap_text_to_width(
-                                &metadata,
-                                room_column_width.saturating_sub(2),
-                            )
-                        })
-                        .unwrap_or_default();
-
-                    let (cell_text, cell_style) = if content_line_in_time_row < title_line_count {
-                        let title_line_text = &wrapped_title_lines[content_line_in_time_row];
-                        let status_prefix = if content_line_in_time_row == 0 {
-                            if session_status == Status::Live {
-                                "▶ "
-                            } else {
-                                "  "
-                            }
-                        } else {
-                            "  "
-                        };
-                        let title_style = if is_focused_session {
-                            Style::default()
-                                .fg(Color::White)
-                                .bg(FOCUSED_CELL_BACKGROUND)
-                                .add_modifier(Modifier::BOLD)
-                        } else {
-                            match session_status {
-                                Status::Live => {
-                                    Style::default().fg(LIVE).add_modifier(Modifier::BOLD)
-                                }
-                                Status::Upcoming => Style::default().fg(Color::White),
-                                Status::Past => Style::default().fg(DIM),
-                            }
-                        };
-                        (format!("{status_prefix}{title_line_text}"), title_style)
-                    } else if let Some(metadata_line) =
-                        wrapped_metadata_lines.get(content_line_in_time_row - title_line_count)
-                    {
-                        let metadata_style = if is_focused_session {
-                            Style::default()
-                                .fg(FOCUSED_TRACK)
-                                .bg(FOCUSED_CELL_BACKGROUND)
-                        } else if session_status == Status::Past {
-                            Style::default().fg(FAINT)
-                        } else {
-                            Style::default().fg(TRACK)
-                        };
-                        (format!("  {metadata_line}"), metadata_style)
-                    } else {
-                        let blank_style = if is_focused_session {
-                            Style::default().bg(FOCUSED_CELL_BACKGROUND)
-                        } else {
-                            Style::default()
-                        };
-                        ("  ".to_string(), blank_style)
-                    };
-                    spans.push(Span::styled(
-                        layout::pad_text_to_width(&cell_text, room_column_width),
-                        cell_style,
-                    ));
-                } else {
-                    let continuation_style = if is_focused_session {
-                        Style::default()
-                            .fg(Color::White)
-                            .bg(FOCUSED_CELL_BACKGROUND)
-                            .add_modifier(Modifier::BOLD)
-                    } else {
-                        Style::default().fg(FAINT)
-                    };
-                    spans.push(Span::styled(
-                        layout::pad_text_to_width(" ┆", room_column_width),
-                        continuation_style,
-                    ));
-                }
-            }
-            None if room_column_index == app.focused_room_column
-                && time_row == app.focused_time_row =>
-            {
+        let room_column = &app.room_columns[room_column_index];
+        let starting_session_indices = &room_column.session_indices_starting_by_time_row[time_row];
+        if starting_session_indices.is_empty() {
+            let covering_session_indices =
+                &room_column.session_indices_covering_by_time_row[time_row];
+            if covering_session_indices.is_empty() {
+                let is_focused_empty_cell = room_column_index == app.focused_room_column
+                    && time_row == app.focused_time_row;
                 spans.push(Span::styled(
                     " ".repeat(room_column_width),
-                    Style::default().bg(FOCUSED_CELL_BACKGROUND),
+                    if is_focused_empty_cell {
+                        Style::default().bg(FOCUSED_CELL_BACKGROUND)
+                    } else {
+                        Style::default()
+                    },
+                ));
+            } else {
+                let is_focused_session = focused_session_index
+                    .is_some_and(|session_index| covering_session_indices.contains(&session_index));
+                let continuation_style = if is_focused_session {
+                    Style::default()
+                        .fg(Color::White)
+                        .bg(FOCUSED_CELL_BACKGROUND)
+                        .add_modifier(Modifier::BOLD)
+                } else {
+                    Style::default().fg(FAINT)
+                };
+                spans.push(Span::styled(
+                    layout::pad_text_to_width(" ┆", room_column_width),
+                    continuation_style,
                 ));
             }
-            None => spans.push(Span::raw(" ".repeat(room_column_width))),
+        } else {
+            spans.push(render_session_stack_line(
+                app,
+                starting_session_indices,
+                content_line_in_time_row,
+                room_column_width,
+                focused_session_index,
+            ));
         }
     }
 
     Line::from(spans)
+}
+
+fn render_session_stack_line(
+    app: &App,
+    session_indices: &[usize],
+    content_line: usize,
+    room_column_width: usize,
+    focused_session_index: Option<usize>,
+) -> Span<'static> {
+    let mut line_offset = content_line;
+    for (session_position, &session_index) in session_indices.iter().enumerate() {
+        let content_line_count = layout::session_content_line_count(
+            &app.schedule.sessions[session_index],
+            room_column_width,
+        );
+        if line_offset < content_line_count {
+            return render_session_content_line(
+                app,
+                session_index,
+                line_offset,
+                room_column_width,
+                focused_session_index,
+            );
+        }
+        line_offset -= content_line_count;
+        if session_position + 1 < session_indices.len() {
+            if line_offset == 0 {
+                return Span::raw(" ".repeat(room_column_width));
+            }
+            line_offset -= 1;
+        }
+    }
+    Span::raw(" ".repeat(room_column_width))
+}
+
+fn render_session_content_line(
+    app: &App,
+    session_index: usize,
+    content_line: usize,
+    room_column_width: usize,
+    focused_session_index: Option<usize>,
+) -> Span<'static> {
+    let session = &app.schedule.sessions[session_index];
+    let is_focused_session = focused_session_index == Some(session_index);
+    let session_status = session.status(app.now, app.tz);
+    let wrap_width = room_column_width.saturating_sub(2);
+    let wrapped_title_lines = layout::wrap_text_to_width(&session.title, wrap_width);
+    let title_line_count = wrapped_title_lines.len();
+    let wrapped_metadata_lines = session
+        .track_and_subtrack()
+        .map(|metadata| layout::wrap_text_to_width(&metadata, wrap_width))
+        .unwrap_or_default();
+
+    let (cell_text, cell_style) = if content_line < title_line_count {
+        let title_line_text = &wrapped_title_lines[content_line];
+        let status_prefix = if content_line == 0 {
+            if session_status == Status::Live {
+                "▶ "
+            } else {
+                "  "
+            }
+        } else {
+            "  "
+        };
+        let title_style = if is_focused_session {
+            Style::default()
+                .fg(Color::White)
+                .bg(FOCUSED_CELL_BACKGROUND)
+                .add_modifier(Modifier::BOLD)
+        } else {
+            match session_status {
+                Status::Live => Style::default().fg(LIVE).add_modifier(Modifier::BOLD),
+                Status::Upcoming => Style::default().fg(Color::White),
+                Status::Past => Style::default().fg(DIM),
+            }
+        };
+        (format!("{status_prefix}{title_line_text}"), title_style)
+    } else if let Some(metadata_line) = wrapped_metadata_lines.get(content_line - title_line_count)
+    {
+        let metadata_style = if is_focused_session {
+            Style::default()
+                .fg(FOCUSED_TRACK)
+                .bg(FOCUSED_CELL_BACKGROUND)
+        } else if session_status == Status::Past {
+            Style::default().fg(FAINT)
+        } else {
+            Style::default().fg(TRACK)
+        };
+        (format!("  {metadata_line}"), metadata_style)
+    } else {
+        let blank_style = if is_focused_session {
+            Style::default().bg(FOCUSED_CELL_BACKGROUND)
+        } else {
+            Style::default()
+        };
+        ("  ".to_string(), blank_style)
+    };
+
+    Span::styled(
+        layout::pad_text_to_width(&cell_text, room_column_width),
+        cell_style,
+    )
+}
+
+fn focused_grid_line_span(app: &App, room_column_width: usize) -> (usize, usize) {
+    let time_row = app.focused_time_row;
+    let row_start = app.first_grid_line_of_time_row(time_row);
+    let row_end = app.first_grid_line_of_time_row(time_row + 1);
+    let Some(focused_session_index) = app.focused_session_index else {
+        return (row_start, row_end);
+    };
+    let Some(session) = app.schedule.sessions.get(focused_session_index) else {
+        return (row_start, row_end);
+    };
+    if app.time_row_for_start(&session.start) != time_row {
+        return (row_start, row_end);
+    }
+    let Some(room_column) = app.room_columns.get(app.focused_room_column) else {
+        return (row_start, row_end);
+    };
+    let Some(starting_session_indices) = room_column
+        .session_indices_starting_by_time_row
+        .get(time_row)
+    else {
+        return (row_start, row_end);
+    };
+
+    let content_start = row_start + usize::from(app.time_row_containing_now() == Some(time_row));
+    let mut line_offset = 0;
+    for &session_index in starting_session_indices {
+        let content_line_count = layout::session_content_line_count(
+            &app.schedule.sessions[session_index],
+            room_column_width,
+        );
+        if session_index == focused_session_index {
+            return (
+                content_start + line_offset,
+                content_start + line_offset + content_line_count,
+            );
+        }
+        line_offset += content_line_count + 1;
+    }
+    (row_start, row_end)
 }
 
 fn position_schedule_viewport(
@@ -550,8 +630,8 @@ fn position_schedule_viewport(
         return;
     }
 
-    let focused_first_grid_line = app.first_grid_line_of_time_row(app.focused_time_row);
-    let focused_end_grid_line = app.first_grid_line_of_time_row(app.focused_time_row + 1);
+    let (focused_first_grid_line, focused_end_grid_line) =
+        focused_grid_line_span(app, room_column_width);
     let focused_room_column = app.focused_room_column;
     let keep_bottom_margin = std::mem::take(&mut app.pending_focus_bottom_margin);
 
@@ -567,11 +647,19 @@ fn position_schedule_viewport(
         app.first_visible_room_index = focused_room_column.saturating_sub(visible_room_count / 2);
     }
 
-    // Keep the focused row visible; only scroll when it is fully above/below.
-    if focused_end_grid_line <= app.first_visible_grid_line {
+    // Keep the whole focused line block visible, unless it is taller than the
+    // viewport; then start at its first line so the title is readable.
+    let focused_line_count = focused_end_grid_line.saturating_sub(focused_first_grid_line);
+    if focused_line_count >= viewport_height {
+        if focused_first_grid_line < app.first_visible_grid_line
+            || focused_first_grid_line >= app.first_visible_grid_line + viewport_height
+        {
+            app.first_visible_grid_line = focused_first_grid_line;
+        }
+    } else if focused_first_grid_line < app.first_visible_grid_line {
         app.first_visible_grid_line = focused_first_grid_line;
-    } else if focused_first_grid_line >= app.first_visible_grid_line + viewport_height {
-        app.first_visible_grid_line = focused_first_grid_line + 1 - viewport_height;
+    } else if focused_end_grid_line > app.first_visible_grid_line + viewport_height {
+        app.first_visible_grid_line = focused_end_grid_line - viewport_height;
     }
 
     if keep_bottom_margin {
