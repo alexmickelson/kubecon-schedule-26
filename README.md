@@ -6,7 +6,8 @@ Time-aware terminal schedule for **KubeCon + CloudNativeCon North America 2026**
 It shows the current day as a room-by-room grid in the same column order as
 the website's schedule grid, dims sessions that have already ended, highlights
 what is live, and scrolls to the current time on launch. Session titles wrap,
-and time rows expand as needed so every talk stays readable.
+time rows expand as needed, and each session's subtrack appears in a subdued
+color beneath its title.
 
 ## Setup
 
@@ -23,6 +24,16 @@ Without direnv:
 ```sh
 nix develop --command cargo run
 ```
+
+## Run the packaged flake
+
+```sh
+nix run .            # packaged binary with the committed schedule data
+nix build .#default  # ./result/bin/kubecon-tui
+```
+
+The package installs `data/sessions.json` under `share/kubecon-tui` and makes
+it the binary's default data path. Pass `--data PATH` to override it.
 
 ## Data
 
