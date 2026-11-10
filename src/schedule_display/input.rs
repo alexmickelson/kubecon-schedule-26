@@ -30,6 +30,8 @@ fn handle_schedule_grid_key(app: &mut App, key: KeyEvent) {
         KeyCode::Char('h') | KeyCode::Left => app.select_adjacent_room(-1),
         KeyCode::Char('l') | KeyCode::Right => app.select_adjacent_room(1),
         KeyCode::Char('/') => app.start_search(),
+        KeyCode::Char('N') => app.select_next_day(),
+        KeyCode::Char('P') => app.select_previous_day(),
         KeyCode::Char('d') if control_pressed => app.scroll_half_page(1),
         KeyCode::Char('u') if control_pressed => app.scroll_half_page(-1),
         KeyCode::PageDown => app.scroll_half_page(1),

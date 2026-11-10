@@ -562,7 +562,7 @@ fn draw_key_help_footer(frame: &mut Frame, app: &App, area: Rect) {
     }
 
     let key_help_text =
-        " h/l room · j/k session · / search · g/G · Ctrl-d/u · Enter details · t now · q quit ";
+        " h/l room · j/k session · / search · N/P day · g/G · Ctrl-d/u · Enter details · t now · q quit ";
     let room_range_text = if app.room_columns.is_empty() {
         String::new()
     } else {

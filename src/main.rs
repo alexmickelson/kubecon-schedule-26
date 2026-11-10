@@ -57,12 +57,15 @@ fn print_help() {
          --data PATH   session JSON (default: data/sessions.json)\n  \
          -h, --help    show this help\n\n\
          Keys:\n  \
-         j/k, arrows   move\n  \
-         g/G           first/last\n  \
+         j/k, up/down  move between sessions\n  \
+         h/l, left/right move between rooms\n  \
+         N/P           next/previous day\n  \
+         /             search\n  \
+         g/G           first/last in room\n  \
          Ctrl-d/u      half page\n  \
-         Enter, l      session details\n  \
-         Esc, h        back to schedule\n  \
+         Enter         session details\n  \
+         Esc, h, q     back to schedule\n  \
          t             jump to now\n  \
-         q             quit"
+         q             quit from schedule"
     );
 }

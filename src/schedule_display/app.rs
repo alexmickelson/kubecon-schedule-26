@@ -323,15 +323,56 @@ impl App {
             return false;
         };
 
-        self.day_index = event_day_index;
+        self.switch_day(event_day_index);
+        true
+    }
+
+    fn switch_day(&mut self, day_index: usize) {
+        self.day_index = day_index;
         self.selected_session_index = 0;
         self.first_visible_grid_line = 0;
         self.first_visible_room_index = 0;
-        self.session_detail_open = false;
+        self.pending_view_anchor = None;
         self.pending_selected_session_bottom_margin = false;
+        self.session_detail_open = false;
+        self.session_detail_scroll_line = 0;
         self.search = None;
         self.build_room_columns();
-        true
+    }
+
+    /// N/P: move through the event days without leaving today's focus behind.
+    pub fn select_next_day(&mut self) {
+        self.change_day(1);
+    }
+
+    pub fn select_previous_day(&mut self) {
+        self.change_day(-1);
+    }
+
+    fn change_day(&mut self, delta: isize) {
+        let day_count = self.schedule.days.len() as isize;
+        let target_day_index =
+            (self.day_index as isize + delta).clamp(0, day_count.saturating_sub(1)) as usize;
+        if target_day_index == self.day_index {
+            return;
+        }
+
+        self.switch_day(target_day_index);
+        let today = self.now.date_naive().format("%Y-%m-%d").to_string();
+        if self.schedule.days[self.day_index].date == today {
+            self.select_current_or_next_session();
+            return;
+        }
+
+        let first_session_index = self
+            .schedule
+            .session_indices_on(&self.schedule.days[self.day_index])
+            .first()
+            .copied();
+        if let Some(session_index) = first_session_index {
+            self.selected_session_index = session_index;
+            self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+        }
     }
 
     // ------------------------------------------------------------------
