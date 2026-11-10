@@ -12,7 +12,9 @@ pub fn handle_key(app: &mut App, key: KeyEvent) {
         return;
     }
 
-    if app.session_detail_open {
+    if app.search.is_some() {
+        handle_search_key(app, key);
+    } else if app.session_detail_open {
         handle_session_detail_key(app, key);
     } else {
         handle_schedule_grid_key(app, key);
@@ -27,6 +29,7 @@ fn handle_schedule_grid_key(app: &mut App, key: KeyEvent) {
         KeyCode::Char('k') | KeyCode::Up => app.select_adjacent_session(-1),
         KeyCode::Char('h') | KeyCode::Left => app.select_adjacent_room(-1),
         KeyCode::Char('l') | KeyCode::Right => app.select_adjacent_room(1),
+        KeyCode::Char('/') => app.start_search(),
         KeyCode::Char('d') if control_pressed => app.scroll_half_page(1),
         KeyCode::Char('u') if control_pressed => app.scroll_half_page(-1),
         KeyCode::PageDown => app.scroll_half_page(1),
@@ -39,11 +42,29 @@ fn handle_schedule_grid_key(app: &mut App, key: KeyEvent) {
     }
 }
 
+fn handle_search_key(app: &mut App, key: KeyEvent) {
+    let control_pressed = key.modifiers.contains(KeyModifiers::CONTROL);
+    match key.code {
+        KeyCode::Esc => app.cancel_search(),
+        KeyCode::Enter => app.confirm_search(),
+        KeyCode::Backspace => app.search_pop_char(),
+        KeyCode::Up => app.select_search_match(-1),
+        KeyCode::Down => app.select_search_match(1),
+        KeyCode::Char('p') if control_pressed => app.select_search_match(-1),
+        KeyCode::Char('n') if control_pressed => app.select_search_match(1),
+        KeyCode::Char(character)
+            if !control_pressed && !key.modifiers.contains(KeyModifiers::ALT) =>
+        {
+            app.search_push_char(character);
+        }
+        _ => {}
+    }
+}
+
 fn handle_session_detail_key(app: &mut App, key: KeyEvent) {
     let control_pressed = key.modifiers.contains(KeyModifiers::CONTROL);
     match key.code {
-        KeyCode::Char('q') => app.quit_requested = true,
-        KeyCode::Esc | KeyCode::Char('h') | KeyCode::Left | KeyCode::Enter => {
+        KeyCode::Char('q') | KeyCode::Esc | KeyCode::Char('h') | KeyCode::Left | KeyCode::Enter => {
             app.session_detail_open = false;
         }
         KeyCode::Char('j') | KeyCode::Down => app.scroll_session_detail(1),

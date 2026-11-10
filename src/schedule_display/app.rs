@@ -4,7 +4,7 @@
 use chrono::{DateTime, Utc};
 use chrono_tz::Tz;
 
-use crate::session_data::{Session, SessionData, Status};
+use crate::session_data::{compact_room, Session, SessionData, Status};
 
 pub struct RoomColumn {
     pub room_name: String,
@@ -12,6 +12,13 @@ pub struct RoomColumn {
     pub session_indices_by_start: Vec<usize>,
     /// Every time row covered by a long session points at that session.
     pub session_index_by_time_row: Vec<Option<usize>>,
+}
+
+pub struct SessionSearch {
+    pub query: String,
+    pub matches: Vec<usize>,
+    pub selected_match: usize,
+    selection_before_search: usize,
 }
 
 #[derive(Clone, Copy)]
@@ -43,6 +50,7 @@ pub struct App {
     pub pending_view_anchor: Option<ViewAnchor>,
     /// Set when moving down so the viewport keeps room below the selection.
     pub pending_selected_session_bottom_margin: bool,
+    pub search: Option<SessionSearch>,
     pub viewport_height: usize,
     pub visible_room_count: usize,
     pub session_detail_open: bool,
@@ -74,6 +82,7 @@ impl App {
             first_visible_room_index: 0,
             pending_view_anchor: None,
             pending_selected_session_bottom_margin: false,
+            search: None,
             viewport_height: 20,
             visible_room_count: 5,
             session_detail_open: false,
@@ -320,8 +329,133 @@ impl App {
         self.first_visible_room_index = 0;
         self.session_detail_open = false;
         self.pending_selected_session_bottom_margin = false;
+        self.search = None;
         self.build_room_columns();
         true
+    }
+
+    // ------------------------------------------------------------------
+    // search
+    // ------------------------------------------------------------------
+
+    pub fn start_search(&mut self) {
+        let matches = self.current_day_session_indices();
+        let selected_match = matches
+            .iter()
+            .position(|&session_index| session_index == self.selected_session_index)
+            .unwrap_or(0);
+        self.search = Some(SessionSearch {
+            query: String::new(),
+            matches,
+            selected_match,
+            selection_before_search: self.selected_session_index,
+        });
+    }
+
+    pub fn search_push_char(&mut self, character: char) {
+        if let Some(search) = &mut self.search {
+            search.query.push(character);
+        }
+        self.refresh_search_matches();
+    }
+
+    pub fn search_pop_char(&mut self) {
+        if let Some(search) = &mut self.search {
+            search.query.pop();
+        }
+        self.refresh_search_matches();
+    }
+
+    pub fn select_search_match(&mut self, delta: isize) {
+        let Some(search) = &mut self.search else {
+            return;
+        };
+        if search.matches.is_empty() {
+            return;
+        }
+        let match_count = search.matches.len() as isize;
+        search.selected_match =
+            (search.selected_match as isize + delta).rem_euclid(match_count) as usize;
+        self.selected_session_index = search.matches[search.selected_match];
+        self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+        self.pending_selected_session_bottom_margin = false;
+        self.session_detail_scroll_line = 0;
+    }
+
+    pub fn confirm_search(&mut self) {
+        self.search = None;
+    }
+
+    pub fn cancel_search(&mut self) {
+        if let Some(search) = self.search.take() {
+            self.selected_session_index = search.selection_before_search;
+            self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+            self.pending_selected_session_bottom_margin = false;
+            self.session_detail_scroll_line = 0;
+        }
+    }
+
+    fn refresh_search_matches(&mut self) {
+        let Some(search) = &self.search else {
+            return;
+        };
+        let query = search.query.clone();
+        let previous_selected_session = self.selected_session_index;
+        let matches: Vec<usize> = self
+            .current_day_session_indices()
+            .into_iter()
+            .filter(|&session_index| self.session_matches_search(session_index, &query))
+            .collect();
+        let selected_match = if query.trim().is_empty() {
+            matches
+                .iter()
+                .position(|&session_index| session_index == search.selection_before_search)
+                .unwrap_or(0)
+        } else {
+            matches
+                .iter()
+                .position(|&session_index| session_index == previous_selected_session)
+                .unwrap_or(0)
+        };
+        let selected_session_index = matches
+            .get(selected_match)
+            .copied()
+            .unwrap_or(search.selection_before_search);
+
+        let search = self.search.as_mut().unwrap();
+        search.matches = matches;
+        search.selected_match = selected_match;
+        self.selected_session_index = selected_session_index;
+        self.pending_view_anchor = Some(ViewAnchor::SelectedSession);
+        self.pending_selected_session_bottom_margin = false;
+        self.session_detail_scroll_line = 0;
+    }
+
+    fn current_day_session_indices(&self) -> Vec<usize> {
+        self.schedule
+            .session_indices_on(&self.schedule.days[self.day_index])
+    }
+
+    fn session_matches_search(&self, session_index: usize, query: &str) -> bool {
+        let query = query.trim().to_lowercase();
+        if query.is_empty() {
+            return true;
+        }
+        let session = &self.schedule.sessions[session_index];
+        let text_matches = |text: &str| text.to_lowercase().contains(&query);
+
+        text_matches(&session.title)
+            || text_matches(&compact_room(&session.room))
+            || session
+                .categories
+                .iter()
+                .any(|category| text_matches(&category.item))
+            || session.speakers.iter().any(|speaker_id| {
+                self.schedule
+                    .speakers
+                    .get(speaker_id)
+                    .is_some_and(|speaker| text_matches(&speaker.name))
+            })
     }
 
     // ------------------------------------------------------------------

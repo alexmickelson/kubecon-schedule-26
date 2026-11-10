@@ -8,7 +8,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, BorderType, Borders, Padding, Paragraph, Wrap};
 use ratatui::Frame;
 
-use super::app::{App, ViewAnchor};
+use super::app::{App, SessionSearch, ViewAnchor};
 use super::layout;
 use crate::session_data::{compact_room, Session, Speaker, Status};
 
@@ -557,8 +557,13 @@ fn position_schedule_viewport(
 }
 
 fn draw_key_help_footer(frame: &mut Frame, app: &App, area: Rect) {
+    if let Some(search) = &app.search {
+        draw_search_footer(frame, search, area);
+        return;
+    }
+
     let key_help_text =
-        " h/l room · j/k session · g/G · Ctrl-d/u · Enter details · t now · q quit ";
+        " h/l room · j/k session · / search · g/G · Ctrl-d/u · Enter details · t now · q quit ";
     let room_range_text = if app.room_columns.is_empty() {
         String::new()
     } else {
@@ -579,6 +584,35 @@ fn draw_key_help_footer(frame: &mut Frame, app: &App, area: Rect) {
             Span::styled(key_help_text, Style::default().fg(DIM)),
             Span::raw(" ".repeat(gap_width)),
             Span::styled(room_range_text, Style::default().fg(DIM)),
+        ])),
+        area,
+    );
+}
+
+fn draw_search_footer(frame: &mut Frame, search: &SessionSearch, area: Rect) {
+    let match_count_text = match search.matches.len() {
+        0 => "no matches".to_string(),
+        1 => "1 match".to_string(),
+        count => format!("{count} matches"),
+    };
+    let hint_text = format!(" {match_count_text} · ↑/↓ choose · Enter select · Esc cancel ");
+    let hint_width = layout::text_display_width(&hint_text);
+    let prompt_text = format!(" /{}▌", search.query);
+    let prompt_text = layout::truncate_text_to_width(
+        &prompt_text,
+        (area.width as usize).saturating_sub(hint_width).max(1),
+    );
+    let gap_width =
+        (area.width as usize).saturating_sub(layout::text_display_width(&prompt_text) + hint_width);
+
+    frame.render_widget(
+        Paragraph::new(Line::from(vec![
+            Span::styled(
+                prompt_text,
+                Style::default().fg(ACCENT).add_modifier(Modifier::BOLD),
+            ),
+            Span::raw(" ".repeat(gap_width)),
+            Span::styled(hint_text, Style::default().fg(DIM)),
         ])),
         area,
     );
@@ -634,7 +668,7 @@ fn draw_session_detail(frame: &mut Frame, app: &mut App) {
     );
 
     frame.render_widget(
-        Paragraph::new(" Esc/h back · j/k scroll · Ctrl-d/u page · g/G top/bottom ")
+        Paragraph::new(" Esc/h/q back · j/k scroll · Ctrl-d/u page · g/G top/bottom ")
             .style(Style::default().fg(DIM))
             .alignment(Alignment::Center),
         panes[1],
