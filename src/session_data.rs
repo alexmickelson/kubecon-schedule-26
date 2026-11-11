@@ -21,6 +21,8 @@ pub struct Event {
     pub name: String,
     pub city: String,
     pub timezone: String,
+    #[serde(default)]
+    pub source: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -48,6 +50,7 @@ pub struct Link {
 
 #[derive(Debug, Deserialize)]
 pub struct Session {
+    pub id: String,
     pub title: String,
     pub description: Option<String>,
     pub start: String,

@@ -64,6 +64,8 @@ fn print_help() {
          g/G           first/last in room\n  \
          Ctrl-d/u      half page\n  \
          Enter         session details\n  \
+         y             copy session URL from details\n  \
+         o             open session URL in browser from details\n  \
          Esc, h, q     back to schedule\n  \
          t             jump to now\n  \
          q             quit from schedule"

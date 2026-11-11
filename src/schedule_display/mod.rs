@@ -1,5 +1,6 @@
 //! The schedule UI: owns the terminal, event loop, state, input and view.
 
+mod actions;
 mod app;
 mod input;
 mod layout;

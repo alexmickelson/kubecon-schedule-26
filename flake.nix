@@ -20,7 +20,7 @@
           postInstall = ''
             install -Dm644 data/sessions.json $out/share/kubecon-tui/sessions.json
             wrapProgram $out/bin/kubecon-tui \
-              --add-flags "--data $out/share/kubecon-tui/sessions.json"
+              --add-flags "--data $out/share/kubecon-tui/sessions.json"${pkgs.lib.optionalString pkgs.stdenv.hostPlatform.isLinux " \\\n  --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.wl-clipboard pkgs.xclip pkgs.xdg-utils ]}"}
           '';
 
           meta = with pkgs.lib; {

@@ -779,9 +779,14 @@ fn draw_search_footer(frame: &mut Frame, search: &SessionSearch, area: Rect) {
 
 fn draw_session_detail(frame: &mut Frame, app: &mut App) {
     let screen_area = frame.area();
+    let footer_height = if app.session_detail_action_message.is_some() {
+        2
+    } else {
+        1
+    };
     let panes = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([Constraint::Min(3), Constraint::Length(1)])
+        .constraints([Constraint::Min(3), Constraint::Length(footer_height)])
         .split(screen_area);
 
     let detail_border = Block::default()
@@ -826,10 +831,18 @@ fn draw_session_detail(frame: &mut Frame, app: &mut App) {
         detail_text_area,
     );
 
+    let mut footer_lines = vec![Line::from(Span::styled(
+        " Esc/h/q back · j/k scroll · Ctrl-d/u · y copy URL · o open · g/G top/bottom ",
+        Style::default().fg(DIM),
+    ))];
+    if let Some(message) = &app.session_detail_action_message {
+        footer_lines.push(Line::from(Span::styled(
+            format!(" {message} "),
+            Style::default().fg(ACCENT),
+        )));
+    }
     frame.render_widget(
-        Paragraph::new(" Esc/h/q back · j/k scroll · Ctrl-d/u page · g/G top/bottom ")
-            .style(Style::default().fg(DIM))
-            .alignment(Alignment::Center),
+        Paragraph::new(footer_lines).alignment(Alignment::Center),
         panes[1],
     );
 }

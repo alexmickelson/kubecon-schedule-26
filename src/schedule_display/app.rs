@@ -63,6 +63,8 @@ pub struct App {
     pub visible_room_count: usize,
     pub session_detail_open: bool,
     pub session_detail_scroll_line: u16,
+    /// Result of the last copy/open action shown under the detail page.
+    pub session_detail_action_message: Option<String>,
     /// Set by the view after measuring the rendered detail lines.
     pub session_detail_max_scroll_line: usize,
     pub quit_requested: bool,
@@ -97,6 +99,7 @@ impl App {
             visible_room_count: 5,
             session_detail_open: false,
             session_detail_scroll_line: 0,
+            session_detail_action_message: None,
             session_detail_max_scroll_line: 0,
             quit_requested: false,
         };
@@ -108,6 +111,16 @@ impl App {
     pub fn focused_session(&self) -> Option<&Session> {
         self.focused_session_index
             .and_then(|session_index| self.schedule.sessions.get(session_index))
+    }
+
+    pub fn focused_session_url(&self) -> Option<String> {
+        let session = self.focused_session()?;
+        let source = self.schedule.event.source.trim_end_matches('?');
+        if source.is_empty() {
+            return None;
+        }
+        let separator = if source.contains('?') { '&' } else { '?' };
+        Some(format!("{source}{separator}id={}", session.id))
     }
 
     /// Put the cursor on a session's room and start time.
@@ -357,6 +370,7 @@ impl App {
         self.pending_focus_bottom_margin = false;
         self.session_detail_open = false;
         self.session_detail_scroll_line = 0;
+        self.session_detail_action_message = None;
         self.search = None;
         self.build_room_columns();
     }
@@ -693,6 +707,7 @@ impl App {
         if self.focused_session().is_some() {
             self.session_detail_open = true;
             self.session_detail_scroll_line = 0;
+            self.session_detail_action_message = None;
         }
     }
 
