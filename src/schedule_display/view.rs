@@ -1020,6 +1020,7 @@ fn push_wrapped_paragraph(
     paragraph_text: &str,
     paragraph_style: Style,
 ) {
+    let paragraph_text = layout::expand_tabs(paragraph_text);
     for paragraph_line in paragraph_text.lines() {
         rendered_lines.push(Line::from(Span::styled(
             paragraph_line.trim_end().to_string(),

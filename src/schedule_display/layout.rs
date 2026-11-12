@@ -86,6 +86,7 @@ pub fn measure_time_row_line_heights(app: &mut App, room_column_width: usize) {
 
 /// Greedy word wrap by terminal display width.
 pub fn wrap_text_to_width(text: &str, width: usize) -> Vec<String> {
+    let text = expand_tabs(text);
     let max_line_width = width.max(1);
     let mut wrapped_lines = Vec::new();
 
@@ -165,6 +166,35 @@ fn push_split_long_word(
 
 pub fn text_display_width(text: &str) -> usize {
     UnicodeWidthStr::width(text)
+}
+
+/// Replace tab characters with spaces on four-column tab stops. The TUI writes
+/// text cell by cell, so a raw tab would make the terminal jump across cells
+/// and corrupt the surrounding layout.
+pub fn expand_tabs(text: &str) -> String {
+    const TAB_WIDTH: usize = 4;
+    let mut expanded = String::with_capacity(text.len());
+    let mut column = 0;
+
+    for character in text.chars() {
+        match character {
+            '\t' => {
+                let spaces = TAB_WIDTH - column % TAB_WIDTH;
+                expanded.extend(std::iter::repeat(' ').take(spaces));
+                column += spaces;
+            }
+            '\n' => {
+                expanded.push('\n');
+                column = 0;
+            }
+            _ => {
+                expanded.push(character);
+                column += UnicodeWidthChar::width(character).unwrap_or(0);
+            }
+        }
+    }
+
+    expanded
 }
 
 pub fn pad_text_to_width(text: &str, width: usize) -> String {
